@@ -6,12 +6,11 @@ const uiUpdater = (() => {
       const taskItem = document.createElement("div");
       taskItem.className = "taskItem" + (task.completed ? " completed" : "");
 
+      // Determine if the task is being edited
       const isEditing = window.currentEditingTaskId === task.id;
-      // Move the generateNotesList call inside the loop to access each task's notes correctly
-      const notesHtml = generateNotesList(task.notes);
       const taskContent = isEditing
-        ? generateEditableTask(task, notesHtml)
-        : generateStaticTask(task, notesHtml);
+        ? generateEditableTask(task)
+        : generateStaticTask(task);
 
       taskItem.innerHTML = taskContent;
       taskList.appendChild(taskItem);
@@ -19,7 +18,7 @@ const uiUpdater = (() => {
   };
 
   function generateNotesList(notes) {
-    if (notes.length === 0) return "No notes";
+    if (notes.length === 0) return "<div>No notes</div>";
     let notesHtml = "";
     notes.forEach((note) => {
       notesHtml += `<div><strong>${note.author}:</strong> ${note.text}</div>`;
@@ -27,43 +26,38 @@ const uiUpdater = (() => {
     return notesHtml;
   }
 
-  function generateEditableTask(task, notesHtml) {
-    // Adjusted to include notesHtml in the editable view
+  function generateEditableTask(task) {
+    // Note: Adapt this function if you want to make notes editable in a more granular way
     return `
-        <input type="text" value="${task.name}" id="edit-name-${task.id}" />
-        <input type="date" value="${task.deadline}" id="edit-deadline-${
+          <input type="text" value="${task.name}" id="edit-name-${task.id}" />
+          <input type="date" value="${task.deadline}" id="edit-deadline-${
       task.id
     }" />
-        <select id="edit-priority-${task.id}">
-          <option value="High" ${
-            task.priority === "High" ? "selected" : ""
-          }>High</option>
-          <option value="Medium" ${
-            task.priority === "Medium" ? "selected" : ""
-          }>Medium</option>
-          <option value="Low" ${
-            task.priority === "Low" ? "selected" : ""
-          }>Low</option>
-        </select>
-        <input type="text" value="${task.notes
-          .map((note) => note.text)
-          .join(", ")}" id="edit-notes-${task.id}" />
-        ${notesHtml} <!-- Displaying notes with authorship -->
-        <button onclick="saveTask(${task.id})">Save</button>
-        <button onclick="toggleEditView(null)">Cancel</button>
-        <button onclick="deleteTask(${task.id})">Delete</button>
-      `;
+          <select id="edit-priority-${task.id}">
+            <option value="High" ${
+              task.priority === "High" ? "selected" : ""
+            }>High</option>
+            <option value="Medium" ${
+              task.priority === "Medium" ? "selected" : ""
+            }>Medium</option>
+            <option value="Low" ${
+              task.priority === "Low" ? "selected" : ""
+            }>Low</option>
+          </select>
+          <button onclick="saveTask(${task.id})">Save</button>
+          <button onclick="toggleEditView(null)">Cancel</button>
+        `;
   }
 
-  function generateStaticTask(task, notesHtml) {
-    // Adjusted to include a Delete button and use notesHtml
+  function generateStaticTask(task) {
+    const notesHtml = generateNotesList(task.notes); // Correctly placed within this function
     return `
-        <span>${task.name}</span> - <span>${task.deadline}</span>
-        <span>Priority: ${task.priority}</span>
-        ${notesHtml} <!-- Displaying notes with authorship -->
-        <button onclick="toggleEditView(${task.id})">Edit</button>
-        <button onclick="deleteTask(${task.id})">Delete</button>
-      `;
+          <div><span>${task.name}</span> - <span>${task.deadline}</span></div>
+          <div>Priority: ${task.priority}</div>
+          <div>${notesHtml}</div> <!-- Displaying notes with authorship -->
+          <button onclick="toggleEditView(${task.id})">Edit</button>
+          <button onclick="deleteTask(${task.id})">Delete</button> <!-- Re-added the Delete button -->
+        `;
   }
 
   return { updateTasks };
