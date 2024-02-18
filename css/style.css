@@ -1,113 +1,80 @@
 :root {
-  /* Light theme colors */
-  --primary-bg-color: #f0f0f0;
-  --secondary-bg-color: #ffffff;
-  --primary-text-color: #333;
-  --secondary-text-color: #555;
-  --border-color: #ddd;
-  --button-bg-color: #007bff;
-  --button-text-color: #ffffff;
-  --button-hover-bg-color: #0056b3;
-  --task-bg-color: #f9f9f9;
-}
-
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --primary-bg-color: #202020;
-  --secondary-bg-color: #2a2a2a;
-  --primary-text-color: #cccccc;
-  --secondary-text-color: #aaaaaa;
-  --border-color: #3a3a3a;
-  --button-bg-color: #007bff;
-  --button-text-color: #ffffff;
-  --button-hover-bg-color: #0056b3;
-  --task-bg-color: #333333;
+  --font-primary: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --color-primary: #007bff;
+  --color-secondary: #6c757d;
+  --color-bg: #f8f9fa;
+  --color-dark-bg: #343a40;
+  --color-light-text: #f8f9fa;
+  --color-dark-text: #343a40;
+  --color-border: #dee2e6;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  margin: 10px;
-  padding: 5px;
-  background-color: var(--primary-bg-color);
-  color: var(--primary-text-color);
-}
-
-#app {
-  margin: auto;
-  max-width: 1200px; /* Adjust based on your screen size */
-  border: 1px solid var(--border-color);
+  font-family: var(--font-primary);
+  background-color: var(--color-bg);
+  color: var(--color-dark-text);
+  margin: 0;
   padding: 20px;
-  background-color: var(--secondary-bg-color);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-button {
-  cursor: pointer;
-  background-color: var(--button-bg-color);
-  color: var(--button-text-color);
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  margin-left: 10px;
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: var(--button-hover-bg-color);
-}
-
-.taskItem {
-  background-color: var(--task-bg-color);
-  border: 1px solid var(--border-color);
-  margin-top: 5px;
-  padding: 10px;
-  color: var(--secondary-text-color);
-}
-
-.task-completed label {
-  text-decoration: line-through;
-}
-
-/* Layout Adjustments */
-.creation-section,
-.sort-filter-section {
+header {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
 }
 
-.task-creation,
-.note-creation {
-  flex-basis: 48%; /* Adjust the width as necessary */
-  margin-bottom: 20px; /* Space between rows */
+h1,
+h2 {
+  color: var(--color-primary);
 }
 
-/* Delete All Button - Positioned at the end of filter/sort section */
-#deleteAllButton {
-  background-color: #dc3545; /* Bootstrap danger color for deletion actions */
-  color: white;
-  margin-top: 20px;
+.input-group,
+.filter-sort-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-#deleteAllButton:hover {
-  background-color: #c82333;
+.input-group > *,
+.filter-sort-controls > * {
+  flex-grow: 1;
 }
 
-/* Styling for the sorting/filtering sections */
-.sort-filter-section {
-  align-items: center;
+button {
+  background-color: var(--color-primary);
+  color: var(--color-light-text);
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: darken(var(--color-primary), 10%);
 }
 
 .chart-container {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap; /* Allows charts to wrap onto the next line on smaller screens */
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .chart {
-  flex: 1; /* Each chart container will grow to fill the space */
-  min-width: 200px; /* Adjust based on your preference for minimum chart width */
-  margin: 10px; /* Optional: Adds some space between the charts */
+  flex-basis: calc(50% - 10px);
+  margin-bottom: 20px;
+}
+
+[data-theme="dark"] {
+  --color-bg: var(--color-dark-bg);
+  --color-text: var(--color-light-text);
+  --color-border: darken(var(--color-dark-bg), 10%);
+}
+
+@media (max-width: 768px) {
+  .chart {
+    flex-basis: 100%;
+  }
 }
