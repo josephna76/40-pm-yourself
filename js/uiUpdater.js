@@ -72,72 +72,14 @@ const uiUpdater = (() => {
     const taskItem = document.createElement("div");
     taskItem.className = "taskItem" + (task.completed ? " completed" : "");
 
-    // Check if the task is currently being edited
     const isEditing = window.currentEditingTaskId === task.id;
 
+    // Use generateEditableTask or generateStaticTask based on the editing state
     if (isEditing) {
-      // If editing, generate editable content
       taskItem.innerHTML = generateEditableTask(task);
     } else {
-      // If not editing, proceed with static task rendering
-      const taskDetails = document.createElement("div");
-      taskDetails.className = "taskDetails";
-
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.checked = task.completed;
-      checkbox.id = "complete-" + task.id;
-      checkbox.onclick = () => toggleTaskCompletion(task.id);
-
-      const label = document.createElement("label");
-      label.htmlFor = "complete-" + task.id;
-      label.textContent = task.name;
-
-      taskDetails.appendChild(checkbox);
-      taskDetails.appendChild(label);
-
-      const meta = document.createElement("div");
-      meta.className = "taskMeta";
-
-      const deadline = document.createElement("span");
-      deadline.textContent = "Deadline: " + formatDateForDisplay(task.deadline);
-
-      const priority = document.createElement("div");
-      priority.textContent = "Priority: " + task.priority;
-
-      const notes = document.createElement("div");
-      notes.innerHTML = generateNotesList(task.notes);
-
-      meta.appendChild(deadline);
-      meta.appendChild(priority);
-      meta.appendChild(notes);
-
-      taskItem.appendChild(taskDetails);
-      taskItem.appendChild(meta);
-    }
-
-    // Buttons for editing and deletion (applicable in both cases)
-    const editButton = document.createElement("button");
-    editButton.textContent = "Edit";
-    editButton.onclick = () => {
-      window.currentEditingTaskId = task.id; // Set the current editing ID
-      uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the tasks display
-    };
-
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete";
-    deleteButton.onclick = () => {
-      deleteTask(task.id);
-      if (isEditing) {
-        window.currentEditingTaskId = null; // Clear editing state if currently editing this task
-      }
-      uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the tasks display
-    };
-
-    // Append buttons only if not in editing mode to match the new structure
-    if (!isEditing) {
-      taskItem.appendChild(editButton);
-      taskItem.appendChild(deleteButton);
+      // Now, generateStaticTask also handles the buttons
+      taskItem.innerHTML = generateStaticTask(task);
     }
 
     return taskItem;
@@ -156,7 +98,10 @@ const uiUpdater = (() => {
   }
 
   function generateEditableTask(task) {
-    // Assuming you're keeping the editable fields for task properties
+    // Format the deadline to YYYY-MM-DD for the date input
+    const deadlineDate = new Date(task.deadline);
+    const formattedDeadline = deadlineDate.toISOString().split("T")[0];
+
     const notesHtml = task.notes
       .map(
         (note, index) =>
@@ -166,7 +111,7 @@ const uiUpdater = (() => {
 
     return `
       <input type="text" value="${task.name}" id="edit-name-${task.id}" />
-      <input type="date" value="${task.deadline}" id="edit-deadline-${
+      <input type="date" value="${formattedDeadline}" id="edit-deadline-${
       task.id
     }" />
       <select id="edit-priority-${task.id}">
@@ -187,25 +132,28 @@ const uiUpdater = (() => {
   }
 
   function generateStaticTask(task) {
-    const notesHtml = generateNotesList(task.notes); // Assuming this function generates the HTML for notes
-    const creationDateFormatted = task.creationDate.toLocaleString();
-    const formattedDeadline = formatDateForDisplay(task.deadline); // Format the deadline
-    const checkedAttribute = task.completed ? "checked" : "";
-    return `
-        <div class="${task.completed ? "task-completed" : ""}">
-            <input type="checkbox" id="complete-${
-              task.id
-            }" ${checkedAttribute} onclick="toggleTaskCompletion(${task.id})">
-            <label for="complete-${task.id}">${
-      task.name
-    }</label> - <span>${formattedDeadline}</span> 
-            <div>Priority: ${task.priority}</div>
-            <div>Created on: ${creationDateFormatted}</div>
-            <div>${notesHtml}</div>
-            <button onclick="toggleEditView(${task.id})">Edit</button>
-            <button onclick="deleteTask(${task.id})">Delete</button>
-        </div>
-    `;
+    // Task details
+    let taskHtml = `<div class="taskDetails">
+                        <input type="checkbox" id="complete-${task.id}" ${
+      task.completed ? "checked" : ""
+    } onclick="toggleTaskCompletion(${task.id})">
+                        <label for="complete-${task.id}">${task.name}</label>
+                    </div>`;
+
+    // Task metadata
+    taskHtml += `<div class="taskMeta">
+                    <span>Deadline: ${formatDateForDisplay(
+                      task.deadline
+                    )}</span>
+                    <div>Priority: ${task.priority}</div>
+                    <div>${generateNotesList(task.notes)}</div>
+                 </div>`;
+
+    // Edit and Delete buttons
+    taskHtml += `<button onclick="window.currentEditingTaskId = ${task.id}; uiUpdater.updateTasks(taskManager.getTasks());">Edit</button>
+                 <button onclick="deleteTask(${task.id}); window.currentEditingTaskId = null; uiUpdater.updateTasks(taskManager.getTasks());">Delete</button>`;
+
+    return taskHtml;
   }
 
   const initAccordion = () => {
