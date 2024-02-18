@@ -61,19 +61,23 @@ function deleteTask(taskId) {
 }
 
 function editTask(taskId) {
-  uiUpdater.editTask(taskId);
-}
+  // Find the task by its ID
+  const taskInput = document.getElementById("taskInput");
+  const deadlineInput = document.getElementById("deadlineInput");
+  const priorityInput = document.getElementById("priorityInput");
 
-function saveTaskChanges(taskId) {
-  const newName = document.getElementById(`taskName-${taskId}`).value;
-  const newDeadline = document.getElementById(`taskDeadline-${taskId}`).value;
-  const newNotes = document
-    .getElementById(`taskNotes-${taskId}`)
-    .value.split("\n");
-  const newPriority = document.getElementById(`taskPriority-${taskId}`).value;
+  const newName = taskInput.value;
+  const newDeadline = deadlineInput.value;
+  const newPriority = priorityInput.value;
 
-  taskManager.editTask(taskId, newName, newDeadline, newNotes, newPriority);
+  // Call the editTask function from taskManager
+  taskManager.editTask(taskId, newName, newDeadline, newPriority);
 
   // Update the UI to reflect the changes
   uiUpdater.updateTasks(taskManager.getTasks());
+
+  // Reset input fields
+  taskInput.value = "";
+  deadlineInput.value = "";
+  priorityInput.value = "Medium"; // Reset priority to default value
 }
