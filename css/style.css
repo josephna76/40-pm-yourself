@@ -106,26 +106,28 @@ button:hover {
   align-items: center;
 }
 
-/* Adjusting chart container */
+/* Chart container styling */
 .chart-container {
   display: flex;
-  justify-content: space-around;
   flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+  margin-bottom: 20px;
 }
 
 .chart {
+  flex: 0 0 calc(50% - 20px); /* Adjust width here */
+  max-width: calc(
+    50% - 20px
+  ); /* Ensures charts do not exceed half the container's width */
   margin: 10px;
-  padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: calc(33.333% - 20px); /* Three charts per row with spacing */
-  min-width: 250px; /* Minimum width for smaller screens */
+  box-sizing: border-box;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
-  .task-creation,
-  .note-creation,
   .chart {
-    flex-basis: 100%; /* Full width on smaller screens */
+    flex: 0 0 100%;
+    max-width: 100%;
   }
 }
