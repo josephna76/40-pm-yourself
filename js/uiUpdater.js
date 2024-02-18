@@ -9,18 +9,32 @@ const uiUpdater = (() => {
       const notes =
         task.notes.length > 0 ? `Notes: ${task.notes.join(", ")}` : "No notes";
       taskItem.innerHTML = `
-                <input type="checkbox" id="task-${task.id}" ${
+                  <input type="checkbox" id="task-${task.id}" ${
         task.completed ? "checked" : ""
       }/>
-                <label for="task-${
-                  task.id
-                }" onclick="taskManager.toggleTaskCompleted(${
+                  <label for="task-${
+                    task.id
+                  }" onclick="taskManager.toggleTaskCompleted(${
         task.id
       }); uiUpdater.updateTasks(taskManager.getTasks());">
-                    ${task.name} - Deadline: ${task.deadline}
-                </label>
-                <div>${notes}</div>
-            `;
+                      ${task.name} - Deadline: ${task.deadline}
+                  </label>
+                  <div>${notes}</div>
+                  <select id="priority-${task.id}">
+                      <option value="High" ${
+                        task.priority === "High" ? "selected" : ""
+                      }>High</option>
+                      <option value="Medium" ${
+                        task.priority === "Medium" ? "selected" : ""
+                      }>Medium</option>
+                      <option value="Low" ${
+                        task.priority === "Low" ? "selected" : ""
+                      }>Low</option>
+                  </select>
+                  <button onclick="updateTaskPriority(${
+                    task.id
+                  })">Update Priority</button>
+              `;
       taskList.appendChild(taskItem);
 
       // Checkbox event for immediate UI update without refresh

@@ -10,16 +10,16 @@
       <h2>Developer Task List</h2>
       <input type="text" id="taskInput" placeholder="Enter Task" />
       <input type="date" id="deadlineInput" />
+      <select id="priorityInput">
+        <option value="High">High</option>
+        <option value="Medium" selected>Medium</option>
+        <option value="Low">Low</option>
+      </select>
       <button onclick="addTask()" id="addTaskButton">Add Task</button>
 
       <h2>PM Notes</h2>
       <select id="taskSelector">
         <!-- Options will be dynamically added here -->
-      </select>
-      <select id="priorityInput">
-        <option value="High">High</option>
-        <option value="Medium" selected>Medium</option>
-        <option value="Low">Low</option>
       </select>
       <input type="text" id="noteInput" placeholder="Enter Note" />
       <button onclick="addNote()" id="addNoteButton">Add Note to Task</button>

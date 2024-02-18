@@ -19,6 +19,14 @@ function updateTaskSelector() {
   });
 }
 
+function updateTaskPriority(taskId) {
+  const prioritySelector = document.getElementById(`priority-${taskId}`);
+  if (prioritySelector) {
+    taskManager.updatePriority(taskId, prioritySelector.value);
+    uiUpdater.updateTasks(taskManager.getTasks());
+  }
+}
+
 function addTask() {
   const taskInput = document.getElementById("taskInput");
   const deadlineInput = document.getElementById("deadlineInput");
