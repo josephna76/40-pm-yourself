@@ -254,6 +254,20 @@ function renderCharts() {
   renderTasksByDateChart();
   renderNotesPerTaskChart();
   renderCompletedVsUncompletedChart();
+  renderTasksByDeadlineChart();
+}
+
+// Helper function to display a "No Data" message
+function displayNoDataMessage(chartId, message) {
+  const canvas = document.getElementById(chartId);
+  const messageDiv = document.createElement("div");
+  messageDiv.textContent = message;
+  messageDiv.style.textAlign = "center";
+  messageDiv.style.padding = "20px";
+
+  const container = canvas.parentNode;
+  container.insertBefore(messageDiv, canvas);
+  canvas.remove(); // Remove the canvas to not interfere with layout
 }
 
 function renderTasksByDateChart() {
@@ -366,15 +380,48 @@ function renderCompletedVsUncompletedChart() {
   });
 }
 
-// Helper function to display a "No Data" message
-function displayNoDataMessage(chartId, message) {
-  const canvas = document.getElementById(chartId);
-  const messageDiv = document.createElement("div");
-  messageDiv.textContent = message;
-  messageDiv.style.textAlign = "center";
-  messageDiv.style.padding = "20px";
+function renderTasksByDeadlineChart() {
+  const ctx = document.getElementById("tasksByDeadline").getContext("2d");
+  const tasks = taskManager.getTasks();
 
-  const container = canvas.parentNode;
-  container.insertBefore(messageDiv, canvas);
-  canvas.remove(); // Remove the canvas to not interfere with layout
+  // Data preparation
+  const tasksByDeadline = tasks.reduce((acc, task) => {
+    const date = task.deadline.split("T")[0]; // Assuming ISO format 'YYYY-MM-DD'
+    if (!acc[date]) {
+      acc[date] = 0;
+    }
+    acc[date]++;
+    return acc;
+  }, {});
+
+  // Sort dates
+  const dates = Object.keys(tasksByDeadline).sort(
+    (a, b) => new Date(a) - new Date(b)
+  );
+  const counts = dates.map((date) => tasksByDeadline[date]);
+
+  const chartData = {
+    labels: dates,
+    datasets: [
+      {
+        label: "Tasks by Deadline",
+        data: counts,
+        fill: false,
+        borderColor: "rgb(75, 192, 192)",
+        tension: 0.1,
+      },
+    ],
+  };
+
+  new Chart(ctx, {
+    type: "line",
+    data: chartData,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
 }
