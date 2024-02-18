@@ -96,22 +96,5 @@
     <script src="js/taskManager.js"></script>
     <script src="js/uiUpdater.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-      // Accordion script
-      document.addEventListener("DOMContentLoaded", function () {
-        var acc = document.getElementsByClassName("accordion");
-        for (var i = 0; i < acc.length; i++) {
-          acc[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            var panel = this.nextElementSibling;
-            if (panel.style.display === "block") {
-              panel.style.display = "none";
-            } else {
-              panel.style.display = "block";
-            }
-          });
-        }
-      });
-    </script>
   </body>
 </html>

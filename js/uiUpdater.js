@@ -35,6 +35,23 @@ const uiUpdater = (() => {
     });
   };
 
+  // Updated updateTaskSelector to handle no tasks scenario
+  const updateTaskSelector = () => {
+    const taskSelector = document.getElementById("taskSelector");
+    taskSelector.innerHTML = ""; // Clear existing options
+    const tasks = taskManager.getTasks();
+
+    if (tasks.length === 0) {
+      const noTaskOption = new Option("No Tasks Available", "");
+      taskSelector.appendChild(noTaskOption);
+    } else {
+      tasks.forEach((task) => {
+        const option = new Option(`Task ${task.id}: ${task.name}`, task.id);
+        taskSelector.appendChild(option);
+      });
+    }
+  };
+
   function createTaskItem(task) {
     const taskItem = document.createElement("div");
     taskItem.className = "taskItem" + (task.completed ? " completed" : "");
@@ -112,5 +129,26 @@ const uiUpdater = (() => {
     `;
   }
 
-  return { updateTasks };
+  // Accordion functionality
+  const initAccordion = () => {
+    const acc = document.getElementsByClassName("accordion");
+    for (let i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+          panel.style.display = "none";
+        } else {
+          panel.style.display = "block";
+        }
+      });
+    }
+  };
+
+  // Call initAccordion on DOMContentLoaded
+  document.addEventListener("DOMContentLoaded", () => {
+    initAccordion();
+  });
+
+  return { updateTasks, updateTaskSelector };
 })();
