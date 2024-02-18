@@ -6,40 +6,39 @@ const uiUpdater = (() => {
       const taskItem = document.createElement("div");
       taskItem.className = "taskItem" + (task.completed ? " completed" : "");
 
-      // Ensure notes are displayed correctly
-      const notes =
-        task.notes.length > 0 ? `Notes: ${task.notes.join(", ")}` : "No notes";
+      // Create editable fields
+      const nameInput = `<input type="text" value="${task.name}" id="name-${task.id}"/>`;
+      const deadlineInput = `<input type="date" value="${task.deadline}" id="deadline-${task.id}"/>`;
+      const prioritySelect = `
+          <select id="priority-${task.id}">
+            <option value="High" ${
+              task.priority === "High" ? "selected" : ""
+            }>High</option>
+            <option value="Medium" ${
+              task.priority === "Medium" ? "selected" : ""
+            }>Medium</option>
+            <option value="Low" ${
+              task.priority === "Low" ? "selected" : ""
+            }>Low</option>
+          </select>`;
+      const notesInput = `<input type="text" value="${task.notes.join(
+        ", "
+      )}" id="notes-${task.id}"/>`;
 
-      // Updated taskItem HTML to include the Edit button with the correct onClick event
+      // Include a Save button for each task
+      const saveButton = `<button onclick="saveTask(${task.id})">Save</button>`;
+
       taskItem.innerHTML = `
-              <div>
-                <input type="checkbox" id="task-${task.id}" ${
-        task.completed ? "checked" : ""
-      }/>
-                <label for="task-${
-                  task.id
-                }" onclick="taskManager.toggleTaskCompleted(${
-        task.id
-      }); uiUpdater.updateTasks(taskManager.getTasks());">${
-        task.name
-      } - Deadline: ${task.deadline}</label> - Priority: ${task.priority}
-                <div>${notes}</div>
-                <button onclick="deleteTask(${task.id})">Delete</button>
-                <button onclick="prepareEditTask(${
-                  task.id
-                })">Edit</button> <!-- Edit button added -->
-              </div>
-            `;
+          <div>
+            ${nameInput}
+            ${deadlineInput}
+            ${prioritySelect}
+            ${notesInput}
+            ${saveButton}
+          </div>
+        `;
 
       taskList.appendChild(taskItem);
-
-      // Checkbox event for immediate UI update without refresh
-      document
-        .getElementById(`task-${task.id}`)
-        .addEventListener("change", () => {
-          taskManager.toggleTaskCompleted(task.id);
-          updateTasks(taskManager.getTasks());
-        });
     });
   };
 

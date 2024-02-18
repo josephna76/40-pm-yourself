@@ -34,12 +34,13 @@ const taskManager = (() => {
 
   const getTasks = () => tasks;
 
-  const editTask = (taskId, newName, newDeadline, newPriority) => {
+  const editTask = (taskId, newName, newDeadline, newPriority, newNotes) => {
     const task = tasks.find((t) => t.id === taskId);
     if (task) {
-      task.name = newName || task.name;
-      task.deadline = newDeadline || task.deadline;
-      task.priority = newPriority || task.priority;
+      task.name = newName;
+      task.deadline = newDeadline;
+      task.priority = newPriority;
+      task.notes = newNotes; // Ensure notes are updated correctly
       localStorage.setItem("tasks", JSON.stringify(tasks));
     }
   };

@@ -51,48 +51,15 @@ function deleteTask(taskId) {
   uiUpdater.updateTasks(taskManager.getTasks());
 }
 
-function editTask(taskId) {
-  // Find the task by its ID
-  const taskInput = document.getElementById("taskInput");
-  const deadlineInput = document.getElementById("deadlineInput");
-  const priorityInput = document.getElementById("priorityInput");
+function saveTask(taskId) {
+  const name = document.getElementById(`name-${taskId}`).value;
+  const deadline = document.getElementById(`deadline-${taskId}`).value;
+  const priority = document.getElementById(`priority-${taskId}`).value;
+  const notes = document.getElementById(`notes-${taskId}`).value.split(", ");
 
-  const newName = taskInput.value;
-  const newDeadline = deadlineInput.value;
-  const newPriority = priorityInput.value;
+  // Call the updated editTask method from taskManager with notes included
+  taskManager.editTask(taskId, name, deadline, priority, notes);
 
-  // Call the editTask function from taskManager
-  taskManager.editTask(taskId, newName, newDeadline, newPriority);
-
-  // Update the UI to reflect the changes
+  // Refresh the UI to reflect the changes
   uiUpdater.updateTasks(taskManager.getTasks());
-
-  // Reset input fields
-  taskInput.value = "";
-  deadlineInput.value = "";
-  priorityInput.value = "Medium"; // Reset priority to default value
-}
-
-function prepareEditTask(taskId) {
-  // Retrieve the task details
-  const task = taskManager.getTasks().find((task) => task.id === taskId);
-  if (!task) {
-    console.error("Task not found!");
-    return;
-  }
-
-  // Populate the form with the task details
-  document.getElementById("taskInput").value = task.name;
-  document.getElementById("deadlineInput").value = task.deadline;
-  document.getElementById("priorityInput").value = task.priority;
-
-  // Optionally, switch the button from "Add Task" to "Update Task"
-  // This might involve changing button text and functionality, e.g.,
-  const addTaskButton = document.getElementById("addTaskButton");
-  addTaskButton.innerText = "Update Task";
-  addTaskButton.onclick = () => editTask(taskId); // Assumes editTask is already implemented
-
-  // To distinguish between adding a new task and editing an existing one,
-  // you might store the current editing task ID in a global or better scoped variable.
-  window.currentEditingTaskId = taskId; // Use carefully; better scoping is recommended
 }
