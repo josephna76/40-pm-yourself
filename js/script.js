@@ -382,6 +382,12 @@ function renderTasksByDeadlineChart() {
   const ctx = document.getElementById("tasksByDeadline").getContext("2d");
   const tasks = taskManager.getTasks();
 
+  // Check for empty tasks
+  if (tasks.length === 0) {
+    displayNoDataMessage("notesPerTask", "No notes available");
+    return;
+  }
+
   // Data preparation
   const tasksByDeadline = tasks.reduce((acc, task) => {
     const date = task.deadline.split("T")[0]; // Assuming ISO format 'YYYY-MM-DD'
