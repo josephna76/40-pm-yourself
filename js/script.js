@@ -112,6 +112,26 @@ function toggleTaskCompletion(taskId) {
     console.error("Task not found");
   }
 }
+
+// begin delete all section
+document
+  .getElementById("deleteAllButton")
+  .addEventListener("click", function () {
+    const userConfirmed = confirm(
+      "Are you sure you want to delete all tasks? This action cannot be undone."
+    );
+    if (userConfirmed) {
+      deleteAllTasks();
+    }
+  });
+function deleteAllTasks() {
+  // Assuming taskManager is your object that manages tasks
+  // Update or replace this logic depending on how you're storing and managing tasks
+  taskManager.deleteAll();
+  uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the task list UI
+}
+// delete all button end
+
 function applyFilters() {
   const priorityFilter = document.getElementById("priorityFilter").value;
   const dateFilter = document.getElementById("dateFilter").value;
@@ -149,21 +169,31 @@ function applyFilters() {
   uiUpdater.updateTasks(filteredTasks);
 }
 
-// begin delete all section
-document
-  .getElementById("deleteAllButton")
-  .addEventListener("click", function () {
-    const userConfirmed = confirm(
-      "Are you sure you want to delete all tasks? This action cannot be undone."
+function applyDateRangeFilter() {
+  const startDateInput = document.getElementById("startDate").value;
+  const endDateInput = document.getElementById("endDate").value;
+  const priorityFilter = document.getElementById("priorityFilter").value;
+
+  let filteredTasks = taskManager.getTasks();
+
+  // Filter by priority if not 'All'
+  if (priorityFilter !== "All") {
+    filteredTasks = filteredTasks.filter(
+      (task) => task.priority === priorityFilter
     );
-    if (userConfirmed) {
-      deleteAllTasks();
-    }
-  });
-function deleteAllTasks() {
-  // Assuming taskManager is your object that manages tasks
-  // Update or replace this logic depending on how you're storing and managing tasks
-  taskManager.deleteAll();
-  uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the task list UI
+  }
+
+  // Apply custom date range filter
+  if (startDateInput && endDateInput) {
+    const startDate = new Date(startDateInput);
+    const endDate = new Date(endDateInput);
+    endDate.setHours(23, 59, 59, 999); // Include the entire end day
+
+    filteredTasks = filteredTasks.filter((task) => {
+      const taskDate = new Date(task.deadline);
+      return taskDate >= startDate && taskDate <= endDate;
+    });
+  }
+
+  uiUpdater.updateTasks(filteredTasks);
 }
-// delete all button end

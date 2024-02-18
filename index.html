@@ -49,6 +49,13 @@
           <option value="Present">Present</option>
           <option value="Future">Future</option>
         </select>
+        <!-- Existing filters -->
+        <label for="dateRangeFilter">Or Choose Date Range:</label>
+        <input type="date" id="startDate" name="startDate" />
+        <input type="date" id="endDate" name="endDate" />
+        <button onclick="applyDateRangeFilter()">
+          Apply Date Range Filter
+        </button>
 
         <button onclick="applyFilters()">Apply Filters</button>
       </div>
