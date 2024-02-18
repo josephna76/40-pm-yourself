@@ -70,53 +70,75 @@ const uiUpdater = (() => {
 
   function createTaskItem(task) {
     const taskItem = document.createElement("div");
-    taskItem.className = "taskItem" + (task.completed ? " task-completed" : "");
+    taskItem.className = "taskItem" + (task.completed ? " completed" : "");
 
-    // Creating a flex container for the checkbox and task details
-    const taskDetails = document.createElement("div");
-    taskDetails.className = "taskDetails";
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.checked = task.completed;
-    checkbox.id = "complete-" + task.id;
-    checkbox.onclick = () => toggleTaskCompletion(task.id);
+    // Check if the task is currently being edited
+    const isEditing = window.currentEditingTaskId === task.id;
 
-    const label = document.createElement("label");
-    label.htmlFor = "complete-" + task.id;
-    label.textContent = task.name;
+    if (isEditing) {
+      // If editing, generate editable content
+      taskItem.innerHTML = generateEditableTask(task);
+    } else {
+      // If not editing, proceed with static task rendering
+      const taskDetails = document.createElement("div");
+      taskDetails.className = "taskDetails";
 
-    // Appending the checkbox and label to the flex container
-    taskDetails.appendChild(checkbox);
-    taskDetails.appendChild(label);
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = task.completed;
+      checkbox.id = "complete-" + task.id;
+      checkbox.onclick = () => toggleTaskCompletion(task.id);
 
-    // Task metadata (deadline, priority, notes)
-    const meta = document.createElement("div");
-    meta.className = "taskMeta";
-    const deadline = document.createElement("span");
-    deadline.textContent = "Deadline: " + formatDateForDisplay(task.deadline);
-    const priority = document.createElement("div");
-    priority.textContent = "Priority: " + task.priority;
-    const notes = document.createElement("div");
-    notes.innerHTML = generateNotesList(task.notes);
+      const label = document.createElement("label");
+      label.htmlFor = "complete-" + task.id;
+      label.textContent = task.name;
 
-    meta.appendChild(deadline);
-    meta.appendChild(priority);
-    meta.appendChild(notes);
+      taskDetails.appendChild(checkbox);
+      taskDetails.appendChild(label);
 
-    // Appending elements to taskItem
-    taskItem.appendChild(taskDetails);
-    taskItem.appendChild(meta);
+      const meta = document.createElement("div");
+      meta.className = "taskMeta";
 
-    // Buttons for editing and deletion
+      const deadline = document.createElement("span");
+      deadline.textContent = "Deadline: " + formatDateForDisplay(task.deadline);
+
+      const priority = document.createElement("div");
+      priority.textContent = "Priority: " + task.priority;
+
+      const notes = document.createElement("div");
+      notes.innerHTML = generateNotesList(task.notes);
+
+      meta.appendChild(deadline);
+      meta.appendChild(priority);
+      meta.appendChild(notes);
+
+      taskItem.appendChild(taskDetails);
+      taskItem.appendChild(meta);
+    }
+
+    // Buttons for editing and deletion (applicable in both cases)
     const editButton = document.createElement("button");
     editButton.textContent = "Edit";
-    editButton.onclick = () => toggleEditView(task.id);
+    editButton.onclick = () => {
+      window.currentEditingTaskId = task.id; // Set the current editing ID
+      uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the tasks display
+    };
+
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
-    deleteButton.onclick = () => deleteTask(task.id);
+    deleteButton.onclick = () => {
+      deleteTask(task.id);
+      if (isEditing) {
+        window.currentEditingTaskId = null; // Clear editing state if currently editing this task
+      }
+      uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the tasks display
+    };
 
-    taskItem.appendChild(editButton);
-    taskItem.appendChild(deleteButton);
+    // Append buttons only if not in editing mode to match the new structure
+    if (!isEditing) {
+      taskItem.appendChild(editButton);
+      taskItem.appendChild(deleteButton);
+    }
 
     return taskItem;
   }
