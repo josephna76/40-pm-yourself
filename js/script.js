@@ -60,22 +60,25 @@ function saveTask(taskId) {
   const newName = document.getElementById(`edit-name-${taskId}`).value;
   const newDeadline = document.getElementById(`edit-deadline-${taskId}`).value;
   const newPriority = document.getElementById(`edit-priority-${taskId}`).value;
-  const newNotes = document
-    .getElementById(`edit-notes-${taskId}`)
-    .value.split(", ");
 
-  taskManager.editTask(taskId, newName, newDeadline, newPriority, newNotes);
+  // Assuming we're now editing notes individually
+  const task = taskManager.getTasks().find((task) => task.id === taskId);
+  const updatedNotes = task.notes
+    .map((_, index) => {
+      const noteValue = document.getElementById(
+        `edit-note-${taskId}-${index}`
+      ).value;
+      // Here you would need to parse the noteValue to separate the text from the author
+      // This is tricky if the format is not structured, consider using a JSON format or a delimiter that is unlikely to be typed by users
+      // For simplicity, let's assume the format is "note text (author)"
+      const match = noteValue.match(/^(.*)\s\((PM|Dev)\)$/);
+      return match ? { text: match[1], author: match[2] } : null;
+    })
+    .filter(Boolean);
+
+  taskManager.editTask(taskId, newName, newDeadline, newPriority, updatedNotes);
 
   window.currentEditingTaskId = null; // Exit edit mode
-  // Save changes to notes
-  const task = taskManager.getTasks().find((task) => task.id === taskId);
-  task.notes.forEach((_, index) => {
-    const noteInput = document.getElementById(`edit-note-${taskId}-${index}`);
-    if (noteInput) {
-      taskManager.editNote(taskId, index, noteInput.value);
-    }
-  });
-
   uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the task list
 }
 
