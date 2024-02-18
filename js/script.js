@@ -72,24 +72,26 @@ function editTask(taskId) {
   // Display editable fields for task details
   const taskItem = document.getElementById(`task-${taskId}`);
   taskItem.innerHTML = `
-      <input type="text" id="taskName-${taskId}" value="${task.name}" />
-      <input type="date" id="taskDeadline-${taskId}" value="${task.deadline}" />
-      <textarea id="taskNotes-${taskId}" rows="4" cols="50">${task.notes.join(
+        <input type="text" id="taskName-${taskId}" value="${task.name}" />
+        <input type="date" id="taskDeadline-${taskId}" value="${
+    task.deadline
+  }" />
+        <textarea id="taskNotes-${taskId}" rows="4" cols="50">${task.notes.join(
     "\n"
   )}</textarea>
-      <select id="taskPriority-${taskId}">
-        <option value="High" ${
-          task.priority === "High" ? "selected" : ""
-        }>High</option>
-        <option value="Medium" ${
-          task.priority === "Medium" ? "selected" : ""
-        }>Medium</option>
-        <option value="Low" ${
-          task.priority === "Low" ? "selected" : ""
-        }>Low</option>
-      </select>
-      <button onclick="saveTaskChanges(${taskId})">Save Changes</button>
-    `;
+        <select id="taskPriority-${taskId}">
+          <option value="High" ${
+            task.priority === "High" ? "selected" : ""
+          }>High</option>
+          <option value="Medium" ${
+            task.priority === "Medium" ? "selected" : ""
+          }>Medium</option>
+          <option value="Low" ${
+            task.priority === "Low" ? "selected" : ""
+          }>Low</option>
+        </select>
+        <button onclick="saveTaskChanges(${taskId})">Save Changes</button>
+      `;
 }
 
 function saveTaskChanges(taskId) {
