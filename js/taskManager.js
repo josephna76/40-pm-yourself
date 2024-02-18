@@ -37,9 +37,9 @@ const taskManager = (() => {
   const editTask = (taskId, newName, newDeadline, newPriority) => {
     const task = tasks.find((t) => t.id === taskId);
     if (task) {
-      task.name = newName;
-      task.deadline = newDeadline;
-      task.priority = newPriority; // Assuming priority has been added to the task structure
+      task.name = newName || task.name;
+      task.deadline = newDeadline || task.deadline;
+      task.priority = newPriority || task.priority;
       localStorage.setItem("tasks", JSON.stringify(tasks));
     }
   };
