@@ -1,15 +1,15 @@
 const taskManager = (() => {
   let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-  // Inside taskManager.js
   const addTask = (name, deadline, priority) => {
     const task = {
       id: tasks.length + 1,
       name,
       deadline,
-      priority, // Ensure this is part of your task object
+      priority,
       notes: [],
       completed: false,
+      creationDate: new Date(), // Automatically log the current date and time
     };
     tasks.push(task);
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -19,7 +19,12 @@ const taskManager = (() => {
   const addNote = (taskId, note, author) => {
     const task = tasks.find((t) => t.id === taskId);
     if (task) {
-      task.notes.push({ text: note, author: author }); // Each note now has text and author
+      const newNote = {
+        text: note,
+        author: author,
+        date: new Date().toISOString(), // Ensure the date is stored in ISO format
+      };
+      task.notes.push(newNote);
       localStorage.setItem("tasks", JSON.stringify(tasks));
     }
   };
