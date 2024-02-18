@@ -25,6 +25,25 @@
       </select>
       <input type="text" id="noteInput" placeholder="Enter Note" />
       <button onclick="addNote()" id="addNoteButton">Add Note to Task</button>
+      <div id="filterOptions">
+        <label for="priorityFilter">Filter by Priority:</label>
+        <select id="priorityFilter">
+          <option value="All">All</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+
+        <label for="dateFilter">Filter by Date:</label>
+        <select id="dateFilter">
+          <option value="All">All</option>
+          <option value="Today">Today</option>
+          <option value="This Week">This Week</option>
+          <option value="This Month">This Month</option>
+        </select>
+
+        <button onclick="applyFilters()">Apply Filters</button>
+      </div>
 
       <div id="taskList"></div>
     </div>

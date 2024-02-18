@@ -110,3 +110,49 @@ function toggleTaskCompletion(taskId) {
     console.error("Task not found");
   }
 }
+
+function applyFilters() {
+  const priorityFilter = document.getElementById("priorityFilter").value;
+  const dateFilter = document.getElementById("dateFilter").value;
+
+  // Fetch all tasks
+  let filteredTasks = taskManager.getTasks();
+
+  // Filter by priority
+  if (priorityFilter !== "All") {
+    filteredTasks = filteredTasks.filter(
+      (task) => task.priority === priorityFilter
+    );
+  }
+
+  // Filter by date
+  const today = new Date();
+  const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+  const oneWeek = 7 * oneDay;
+  const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+  if (dateFilter !== "All") {
+    filteredTasks = filteredTasks.filter((task) => {
+      const taskDate = new Date(task.deadline);
+      switch (dateFilter) {
+        case "Today":
+          return taskDate.toDateString() === today.toDateString();
+        case "This Week":
+          return (
+            taskDate.getTime() <= today.getTime() + oneWeek &&
+            taskDate.getTime() >= today.getTime()
+          );
+        case "This Month":
+          return (
+            taskDate.getMonth() === today.getMonth() &&
+            taskDate.getFullYear() === today.getFullYear()
+          );
+        default:
+          return true;
+      }
+    });
+  }
+
+  // Update the UI with the filtered tasks
+  uiUpdater.updateTasks(filteredTasks);
+}
