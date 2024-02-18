@@ -63,15 +63,47 @@ const uiUpdater = (() => {
 
   function createTaskItem(task) {
     const taskItem = document.createElement("div");
-    taskItem.className = "taskItem" + (task.completed ? " completed" : "");
+    taskItem.className = "taskItem" + (task.completed ? " task-completed" : "");
 
-    // Determine if the task is being edited
-    const isEditing = window.currentEditingTaskId === task.id;
-    const taskContent = isEditing
-      ? generateEditableTask(task)
-      : generateStaticTask(task);
+    // Example structure
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = task.completed;
+    checkbox.id = "complete-" + task.id;
+    checkbox.onclick = () => toggleTaskCompletion(task.id);
 
-    taskItem.innerHTML = taskContent;
+    const label = document.createElement("label");
+    label.htmlFor = "complete-" + task.id;
+    label.textContent = task.name;
+
+    const deadline = document.createElement("span");
+    deadline.textContent = "Deadline: " + formatDateForDisplay(task.deadline);
+
+    const priority = document.createElement("div");
+    priority.textContent = "Priority: " + task.priority;
+
+    const notes = document.createElement("div");
+    notes.innerHTML = generateNotesList(task.notes); // Assuming generateNotesList returns HTML string
+
+    // Append elements to taskItem
+    taskItem.appendChild(checkbox);
+    taskItem.appendChild(label);
+    taskItem.appendChild(deadline);
+    taskItem.appendChild(priority);
+    taskItem.appendChild(notes);
+
+    // Edit and Delete buttons
+    const editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    editButton.onclick = () => toggleEditView(task.id);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.onclick = () => deleteTask(task.id);
+
+    taskItem.appendChild(editButton);
+    taskItem.appendChild(deleteButton);
+
     return taskItem;
   }
 
