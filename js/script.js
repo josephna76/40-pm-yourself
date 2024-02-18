@@ -61,15 +61,16 @@ function saveTask(taskId) {
   const newDeadline = document.getElementById(`edit-deadline-${taskId}`).value;
   const newPriority = document.getElementById(`edit-priority-${taskId}`).value;
 
-  // Assuming the structure of task.notes is [{text: "Note 1", author: "PM"}, ...]
+  // Correctly fetch the task object using taskId
+  const task = taskManager.getTasks().find((t) => t.id === taskId);
+  if (!task) {
+    console.error("Task not found");
+    return; // Exit the function if the task is not found
+  }
+
   const updatedNotes = task.notes.map((note, index) => {
-    // Retrieve the edited text for each note without changing the author
     const noteInput = document.getElementById(`edit-note-${taskId}-${index}`);
-    if (noteInput) {
-      return { ...note, text: noteInput.value }; // Keep the original author, update the text
-    } else {
-      return note; // In case there's no input for some reason, return the original note
-    }
+    return noteInput ? { ...note, text: noteInput.value } : note;
   });
 
   // Call the editTask function with the updated notes array

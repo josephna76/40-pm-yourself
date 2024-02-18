@@ -31,7 +31,7 @@ const uiUpdater = (() => {
     const notesHtml = task.notes
       .map(
         (note, index) =>
-          `<input type="text" id="edit-note-${task.id}-${index}" value="${note.text} (${note.author})" />`
+          `<input type="text" value="${note.text}" id="edit-note-${task.id}-${index}" />`
       )
       .join("");
 
@@ -52,7 +52,7 @@ const uiUpdater = (() => {
         }>Low</option>
       </select>
       <div>${notesHtml}</div>
-      <button onclick="saveTask(${task.id})">Save</button>      
+      <button onclick="saveTask(${task.id})">Save</button>   
       <button onclick="toggleEditView(null)">Cancel</button>
     `;
   }
