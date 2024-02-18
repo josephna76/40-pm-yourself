@@ -11,47 +11,41 @@ const uiUpdater = (() => {
         task.notes.length > 0 ? `Notes: ${task.notes.join(", ")}` : "No notes";
 
       taskItem.innerHTML = `
-          <div>
-            <input type="checkbox" id="task-${task.id}" ${
+            <div>
+              <input type="checkbox" id="task-${task.id}" ${
         task.completed ? "checked" : ""
-      }/>
-            <label for="task-${
-              task.id
-            }" onclick="taskManager.toggleTaskCompleted(${
-        task.id
-      }); uiUpdater.updateTasks(taskManager.getTasks());">${
-        task.name
-      } - Deadline: ${task.deadline}
-            </label>
-            <div>${notes}</div>
-            <select id="priority-${task.id}">
-              <option value="High" ${
-                task.priority === "High" ? "selected" : ""
-              }>High</option>
-              <option value="Medium" ${
-                task.priority === "Medium" ? "selected" : ""
-              }>Medium</option>
-              <option value="Low" ${
-                task.priority === "Low" ? "selected" : ""
-              }>Low</option>
-            </select>
-            <button onclick="updateTaskPriority(${
-              task.id
-            })">Update Priority</button>
-            <button onclick="deleteTask(${task.id})">Delete</button>
-            <button onclick="editTask(${task.id})">Edit</button>
-          </div>
-        `;
+      } onchange="toggleTaskCompleted(${task.id})"/>
+              <label for="task-${task.id}">${task.name} - Deadline: ${
+        task.deadline
+      }
+              </label>
+              <div>${notes}</div>
+              <select id="priority-${task.id}" ${
+        task.completed ? "disabled" : ""
+      }>
+                <option value="High" ${
+                  task.priority === "High" ? "selected" : ""
+                }>High</option>
+                <option value="Medium" ${
+                  task.priority === "Medium" ? "selected" : ""
+                }>Medium</option>
+                <option value="Low" ${
+                  task.priority === "Low" ? "selected" : ""
+                }>Low</option>
+              </select>
+              <button onclick="updateTaskPriority(${task.id})" ${
+        task.completed ? "disabled" : ""
+      }>Update Priority</button>
+              <button onclick="deleteTask(${task.id})">Delete</button>
+              ${
+                !task.completed
+                  ? `<button onclick="editTask(${task.id})">Edit</button>`
+                  : ""
+              }
+            </div>
+          `;
 
       taskList.appendChild(taskItem);
-
-      // Checkbox event for immediate UI update without refresh
-      document
-        .getElementById(`task-${task.id}`)
-        .addEventListener("change", () => {
-          taskManager.toggleTaskCompleted(task.id);
-          updateTasks(taskManager.getTasks());
-        });
     });
   };
 
