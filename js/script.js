@@ -240,8 +240,6 @@ function sortTasks() {
   uiUpdater.updateTasks(tasks);
 }
 
-// ----- graphs section ------
-
 function renderCharts() {
   // Render each chart with checks for empty data
   renderTasksByDateChart();
@@ -250,32 +248,29 @@ function renderCharts() {
   renderTasksByDeadlineChart();
 }
 
-// Function to display a "No Data" message for a chart
-function displayNoDataMessage(containerId, message) {
-  const container = document.getElementById(containerId);
-  if (!container) return; // If the container doesn't exist, exit
-
-  // Clear existing content
-  container.innerHTML = "";
-
-  // Create and append the message
+// Helper function to display a "No Data" message
+function displayNoDataMessage(chartId, message) {
+  const canvas = document.getElementById(chartId);
   const messageDiv = document.createElement("div");
   messageDiv.textContent = message;
   messageDiv.style.textAlign = "center";
   messageDiv.style.padding = "20px";
-  container.appendChild(messageDiv);
+
+  const container = canvas.parentNode;
+  container.insertBefore(messageDiv, canvas);
+  canvas.remove(); // Remove the canvas to not interfere with layout
 }
 
 function renderTasksByDateChart() {
+  const ctx = document.getElementById("tasksByDate").getContext("2d");
   const tasks = taskManager.getTasks();
 
   // Check for empty tasks
   if (tasks.length === 0) {
-    displayNoDataMessage("tasksByDateContainer", "No tasks available");
+    displayNoDataMessage("tasksByDate", "No tasks available");
     return;
   }
 
-  const ctx = document.getElementById("tasksByDateContainer").getContext("2d");
   // Data preparation
   const tasksByDate = tasks.reduce((acc, task) => {
     const date = task.deadline.split("T")[0]; // Assuming ISO format 'YYYY-MM-DD'

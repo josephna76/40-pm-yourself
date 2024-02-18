@@ -70,8 +70,7 @@ button:hover {
 
 /* Layout Adjustments */
 .creation-section,
-.sort-filter-section,
-#charts {
+.sort-filter-section {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -82,12 +81,6 @@ button:hover {
 .note-creation {
   flex-basis: 48%; /* Adjust the width as necessary */
   margin-bottom: 20px; /* Space between rows */
-}
-
-#charts .chart {
-  flex: 1 1 30%; /* Adjust the basis and the flexibility */
-  min-width: 250px; /* Minimum width of the chart */
-  margin-bottom: 20px;
 }
 
 /* Delete All Button - Positioned at the end of filter/sort section */
@@ -105,34 +98,16 @@ button:hover {
 .sort-filter-section {
   align-items: center;
 }
-/* Ensures the container for charts uses a flexbox layout to align items inline */
+
 .chart-container {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-around;
-  align-items: flex-start;
-  margin-bottom: 20px;
+  align-items: center;
+  flex-wrap: wrap; /* Allows charts to wrap onto the next line on smaller screens */
 }
 
-/* Adjusts each chart's container to take up a quarter of the container's width */
 .chart {
-  flex: 1 1 24%; /* Adjust the basis to 24% to fit 4 items in a row */
-  min-width: 250px; /* Minimum width of the chart */
-  margin: 10px;
-  box-sizing: border-box;
-}
-
-/* Responsive adjustments for smaller screens */
-@media (max-width: 768px) {
-  .chart {
-    flex: 0 0 48%; /* Two charts per row on smaller screens */
-    max-width: 48%;
-  }
-}
-
-@media (max-width: 480px) {
-  .chart {
-    flex: 0 0 100%; /* One chart per row on very small screens */
-    max-width: 100%;
-  }
+  flex: 1; /* Each chart container will grow to fill the space */
+  min-width: 300px; /* Adjust based on your preference for minimum chart width */
+  margin: 10px; /* Optional: Adds some space between the charts */
 }
