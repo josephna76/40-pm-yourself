@@ -90,16 +90,16 @@ const uiUpdater = (() => {
   function generateStaticTask(task) {
     const notesHtml = generateNotesList(task.notes); // Assuming this function generates the HTML for notes
     const creationDateFormatted = task.creationDate.toLocaleString();
-
+    const formattedDeadline = formatDateForDisplay(task.deadline); // Format the deadline
     const checkedAttribute = task.completed ? "checked" : "";
     return `
         <div class="${task.completed ? "task-completed" : ""}">
             <input type="checkbox" id="complete-${
               task.id
             }" ${checkedAttribute} onclick="toggleTaskCompletion(${task.id})">
-            <label for="complete-${task.id}">${task.name}</label> - <span>${
-      task.deadline
-    }</span>
+            <label for="complete-${task.id}">${
+      task.name
+    }</label> - <span>${formattedDeadline}</span> 
             <div>Priority: ${task.priority}</div>
             <div>Created on: ${creationDateFormatted}</div>
             <div>${notesHtml}</div>
