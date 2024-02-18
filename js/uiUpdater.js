@@ -1,4 +1,10 @@
 const uiUpdater = (() => {
+  // Set default date as Today
+  const deadlineInput = document.getElementById("deadlineInput");
+  const today = new Date();
+  const formattedDate = today.toISOString().substring(0, 10); // Format as YYYY-MM-DD
+  deadlineInput.value = formattedDate;
+
   // Date formatting function
   function formatDateForDisplay(isoDateString) {
     if (!isoDateString) {
