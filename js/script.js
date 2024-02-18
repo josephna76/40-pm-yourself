@@ -22,8 +22,13 @@ function updateTaskSelector() {
 function addTask() {
   const taskInput = document.getElementById("taskInput");
   const deadlineInput = document.getElementById("deadlineInput");
+  const priorityInput = document.getElementById("priorityInput");
   if (taskInput.value && deadlineInput.value) {
-    taskManager.addTask(taskInput.value, deadlineInput.value);
+    taskManager.addTask(
+      taskInput.value,
+      deadlineInput.value,
+      priorityInput.value
+    );
     uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the task list
     updateTaskSelector(); // Update the task selector with the new task
     taskInput.value = ""; // Reset input

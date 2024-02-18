@@ -1,11 +1,13 @@
 const taskManager = (() => {
   let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-  const addTask = (name, deadline) => {
+  // Inside taskManager.js
+  const addTask = (name, deadline, priority) => {
     const task = {
       id: tasks.length + 1,
       name,
       deadline,
+      priority, // Ensure this is part of your task object
       notes: [],
       completed: false,
     };
@@ -32,5 +34,30 @@ const taskManager = (() => {
 
   const getTasks = () => tasks;
 
-  return { addTask, addNote, toggleTaskCompleted, getTasks };
+  const editTask = (taskId, newName, newDeadline, newPriority) => {
+    const task = tasks.find((t) => t.id === taskId);
+    if (task) {
+      task.name = newName;
+      task.deadline = newDeadline;
+      task.priority = newPriority; // Assuming priority has been added to the task structure
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+  };
+
+  const deleteTask = (taskId) => {
+    const taskIndex = tasks.findIndex((t) => t.id === taskId);
+    if (taskIndex > -1) {
+      tasks.splice(taskIndex, 1);
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+  };
+
+  return {
+    addTask,
+    addNote,
+    toggleTaskCompleted,
+    getTasks,
+    editTask,
+    deleteTask,
+  };
 })();
