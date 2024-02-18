@@ -42,15 +42,17 @@ const uiUpdater = (() => {
     }
   };
 
-  // Updated updateTaskSelector to handle no tasks scenario
+  // Adjusting updateTaskSelector to include a default placeholder
   const updateTaskSelector = () => {
     const taskSelector = document.getElementById("taskSelector");
     taskSelector.innerHTML = ""; // Clear existing options
     const tasks = taskManager.getTasks();
 
     if (tasks.length === 0) {
-      const noTaskOption = new Option("No Tasks Available", "");
-      taskSelector.appendChild(noTaskOption);
+      // Display a placeholder when no tasks are available
+      const placeholderOption = new Option("No tasks yet", "", true, true);
+      placeholderOption.disabled = true; // Make the placeholder non-selectable
+      taskSelector.appendChild(placeholderOption);
     } else {
       tasks.forEach((task) => {
         const option = new Option(`Task ${task.id}: ${task.name}`, task.id);
