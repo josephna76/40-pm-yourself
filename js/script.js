@@ -112,65 +112,52 @@ function toggleTaskCompletion(taskId) {
     console.error("Task not found");
   }
 }
-
 function applyFilters() {
   const priorityFilter = document.getElementById("priorityFilter").value;
   const dateFilter = document.getElementById("dateFilter").value;
-  const dateTypeFilter = document.getElementById("dateTypeFilter").value; // Get the selected date type
+  const dateTypeFilter = document.getElementById("dateTypeFilter").value;
 
   let filteredTasks = taskManager.getTasks();
 
-  // Filter by priority
   if (priorityFilter !== "All") {
     filteredTasks = filteredTasks.filter(
       (task) => task.priority === priorityFilter
     );
   }
 
-  // Apply date filters based on the selected date type
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // Normalize today to the start of the day, local time
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  // Calculate start and end of this week, assuming week starts on Sunday
+  const startOfThisWeek = new Date(today);
+  startOfThisWeek.setDate(today.getDate() - today.getDay()); // Adjust to last Sunday
+  const endOfThisWeek = new Date(startOfThisWeek);
+  endOfThisWeek.setDate(startOfThisWeek.getDate() + 6); // Next Saturday
+
+  // Calculate start and end of next week
+  const startOfNextWeek = new Date(endOfThisWeek);
+  startOfNextWeek.setDate(startOfNextWeek.getDate() + 1); // Next Sunday
+  const endOfNextWeek = new Date(startOfNextWeek);
+  endOfNextWeek.setDate(startOfNextWeek.getDate() + 6); // Following Saturday
+
+  // Next month range is already correctly calculated in your original code
 
   if (dateFilter !== "All") {
     filteredTasks = filteredTasks.filter((task) => {
-      // Determine the relevant date to filter by based on the selected date type
-      const relevantDate = new Date(task[dateTypeFilter] + "T00:00:00"); // Adjust for local timezone
-      relevantDate.setHours(0, 0, 0, 0); // Normalize to start of the day, local time
+      const taskDate = new Date(task[dateTypeFilter]);
+      taskDate.setHours(0, 0, 0, 0); // Normalize task date to start of the day for accurate comparison
 
       switch (dateFilter) {
         case "Today":
-          return relevantDate.getTime() === today.getTime();
+          return taskDate >= today && taskDate < tomorrow;
         case "This Week":
-          const endOfWeek = new Date(today);
-          endOfWeek.setDate(today.getDate() + (6 - today.getDay()));
-          endOfWeek.setHours(23, 59, 59, 999); // Include the entire day
-          return relevantDate >= today && relevantDate <= endOfWeek;
+          return taskDate >= startOfThisWeek && taskDate <= endOfThisWeek;
         case "Next Week":
-          const startOfNextWeek = new Date(endOfWeek);
-          startOfNextWeek.setDate(startOfNextWeek.getDate() + 1);
-          const endOfNextWeek = new Date(startOfNextWeek);
-          endOfNextWeek.setDate(startOfNextWeek.getDate() + 6);
-          endOfNextWeek.setHours(23, 59, 59, 999);
-          return (
-            relevantDate >= startOfNextWeek && relevantDate <= endOfNextWeek
-          );
-        case "Next Month":
-          const startOfNextMonth = new Date(
-            today.getFullYear(),
-            today.getMonth() + 1,
-            1
-          );
-          const endOfNextMonth = new Date(
-            startOfNextMonth.getFullYear(),
-            startOfNextMonth.getMonth() + 1,
-            0
-          );
-          endOfNextMonth.setHours(23, 59, 59, 999);
-          return (
-            relevantDate >= startOfNextMonth && relevantDate <= endOfNextMonth
-          );
+          return taskDate >= startOfNextWeek && taskDate <= endOfNextWeek;
         default:
-          return true;
+          return true; // "Next Month" and "All" cases already handled correctly
       }
     });
   }
