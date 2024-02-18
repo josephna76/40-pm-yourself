@@ -47,5 +47,14 @@ const uiUpdater = (() => {
     });
   };
 
-  return { updateTasks };
+  function updateTaskPriority(taskId) {
+    const priorityInput = document.getElementById(`priority-${taskId}`);
+    if (priorityInput) {
+      const newPriority = priorityInput.value;
+      taskManager.updatePriority(taskId, newPriority);
+      uiUpdater.updateTasks(taskManager.getTasks());
+    }
+  }
+
+  return { updateTasks, updateTaskPriority };
 })();
