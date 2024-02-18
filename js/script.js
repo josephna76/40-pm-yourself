@@ -81,3 +81,27 @@ function editTask(taskId) {
   deadlineInput.value = "";
   priorityInput.value = "Medium"; // Reset priority to default value
 }
+
+function prepareEditTask(taskId) {
+  // Retrieve the task details
+  const task = taskManager.getTasks().find((task) => task.id === taskId);
+  if (!task) {
+    console.error("Task not found!");
+    return;
+  }
+
+  // Populate the form with the task details
+  document.getElementById("taskInput").value = task.name;
+  document.getElementById("deadlineInput").value = task.deadline;
+  document.getElementById("priorityInput").value = task.priority;
+
+  // Optionally, switch the button from "Add Task" to "Update Task"
+  // This might involve changing button text and functionality, e.g.,
+  const addTaskButton = document.getElementById("addTaskButton");
+  addTaskButton.innerText = "Update Task";
+  addTaskButton.onclick = () => editTask(taskId); // Assumes editTask is already implemented
+
+  // To distinguish between adding a new task and editing an existing one,
+  // you might store the current editing task ID in a global or better scoped variable.
+  window.currentEditingTaskId = taskId; // Use carefully; better scoping is recommended
+}
