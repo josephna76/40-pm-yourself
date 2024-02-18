@@ -19,20 +19,14 @@ function updateTaskSelector() {
   });
 }
 
-function updateTaskPriority() {
-  const taskSelector = document.getElementById("taskSelector");
-  const priorityInput = document.getElementById("priorityInput");
-  if (taskSelector.value) {
-    taskManager.updatePriority(
-      parseInt(taskSelector.value, 10),
-      priorityInput.value
-    );
+function updateTaskPriority(taskId) {
+  const priorityInput = document.getElementById(`priority-${taskId}`);
+  if (priorityInput) {
+    const newPriority = priorityInput.value;
+    taskManager.updatePriority(taskId, newPriority); // Call the updatePriority function with the taskId and newPriority
     uiUpdater.updateTasks(taskManager.getTasks());
   }
 }
-
-// Ensure that updateTaskPriority is available in the global scope
-window.updateTaskPriority = updateTaskPriority;
 
 function addTask() {
   const taskInput = document.getElementById("taskInput");

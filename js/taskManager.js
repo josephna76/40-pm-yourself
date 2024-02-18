@@ -52,6 +52,14 @@ const taskManager = (() => {
     }
   };
 
+  const updatePriority = (taskId, newPriority) => {
+    const task = tasks.find((t) => t.id === taskId);
+    if (task) {
+      task.priority = newPriority;
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+  };
+
   return {
     addTask,
     addNote,
@@ -59,5 +67,6 @@ const taskManager = (() => {
     getTasks,
     editTask,
     deleteTask,
+    updatePriority,
   };
 })();
