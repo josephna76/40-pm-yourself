@@ -72,7 +72,9 @@ const uiUpdater = (() => {
     const taskItem = document.createElement("div");
     taskItem.className = "taskItem" + (task.completed ? " task-completed" : "");
 
-    // Example structure
+    // Creating a flex container for the checkbox and task details
+    const taskDetails = document.createElement("div");
+    taskDetails.className = "taskDetails";
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = task.completed;
@@ -83,27 +85,32 @@ const uiUpdater = (() => {
     label.htmlFor = "complete-" + task.id;
     label.textContent = task.name;
 
+    // Appending the checkbox and label to the flex container
+    taskDetails.appendChild(checkbox);
+    taskDetails.appendChild(label);
+
+    // Task metadata (deadline, priority, notes)
+    const meta = document.createElement("div");
+    meta.className = "taskMeta";
     const deadline = document.createElement("span");
     deadline.textContent = "Deadline: " + formatDateForDisplay(task.deadline);
-
     const priority = document.createElement("div");
     priority.textContent = "Priority: " + task.priority;
-
     const notes = document.createElement("div");
-    notes.innerHTML = generateNotesList(task.notes); // Assuming generateNotesList returns HTML string
+    notes.innerHTML = generateNotesList(task.notes);
 
-    // Append elements to taskItem
-    taskItem.appendChild(checkbox);
-    taskItem.appendChild(label);
-    taskItem.appendChild(deadline);
-    taskItem.appendChild(priority);
-    taskItem.appendChild(notes);
+    meta.appendChild(deadline);
+    meta.appendChild(priority);
+    meta.appendChild(notes);
 
-    // Edit and Delete buttons
+    // Appending elements to taskItem
+    taskItem.appendChild(taskDetails);
+    taskItem.appendChild(meta);
+
+    // Buttons for editing and deletion
     const editButton = document.createElement("button");
     editButton.textContent = "Edit";
     editButton.onclick = () => toggleEditView(task.id);
-
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     deleteButton.onclick = () => deleteTask(task.id);
