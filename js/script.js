@@ -114,53 +114,56 @@ function toggleTaskCompletion(taskId) {
 }
 function applyFilters() {
   const priorityFilter = document.getElementById("priorityFilter").value;
+  const dateTypeFilter = document.getElementById("dateTypeFilter").value; // creationDate or deadline
   const dateFilter = document.getElementById("dateFilter").value;
-  const dateTypeFilter = document.getElementById("dateTypeFilter").value;
 
   let filteredTasks = taskManager.getTasks();
 
+  // Filter by priority
   if (priorityFilter !== "All") {
     filteredTasks = filteredTasks.filter(
       (task) => task.priority === priorityFilter
     );
   }
 
+  // Current Date and Time Adjustments
   const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const todayEnd = new Date(todayStart);
+  todayEnd.setDate(todayEnd.getDate() + 1);
 
-  // Calculate start and end of this week, assuming week starts on Sunday
-  const startOfThisWeek = new Date(today);
-  startOfThisWeek.setDate(today.getDate() - today.getDay()); // Adjust to last Sunday
+  // Week Calculations
+  const weekStartDay = todayStart.getDay(); // Day of week (0-6, Sunday is 0)
+  const startOfThisWeek = new Date(todayStart);
+  startOfThisWeek.setDate(todayStart.getDate() - weekStartDay); // Adjust to the start of this week (Sunday)
   const endOfThisWeek = new Date(startOfThisWeek);
-  endOfThisWeek.setDate(startOfThisWeek.getDate() + 6); // Next Saturday
+  endOfThisWeek.setDate(startOfThisWeek.getDate() + 6); // End of this week (Saturday)
 
-  // Calculate start and end of next week
+  // Next Week Calculations
   const startOfNextWeek = new Date(endOfThisWeek);
-  startOfNextWeek.setDate(startOfNextWeek.getDate() + 1); // Next Sunday
+  startOfNextWeek.setDate(endOfThisWeek.getDate() + 1); // Start of next week (Sunday)
   const endOfNextWeek = new Date(startOfNextWeek);
-  endOfNextWeek.setDate(startOfNextWeek.getDate() + 6); // Following Saturday
+  endOfNextWeek.setDate(startOfNextWeek.getDate() + 6); // End of next week (Saturday)
 
-  // Next month range is already correctly calculated in your original code
-
-  if (dateFilter !== "All") {
-    filteredTasks = filteredTasks.filter((task) => {
-      const taskDate = new Date(task[dateTypeFilter]);
-      taskDate.setHours(0, 0, 0, 0); // Normalize task date to start of the day for accurate comparison
-
-      switch (dateFilter) {
-        case "Today":
-          return taskDate >= today && taskDate < tomorrow;
-        case "This Week":
-          return taskDate >= startOfThisWeek && taskDate <= endOfThisWeek;
-        case "Next Week":
-          return taskDate >= startOfNextWeek && taskDate <= endOfNextWeek;
-        default:
-          return true; // "Next Month" and "All" cases already handled correctly
-      }
-    });
-  }
+  // Filter Application
+  filteredTasks = filteredTasks.filter((task) => {
+    const taskDate = new Date(task[dateTypeFilter]);
+    switch (dateFilter) {
+      case "Today":
+        return taskDate >= todayStart && taskDate < todayEnd;
+      case "This Week":
+        return taskDate >= startOfThisWeek && taskDate <= endOfThisWeek;
+      case "Next Week":
+        return taskDate >= startOfNextWeek && taskDate <= endOfNextWeek;
+      case "This Month":
+        return (
+          taskDate.getMonth() === now.getMonth() &&
+          taskDate.getFullYear() === now.getFullYear()
+        );
+      default:
+        return true; // No filter or "All"
+    }
+  });
 
   uiUpdater.updateTasks(filteredTasks);
 }
