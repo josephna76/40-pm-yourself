@@ -49,6 +49,8 @@
           <option value="Present">Present</option>
           <option value="Future">Future</option>
         </select>
+        <button onclick="applyFilters()">Apply Filters</button>
+
         <!-- Existing filters -->
         <label for="dateRangeFilter">Or Choose Date Range:</label>
         <input type="date" id="startDate" name="startDate" />
@@ -56,8 +58,6 @@
         <button onclick="applyDateRangeFilter()">
           Apply Date Range Filter
         </button>
-
-        <button onclick="applyFilters()">Apply Filters</button>
       </div>
 
       <div id="taskList"></div>
