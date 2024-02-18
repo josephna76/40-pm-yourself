@@ -114,71 +114,66 @@ function toggleTaskCompletion(taskId) {
 }
 function applyFilters() {
   const priorityFilter = document.getElementById("priorityFilter").value;
-  const dateTypeFilter = document.getElementById("dateTypeFilter").value; // creationDate or deadline
   const dateFilter = document.getElementById("dateFilter").value;
 
   let filteredTasks = taskManager.getTasks();
 
-  // Filter by priority
   if (priorityFilter !== "All") {
     filteredTasks = filteredTasks.filter(
       (task) => task.priority === priorityFilter
     );
   }
 
-  // Current Date and Time Adjustments
+  // Use the start of today for comparisons
   const now = new Date();
-  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const todayEnd = new Date(todayStart);
-  todayEnd.setDate(todayEnd.getDate() + 1);
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const tomorrow = new Date(today).setDate(today.getDate() + 1);
 
-  // Week Calculations
-  const weekStartDay = todayStart.getDay(); // Day of week (0-6, Sunday is 0)
-  const startOfThisWeek = new Date(todayStart);
-  startOfThisWeek.setDate(todayStart.getDate() - weekStartDay); // Adjust to the start of this week (Sunday)
-  const endOfThisWeek = new Date(startOfThisWeek);
-  endOfThisWeek.setDate(startOfThisWeek.getDate() + 6); // End of this week (Saturday)
+  // Week calculations assuming weeks start on Sunday (0)
+  let startOfThisWeek = new Date(today);
+  startOfThisWeek.setDate(today.getDate() - today.getDay());
+  let endOfThisWeek = new Date(startOfThisWeek);
+  endOfThisWeek.setDate(startOfThisWeek.getDate() + 6);
+  endOfThisWeek.setHours(23, 59, 59, 999);
 
-  // Next Week Calculations
-  const startOfNextWeek = new Date(endOfThisWeek);
-  startOfNextWeek.setDate(endOfThisWeek.getDate() + 1); // Start of next week (Sunday)
-  const endOfNextWeek = new Date(startOfNextWeek);
-  endOfNextWeek.setDate(startOfNextWeek.getDate() + 6); // End of next week (Saturday)
+  // Adjust for "Next Week"
+  let startOfNextWeek = new Date(endOfThisWeek);
+  startOfNextWeek.setDate(startOfNextWeek.getDate() + 1);
+  let endOfNextWeek = new Date(startOfNextWeek);
+  endOfNextWeek.setDate(startOfNextWeek.getDate() + 6);
+  endOfNextWeek.setHours(23, 59, 59, 999);
 
-  // Filter Application
-  filteredTasks = filteredTasks.filter((task) => {
-    const taskDate = new Date(task[dateTypeFilter]);
-    switch (dateFilter) {
-      case "Today":
-        return taskDate >= todayStart && taskDate < todayEnd;
-      case "This Week":
-        return taskDate >= startOfThisWeek && taskDate <= endOfThisWeek;
-      case "Next Week":
-        return taskDate >= startOfNextWeek && taskDate <= endOfNextWeek;
-      case "This Month":
-        return (
-          taskDate.getMonth() === now.getMonth() &&
-          taskDate.getFullYear() === now.getFullYear()
-        );
-      default:
-        return true; // No filter or "All"
-    }
-  });
+  // Adjusting for "Next Month"
+  let startOfNextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+  let endOfNextMonth = new Date(
+    startOfNextMonth.getFullYear(),
+    startOfNextMonth.getMonth() + 1,
+    0
+  );
+  endOfNextMonth.setHours(23, 59, 59, 999);
+
+  if (dateFilter !== "All") {
+    filteredTasks = filteredTasks.filter((task) => {
+      let taskDate = new Date(task.deadline);
+      taskDate.setHours(0, 0, 0, 0); // Normalize task date for comparison
+
+      switch (dateFilter) {
+        case "Today":
+          return taskDate.getTime() === today.getTime();
+        case "This Week":
+          return taskDate >= startOfThisWeek && taskDate <= endOfThisWeek;
+        case "Next Week":
+          return taskDate >= startOfNextWeek && taskDate <= endOfNextWeek;
+        case "Next Month":
+          return taskDate >= startOfNextMonth && taskDate <= endOfNextMonth;
+        default:
+          return true;
+      }
+    });
+  }
 
   uiUpdater.updateTasks(filteredTasks);
 }
-
-// delete all button start
-document
-  .getElementById("deleteAllButton")
-  .addEventListener("click", function () {
-    const userConfirmed = confirm(
-      "Are you sure you want to delete all tasks? This action cannot be undone."
-    );
-    if (userConfirmed) {
-      deleteAllTasks();
-    }
-  });
 
 function deleteAllTasks() {
   // Assuming taskManager is your object that manages tasks
