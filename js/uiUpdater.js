@@ -22,6 +22,12 @@ const uiUpdater = (() => {
       noTasksPlaceholder.className = "placeholder"; // Assuming you might want to style this
       taskList.appendChild(noTasksPlaceholder);
     } else {
+      // Add "In Progress Tasks" Header
+      if (incompleteTasks.length > 0) {
+        const inProgressHeader = document.createElement("h3");
+        inProgressHeader.textContent = "In Progress Tasks";
+        taskList.appendChild(inProgressHeader);
+      }
       // First, display incomplete tasks
       incompleteTasks.forEach((task) => {
         const taskItem = createTaskItem(task);
@@ -29,16 +35,17 @@ const uiUpdater = (() => {
       });
 
       // Optionally, create a separator or a new section for completed tasks
-      // This could be a new div or simply a heading / separator
-      const completedTasksHeader = document.createElement("h3");
-      completedTasksHeader.textContent = "Completed Tasks";
-      taskList.appendChild(completedTasksHeader);
+      if (completedTasks.length > 0) {
+        const completedTasksHeader = document.createElement("h3");
+        completedTasksHeader.textContent = "Completed Tasks";
+        taskList.appendChild(completedTasksHeader);
 
-      // Then, display completed tasks
-      completedTasks.forEach((task) => {
-        const taskItem = createTaskItem(task);
-        taskList.appendChild(taskItem);
-      });
+        // Then, display completed tasks
+        completedTasks.forEach((task) => {
+          const taskItem = createTaskItem(task);
+          taskList.appendChild(taskItem);
+        });
+      }
     }
   };
 
