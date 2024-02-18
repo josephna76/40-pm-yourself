@@ -54,3 +54,30 @@ function addNote() {
     noteInput.value = ""; // Reset input
   }
 }
+
+function deleteTask(taskId) {
+  taskManager.deleteTask(taskId);
+  uiUpdater.updateTasks(taskManager.getTasks());
+}
+
+function editTask(taskId) {
+  // Find the task by its ID
+  const taskInput = document.getElementById("taskInput");
+  const deadlineInput = document.getElementById("deadlineInput");
+  const priorityInput = document.getElementById("priorityInput");
+
+  const newName = taskInput.value;
+  const newDeadline = deadlineInput.value;
+  const newPriority = priorityInput.value;
+
+  // Call the editTask function from taskManager
+  taskManager.editTask(taskId, newName, newDeadline, newPriority);
+
+  // Update the UI to reflect the changes
+  uiUpdater.updateTasks(taskManager.getTasks());
+
+  // Reset input fields
+  taskInput.value = "";
+  deadlineInput.value = "";
+  priorityInput.value = "Medium"; // Reset priority to default value
+}
