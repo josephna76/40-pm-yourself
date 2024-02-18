@@ -182,15 +182,21 @@ function applyFilters() {
 
   uiUpdater.updateTasks(filteredTasks);
 }
-function migrateNotesToAddDates() {
-  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-  tasks.forEach((task) => {
-    task.notes.forEach((note) => {
-      if (!note.date) {
-        note.date = new Date().toISOString(); // Set to current date or a specific fallback date
-      }
-    });
+
+document
+  .getElementById("deleteAllButton")
+  .addEventListener("click", function () {
+    const userConfirmed = confirm(
+      "Are you sure you want to delete all tasks? This action cannot be undone."
+    );
+    if (userConfirmed) {
+      deleteAllTasks();
+    }
   });
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+
+function deleteAllTasks() {
+  // Assuming taskManager is your object that manages tasks
+  // Update or replace this logic depending on how you're storing and managing tasks
+  taskManager.deleteAll();
+  uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the task list UI
 }
-// Remember to call migrateNotesToAddDates() at an appropriate place in your app, like during initialization, but ensure it's done carefully to avoid unintended data modifications.

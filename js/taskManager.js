@@ -71,6 +71,16 @@ const taskManager = (() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   };
 
+  const deleteAll = () => {
+    // If using an in-memory array
+    tasks = [];
+
+    // If using localStorage, adjust as necessary
+    localStorage.setItem("tasks", JSON.stringify([]));
+
+    // Add any additional cleanup or notification logic here
+  };
+
   return {
     addTask,
     addNote,
@@ -80,5 +90,6 @@ const taskManager = (() => {
     getTasks,
     editTask,
     deleteTask,
+    deleteAll,
   };
 })();
