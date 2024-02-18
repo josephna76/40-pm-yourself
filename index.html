@@ -10,7 +10,7 @@
       <h2>Developer Task List</h2>
       <input type="text" id="taskInput" placeholder="Enter Task" />
       <input type="date" id="deadlineInput" />
-      <button onclick="addTask()">Add Task</button>
+      <button onclick="addTask()" id="addTaskButton">Add Task</button>
 
       <h2>PM Notes</h2>
       <select id="taskSelector">
@@ -22,7 +22,7 @@
         <option value="Low">Low</option>
       </select>
       <input type="text" id="noteInput" placeholder="Enter Note" />
-      <button id="addNoteButton">Add Note to Task</button>
+      <button onclick="addNote()" id="addNoteButton">Add Note to Task</button>
 
       <div id="taskList"></div>
     </div>
