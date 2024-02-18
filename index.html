@@ -42,6 +42,14 @@
         </div>
       </div>
       <button id="deleteAllButton">Delete All Tasks</button>
+      <label for="sortTasks">Sort Tasks By:</label>
+      <select id="sortTasks">
+        <option value="priority">Priority</option>
+        <option value="dueDate">Due Date</option>
+        <option value="creationDate">Creation Date</option>
+      </select>
+      <button onclick="sortTasks()">Sort</button>
+
       <div id="filterOptions">
         <!-- Filter options unchanged -->
       </div>

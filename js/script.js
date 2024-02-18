@@ -225,3 +225,22 @@ document
 document
   .getElementById("applyDateRangeFilterButton")
   .addEventListener("click", applyDateRangeFilter); // Add ID to your date range filter button
+// end custom date range handling
+
+function sortTasks() {
+  const sortCriteria = document.getElementById("sortTasks").value;
+  let tasks = taskManager.getTasks();
+
+  tasks.sort((a, b) => {
+    if (sortCriteria === "priority") {
+      const priorities = { High: 1, Medium: 2, Low: 3 };
+      return priorities[a.priority] - priorities[b.priority];
+    } else if (sortCriteria === "dueDate") {
+      return new Date(a.deadline) - new Date(b.deadline);
+    } else if (sortCriteria === "creationDate") {
+      return new Date(a.creationDate) - new Date(b.creationDate);
+    }
+  });
+
+  uiUpdater.updateTasks(tasks);
+}
