@@ -64,3 +64,23 @@ function saveTask(taskId) {
   window.currentEditingTaskId = null; // Exit edit mode
   uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the list
 }
+
+function toggleEditView(taskId) {
+  // Check if we're currently in edit mode for the specified task
+  const isEditing = window.currentEditingTaskId === taskId;
+
+  if (isEditing) {
+    // Exit edit mode
+    window.currentEditingTaskId = null;
+    // Optionally, reset any form fields or UI elements specific to editing
+    // For inline editing, this might mean disabling input fields or hiding save/cancel buttons
+  } else {
+    // Enter edit mode
+    window.currentEditingTaskId = taskId;
+    // Update the UI to reflect that we're in edit mode
+    // This could involve enabling input fields, showing save/cancel buttons, etc.
+  }
+
+  // Refresh or update the task list to reflect the current edit mode status
+  uiUpdater.updateTasks(taskManager.getTasks());
+}
