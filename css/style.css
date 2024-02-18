@@ -105,8 +105,7 @@ button:hover {
 .sort-filter-section {
   align-items: center;
 }
-
-/* Chart container styling */
+/* Ensures the container for charts uses a flexbox layout to align items inline */
 .chart-container {
   display: flex;
   flex-wrap: wrap;
@@ -115,11 +114,10 @@ button:hover {
   margin-bottom: 20px;
 }
 
+/* Adjusts each chart's container to take up a quarter of the container's width */
 .chart {
-  flex: 0 0 calc(50% - 20px); /* Adjust width here */
-  max-width: calc(
-    50% - 20px
-  ); /* Ensures charts do not exceed half the container's width */
+  flex: 1 1 24%; /* Adjust the basis to 24% to fit 4 items in a row */
+  min-width: 250px; /* Minimum width of the chart */
   margin: 10px;
   box-sizing: border-box;
 }
@@ -127,7 +125,14 @@ button:hover {
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
   .chart {
-    flex: 0 0 100%;
+    flex: 0 0 48%; /* Two charts per row on smaller screens */
+    max-width: 48%;
+  }
+}
+
+@media (max-width: 480px) {
+  .chart {
+    flex: 0 0 100%; /* One chart per row on very small screens */
     max-width: 100%;
   }
 }
