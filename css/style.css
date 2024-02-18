@@ -1,5 +1,4 @@
 :root {
-  /* Light theme colors */
   --primary-bg-color: #f0f0f0;
   --secondary-bg-color: #ffffff;
   --primary-text-color: #333;
@@ -12,7 +11,6 @@
 }
 
 [data-theme="dark"] {
-  /* Dark theme colors */
   --primary-bg-color: #202020;
   --secondary-bg-color: #2a2a2a;
   --primary-text-color: #cccccc;
@@ -25,7 +23,7 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Inter", sans-serif;
   margin: 10px;
   padding: 5px;
   background-color: var(--primary-bg-color);
@@ -34,80 +32,83 @@ body {
 
 #app {
   margin: auto;
-  max-width: 1200px; /* Adjust based on your screen size */
+  max-width: 1200px;
   border: 1px solid var(--border-color);
   padding: 20px;
   background-color: var(--secondary-bg-color);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-button {
-  cursor: pointer;
-  background-color: var(--button-bg-color);
-  color: var(--button-text-color);
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  margin-left: 10px;
-  transition: background-color 0.3s;
+button,
+input[type="text"],
+input[type="date"],
+select {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 5px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 button:hover {
   background-color: var(--button-hover-bg-color);
 }
 
-.taskItem {
-  background-color: var(--task-bg-color);
-  border: 1px solid var(--border-color);
-  margin-top: 5px;
-  padding: 10px;
-  color: var(--secondary-text-color);
+.accordion {
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
 }
 
-.task-completed label {
-  text-decoration: line-through;
+.active,
+.accordion:hover {
+  background-color: var(--button-hover-bg-color);
 }
 
-/* Layout Adjustments */
+.panel {
+  padding: 0 18px;
+  display: none;
+  background-color: white;
+  overflow: hidden;
+}
+
 .creation-section,
-.sort-filter-section {
+.sort-filter-section,
+.chart-container {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .task-creation,
 .note-creation {
-  flex-basis: 48%; /* Adjust the width as necessary */
-  margin-bottom: 20px; /* Space between rows */
-}
-
-/* Delete All Button - Positioned at the end of filter/sort section */
-#deleteAllButton {
-  background-color: #dc3545; /* Bootstrap danger color for deletion actions */
-  color: white;
-  margin-top: 20px;
-}
-
-#deleteAllButton:hover {
-  background-color: #c82333;
-}
-
-/* Styling for the sorting/filtering sections */
-.sort-filter-section {
-  align-items: center;
-}
-
-.chart-container {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap; /* Allows charts to wrap onto the next line on smaller screens */
+  flex-basis: 48%;
+  margin-bottom: 20px;
 }
 
 .chart {
-  flex: 1; /* Each chart container will grow to fill the space */
-  min-width: 200px; /* Adjust based on your preference for minimum chart width */
-  margin: 10px; /* Optional: Adds some space between the charts */
+  flex: 1;
+  min-width: 200px;
+  margin: 10px;
+}
+
+@media (max-width: 768px) {
+  .creation-section,
+  .sort-filter-section,
+  .chart-container {
+    flex-direction: column;
+  }
+
+  .task-creation,
+  .note-creation {
+    flex-basis: 100%;
+  }
 }
