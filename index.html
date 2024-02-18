@@ -53,6 +53,12 @@
       <div id="filterOptions">
         <!-- Filter options unchanged -->
       </div>
+      <div id="charts">
+        <canvas id="completedVsUncompleted"></canvas>
+        <canvas id="tasksByDate"></canvas>
+        <canvas id="notesPerTask"></canvas>
+      </div>
+
       <div id="taskList"></div>
     </div>
     <script src="js/script.js"></script>
@@ -63,5 +69,6 @@
         uiUpdater.updateTasks(taskManager.getTasks())
       );
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </body>
 </html>

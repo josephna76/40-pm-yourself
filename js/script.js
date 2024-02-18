@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Move the addTask and addNoteButton event listeners here from inline HTML for better practices
   document.getElementById("addTaskButton").addEventListener("click", addTask);
   document.getElementById("addNoteButton").addEventListener("click", addNote);
+  // Render charts after tasks are updated or on initial load
+  renderCharts();
 });
 
 function updateTaskSelector() {
@@ -243,4 +245,107 @@ function sortTasks() {
   });
 
   uiUpdater.updateTasks(tasks);
+}
+
+// ----- graphs section ------
+
+function renderCharts() {
+  renderTasksByDateChart();
+  renderNotesPerTaskChart();
+  renderCompletedVsUncompletedChart();
+}
+
+function renderTasksByDateChart() {
+  const ctx = document.getElementById("tasksByDate").getContext("2d");
+  const tasks = taskManager.getTasks();
+
+  // Data preparation
+  const tasksByDate = tasks.reduce((acc, task) => {
+    const date = task.deadline.split("T")[0]; // Assuming ISO format 'YYYY-MM-DD'
+    if (!acc[date]) {
+      acc[date] = 0;
+    }
+    acc[date]++;
+    return acc;
+  }, {});
+
+  const chartData = {
+    labels: Object.keys(tasksByDate),
+    datasets: [
+      {
+        label: "Tasks by Date",
+        data: Object.values(tasksByDate),
+        backgroundColor: "rgba(54, 162, 235, 0.2)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  new Chart(ctx, {
+    type: "bar",
+    data: chartData,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+}
+
+function renderNotesPerTaskChart() {
+  const ctx = document.getElementById("notesPerTask").getContext("2d");
+  const tasks = taskManager.getTasks();
+
+  // Data preparation
+  const notesPerTask = tasks.map((task) => task.notes.length);
+
+  const chartData = {
+    labels: tasks.map((task) => `Task ${task.id}`),
+    datasets: [
+      {
+        label: "Notes per Task",
+        data: notesPerTask,
+        backgroundColor: "rgba(255, 206, 86, 0.2)",
+        borderColor: "rgba(255, 206, 86, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  new Chart(ctx, {
+    type: "pie",
+    data: chartData,
+  });
+}
+
+function renderCompletedVsUncompletedChart() {
+  const ctx = document
+    .getElementById("completedVsUncompleted")
+    .getContext("2d");
+  const tasks = taskManager.getTasks();
+
+  // Data preparation
+  const completed = tasks.filter((task) => task.completed).length;
+  const uncompleted = tasks.length - completed;
+
+  const chartData = {
+    labels: ["Completed", "Uncompleted"],
+    datasets: [
+      {
+        label: "Tasks Status",
+        data: [completed, uncompleted],
+        backgroundColor: ["rgba(75, 192, 192, 0.2)", "rgba(255, 99, 132, 0.2)"],
+        borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 99, 132, 1)"],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  new Chart(ctx, {
+    type: "doughnut",
+    data: chartData,
+  });
 }
