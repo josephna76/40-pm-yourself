@@ -61,8 +61,13 @@ function deleteTask(taskId) {
 }
 
 function editTask(taskId) {
+  console.log("Editing task:", taskId); // Debugging statement
+
   const task = taskManager.getTasks().find((t) => t.id === taskId);
-  if (!task) return; // Task not found, exit
+  if (!task) {
+    console.error("Task not found:", taskId); // Debugging statement
+    return;
+  }
 
   // Display editable fields for task details
   const taskItem = document.getElementById(`task-${taskId}`);
