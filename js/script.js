@@ -125,23 +125,29 @@ function applyFilters() {
     );
   }
 
-  // Filter by date
+  // Set up date filtering
   const today = new Date();
-  console.log("today", today);
   const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+  const startOfDay = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate()
+  );
   const oneWeek = 7 * oneDay;
   const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
   if (dateFilter !== "All") {
     filteredTasks = filteredTasks.filter((task) => {
       const taskDate = new Date(task.deadline);
+      const taskDateTime = taskDate.getTime();
+
       switch (dateFilter) {
         case "Today":
-          return taskDate.toDateString() === today.toDateString();
+          return taskDate.toDateString() === startOfDay.toDateString();
         case "This Week":
           return (
-            taskDate.getTime() <= today.getTime() + oneWeek &&
-            taskDate.getTime() >= today.getTime()
+            taskDateTime < startOfDay.getTime() + oneWeek &&
+            taskDateTime >= startOfDay.getTime()
           );
         case "This Month":
           return (
