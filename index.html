@@ -51,7 +51,36 @@
       <button onclick="sortTasks()">Sort</button>
 
       <div id="filterOptions">
-        <!-- Filter options unchanged -->
+        <label for="priorityFilter">Filter by Priority:</label>
+        <select id="priorityFilter">
+          <option value="All">All</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+
+        <label for="dateTypeFilter">Filter Date Type:</label>
+        <select id="dateTypeFilter">
+          <option value="creationDate">Creation Date</option>
+          <option value="deadline">Deadline</option>
+        </select>
+
+        <label for="dateFilter">Filter by Time:</label>
+        <select id="dateFilter">
+          <option value="All">All</option>
+          <option value="Past">Past</option>
+          <option value="Present">Present</option>
+          <option value="Future">Future</option>
+        </select>
+        <button onclick="applyFilters()">Apply Filters</button>
+
+        <!-- Existing filters -->
+        <label for="dateRangeFilter">Or Choose Date Range:</label>
+        <input type="date" id="startDate" name="startDate" />
+        <input type="date" id="endDate" name="endDate" />
+        <button onclick="applyDateRangeFilter()">
+          Apply Date Range Filter
+        </button>
       </div>
       <div id="charts">
         <canvas id="completedVsUncompleted"></canvas>

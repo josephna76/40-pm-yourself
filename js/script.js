@@ -222,6 +222,9 @@ function applyDateRangeFilter() {
 document.getElementById("addTaskButton").addEventListener("click", addTask);
 document.getElementById("addNoteButton").addEventListener("click", addNote);
 document
+  .getElementById("applyFiltersButton")
+  .addEventListener("click", applyFilters); // Ensure this ID matches your button for applying filters
+document
   .getElementById("applyDateRangeFilterButton")
   .addEventListener("click", applyDateRangeFilter); // Add ID to your date range filter button
 // end custom date range handling
