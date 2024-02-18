@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Productivity Tracker</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <h2>Developer Task List</h2>
+      <input type="text" id="taskInput" placeholder="Enter Task" />
+      <input type="date" id="deadlineInput" />
+      <button onclick="addTask()">Add Task</button>
+
+      <h2>PM Notes</h2>
+      <input type="text" id="noteInput" placeholder="Enter Note" />
+      <button onclick="addNote()">Add Note to Task</button>
+
+      <div id="taskList"></div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>
