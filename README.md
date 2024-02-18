@@ -34,10 +34,7 @@ Productivity Tracker is a simple web application designed to help developers tra
 
 ## Installation
 
-1. Clone the repository:
-   git clone <https://github.com/josephna76/40-pm-yourself.git>
-
-2. Open the `index.html` file in your web browser.
+This application is hosted online and can be accessed at [PM Yourself](https://josephna76.github.io/40-pm-yourself/). Simply navigate to the provided link to start using the application.
 
 ## Technologies Used
 
