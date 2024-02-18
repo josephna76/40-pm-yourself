@@ -7,15 +7,15 @@
   </head>
   <body>
     <div id="app">
-      <!-- Light/Dark Mode Switch -->
-      <div class="toggle-switch">
-        <label class="switch">
-          <input type="checkbox" id="themeToggle" />
-          <span class="slider round"></span>
-        </label>
-      </div>
-
-      <h2>Developer Task List</h2>
+      <header>
+        <h1>Developer Task List</h1>
+        <div class="toggle-switch">
+          <label class="switch">
+            <input type="checkbox" id="themeToggle" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </header>
       <div class="input-group">
         <div class="task-creation">
           <input type="text" id="taskInput" placeholder="Enter Task" />
@@ -25,35 +25,26 @@
             <option value="Medium" selected>Medium</option>
             <option value="Low">Low</option>
           </select>
-          <button onclick="addTask()" id="addTaskButton">Add Task</button>
+          <button id="addTaskButton">Add Task</button>
         </div>
         <div class="note-creation">
-          <select id="taskSelector">
-            <!-- Options will be dynamically added here -->
-          </select>
+          <select id="taskSelector"></select>
           <select id="noteAuthorInput">
             <option value="PM">PM</option>
             <option value="Dev">Developer</option>
           </select>
           <input type="text" id="noteInput" placeholder="Enter Note" />
-          <button onclick="addNote()" id="addNoteButton">
-            Add Note to Task
-          </button>
+          <button id="addNoteButton">Add Note</button>
         </div>
       </div>
-      <button id="deleteAllButton">Delete All Tasks</button>
       <div id="filterOptions">
-        <!-- Filter options unchanged -->
+        <!-- Filter options go here -->
       </div>
       <div id="taskList"></div>
+      <button id="deleteAllButton">Delete All Tasks</button>
     </div>
     <script src="js/script.js"></script>
     <script src="js/taskManager.js"></script>
     <script src="js/uiUpdater.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", () =>
-        uiUpdater.updateTasks(taskManager.getTasks())
-      );
-    </script>
   </body>
 </html>
