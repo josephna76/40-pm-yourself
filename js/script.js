@@ -221,10 +221,6 @@ function applyDateRangeFilter() {
 
 document.getElementById("addTaskButton").addEventListener("click", addTask);
 document.getElementById("addNoteButton").addEventListener("click", addNote);
-document
-  .getElementById("applyDateRangeFilterButton")
-  .addEventListener("click", applyDateRangeFilter); // Add ID to your date range filter button
-// end custom date range handling
 
 function sortTasks() {
   const sortCriteria = document.getElementById("sortTasks").value;
@@ -278,11 +274,6 @@ function renderTasksByDateChart() {
     displayNoDataMessage("tasksByDateContainer", "No tasks available");
     return;
   }
-
-  // If there are tasks, proceed to get the context and render the chart
-  const canvas = document.createElement("canvas");
-  canvas.id = "tasksByDate"; // Ensure this ID matches the one used in your chart container
-  document.getElementById("tasksByDateContainer").appendChild(canvas); // Replace 'tasksByDateContainer' with your actual chart container ID
 
   const ctx = canvas.getContext("2d");
   // Data preparation
