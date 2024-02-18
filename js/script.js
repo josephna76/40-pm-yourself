@@ -132,6 +132,26 @@ function deleteAllTasks() {
 }
 // delete all button end
 
+// light mode dark mode
+document.addEventListener("DOMContentLoaded", () => {
+  // Initial setup and event listeners
+  uiUpdater.updateTasks(taskManager.getTasks());
+  updateTaskSelector();
+  document.getElementById("addTaskButton").addEventListener("click", addTask);
+  document.getElementById("addNoteButton").addEventListener("click", addNote);
+
+  // Theme toggle event listener
+  document
+    .getElementById("themeToggle")
+    .addEventListener("change", function () {
+      document.body.classList.toggle("dark-mode"); // Toggle the class on body
+      const isDarkMode = document.body.classList.contains("dark-mode");
+      document.body.setAttribute("data-theme", isDarkMode ? "dark" : "light"); // Set the data-theme attribute
+    });
+});
+
+// end light mode dark mode
+
 function applyFilters() {
   const priorityFilter = document.getElementById("priorityFilter").value;
   const dateFilter = document.getElementById("dateFilter").value;
