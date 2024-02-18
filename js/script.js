@@ -384,7 +384,7 @@ function renderTasksByDeadlineChart() {
 
   // Check for empty tasks
   if (tasks.length === 0) {
-    displayNoDataMessage("notesPerTask", "No notes available");
+    displayNoDataMessage("tasksByDeadline", "No notes available");
     return;
   }
 
