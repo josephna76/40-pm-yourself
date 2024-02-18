@@ -20,5 +20,12 @@
     </div>
 
     <script src="js/script.js"></script>
+    <script src="js/taskManager.js"></script>
+    <script src="js/uiUpdater.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () =>
+        uiUpdater.updateTasks(taskManager.getTasks())
+      );
+    </script>
   </body>
 </html>
