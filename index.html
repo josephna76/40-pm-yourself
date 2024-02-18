@@ -17,25 +17,40 @@
 
       <div class="creation-section">
         <div class="task-creation">
-          <input type="text" id="taskInput" placeholder="Enter Task" />
+          <div class="input-group">
+            <label for="taskInput">New Task:</label>
+            <input type="text" id="taskInput" placeholder="Enter Task" />
+          </div>
           <div class="input-group">
             <label for="deadlineInput">Deadline:</label>
             <input type="date" id="deadlineInput" />
           </div>
-          <select id="priorityInput">
-            <option value="High">High</option>
-            <option value="Medium" selected>Medium</option>
-            <option value="Low">Low</option>
-          </select>
+          <div class="input-group">
+            <label for="priorityInput">Priority:</label>
+            <select id="priorityInput">
+              <option value="High">High</option>
+              <option value="Medium" selected>Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </div>
           <button id="addTaskButton">Add Task</button>
         </div>
         <div class="note-creation">
-          <select id="taskSelector"></select>
-          <select id="noteAuthorInput">
-            <option value="PM">PM</option>
-            <option value="Dev">Developer</option>
-          </select>
-          <input type="text" id="noteInput" placeholder="Enter Note" />
+          <div class="input-group">
+            <label for="taskSelector">Add Note To:</label>
+            <select id="taskSelector"></select>
+          </div>
+          <div class="input-group">
+            <label for="noteAuthorInput">Select User:</label>
+            <select id="noteAuthorInput">
+              <option value="PM">PM</option>
+              <option value="Dev">Developer</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="noteInput">Add Note:</label>
+            <input type="text" id="noteInput" placeholder="Enter Note" />
+          </div>
           <button id="addNoteButton">Add Note to Task</button>
         </div>
       </div>
