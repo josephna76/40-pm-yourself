@@ -275,7 +275,7 @@ function renderTasksByDateChart() {
     return;
   }
 
-  const ctx = canvas.getContext("2d");
+  const ctx = document.getElementById("tasksByDateContainer").getContext("2d");
   // Data preparation
   const tasksByDate = tasks.reduce((acc, task) => {
     const date = task.deadline.split("T")[0]; // Assuming ISO format 'YYYY-MM-DD'
