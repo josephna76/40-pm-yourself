@@ -4,32 +4,30 @@ const taskManager = (() => {
   const addTask = (name, deadline) => {
     const task = {
       id: tasks.length + 1,
-      name: name,
-      deadline: deadline,
+      name,
+      deadline,
       notes: [],
       completed: false,
     };
     tasks.push(task);
     localStorage.setItem("tasks", JSON.stringify(tasks));
-    return tasks;
+    return task;
   };
 
   const addNote = (taskId, note) => {
-    const taskIndex = tasks.findIndex((task) => task.id === taskId);
-    if (taskIndex !== -1) {
-      tasks[taskIndex].notes.push(note);
+    const task = tasks.find((t) => t.id === taskId);
+    if (task) {
+      task.notes.push(note);
       localStorage.setItem("tasks", JSON.stringify(tasks));
     }
-    return tasks;
   };
 
   const toggleTaskCompleted = (taskId) => {
-    const task = tasks.find((task) => task.id === taskId);
+    const task = tasks.find((t) => t.id === taskId);
     if (task) {
       task.completed = !task.completed;
       localStorage.setItem("tasks", JSON.stringify(tasks));
     }
-    return tasks;
   };
 
   const getTasks = () => tasks;
