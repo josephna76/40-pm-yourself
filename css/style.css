@@ -1,29 +1,127 @@
 body,
 input,
-button {
-  font-family: Arial, sans-serif;
-  margin: 10px;
-  padding: 5px;
+button,
+select {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
 }
 
-#app {
-  margin: auto;
-  width: 50%;
-  border: 1px solid #ccc;
+body {
+  background-color: #f4f4f4;
+  margin: 0;
   padding: 20px;
 }
 
+#app {
+  max-width: 800px;
+  margin: auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+h2 {
+  color: #333;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+  width: calc(100% - 22px);
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
 button {
+  background-color: #0084ff;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
 }
 
 .taskItem {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  margin-top: 5px;
-  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  margin-top: 10px;
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .task-completed label {
   text-decoration: line-through;
+  color: #999;
+}
+
+/* New Styles for Filters */
+#filterOptions {
+  margin-bottom: 20px;
+}
+
+#filterOptions label {
+  display: block;
+  margin-top: 20px;
+}
+
+/* Styling for task completion checkbox */
+.taskItem input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+/* Additional styling for task items */
+.taskItem div {
+  margin-top: 10px;
+}
+
+/* Visual separation for different sections */
+#filterOptions,
+#taskList {
+  background-color: #fafafa;
+  padding: 15px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+/* Adjust button alignment and spacing */
+#addTaskButton,
+#addNoteButton,
+#deleteAllButton {
+  margin-right: 10px;
+}
+
+/* Highlight the delete all button to make it stand out as a cautionary action */
+#deleteAllButton {
+  background-color: #ff4d4d;
+}
+
+#deleteAllButton:hover {
+  background-color: #cc0000;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  #app {
+    width: 90%;
+    padding: 10px;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  select {
+    width: calc(100% - 20px);
+  }
 }
