@@ -127,6 +127,7 @@ function applyFilters() {
 
   // Filter by date
   const today = new Date();
+  console.log("today", today);
   const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
   const oneWeek = 7 * oneDay;
   const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
