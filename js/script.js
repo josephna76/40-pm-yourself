@@ -182,3 +182,15 @@ function applyFilters() {
 
   uiUpdater.updateTasks(filteredTasks);
 }
+function migrateNotesToAddDates() {
+  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks.forEach((task) => {
+    task.notes.forEach((note) => {
+      if (!note.date) {
+        note.date = new Date().toISOString(); // Set to current date or a specific fallback date
+      }
+    });
+  });
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+// Remember to call migrateNotesToAddDates() at an appropriate place in your app, like during initialization, but ensure it's done carefully to avoid unintended data modifications.
