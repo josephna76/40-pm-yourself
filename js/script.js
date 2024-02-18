@@ -250,6 +250,7 @@ function sortTasks() {
 // ----- graphs section ------
 
 function renderCharts() {
+  // Render each chart with checks for empty data
   renderTasksByDateChart();
   renderNotesPerTaskChart();
   renderCompletedVsUncompletedChart();
@@ -259,13 +260,16 @@ function renderTasksByDateChart() {
   const ctx = document.getElementById("tasksByDate").getContext("2d");
   const tasks = taskManager.getTasks();
 
+  // Check for empty tasks
+  if (tasks.length === 0) {
+    displayNoDataMessage("tasksByDate", "No tasks available");
+    return;
+  }
+
   // Data preparation
   const tasksByDate = tasks.reduce((acc, task) => {
     const date = task.deadline.split("T")[0]; // Assuming ISO format 'YYYY-MM-DD'
-    if (!acc[date]) {
-      acc[date] = 0;
-    }
-    acc[date]++;
+    acc[date] = (acc[date] || 0) + 1;
     return acc;
   }, {});
 
@@ -299,6 +303,12 @@ function renderNotesPerTaskChart() {
   const ctx = document.getElementById("notesPerTask").getContext("2d");
   const tasks = taskManager.getTasks();
 
+  // Check for empty tasks
+  if (tasks.length === 0) {
+    displayNoDataMessage("notesPerTask", "No notes available");
+    return;
+  }
+
   // Data preparation
   const notesPerTask = tasks.map((task) => task.notes.length);
 
@@ -327,6 +337,12 @@ function renderCompletedVsUncompletedChart() {
     .getContext("2d");
   const tasks = taskManager.getTasks();
 
+  // Check for empty tasks
+  if (tasks.length === 0) {
+    displayNoDataMessage("completedVsUncompleted", "No tasks to show");
+    return;
+  }
+
   // Data preparation
   const completed = tasks.filter((task) => task.completed).length;
   const uncompleted = tasks.length - completed;
@@ -335,7 +351,7 @@ function renderCompletedVsUncompletedChart() {
     labels: ["Completed", "Uncompleted"],
     datasets: [
       {
-        label: "Tasks Status",
+        label: "Task Status",
         data: [completed, uncompleted],
         backgroundColor: ["rgba(75, 192, 192, 0.2)", "rgba(255, 99, 132, 0.2)"],
         borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 99, 132, 1)"],
@@ -348,4 +364,17 @@ function renderCompletedVsUncompletedChart() {
     type: "doughnut",
     data: chartData,
   });
+}
+
+// Helper function to display a "No Data" message
+function displayNoDataMessage(chartId, message) {
+  const canvas = document.getElementById(chartId);
+  const messageDiv = document.createElement("div");
+  messageDiv.textContent = message;
+  messageDiv.style.textAlign = "center";
+  messageDiv.style.padding = "20px";
+
+  const container = canvas.parentNode;
+  container.insertBefore(messageDiv, canvas);
+  canvas.remove(); // Remove the canvas to not interfere with layout
 }
