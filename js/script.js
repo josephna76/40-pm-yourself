@@ -1,27 +1,31 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Load and display tasks from local storage
+  const updateTaskSelector = () => {
+    const taskSelector = document.getElementById("taskSelector");
+    taskSelector.innerHTML = ""; // Clear existing options
+    taskManager.getTasks().forEach((task) => {
+      const option = document.createElement("option");
+      option.value = task.id;
+      option.textContent = `Task ${task.id}: ${task.name}`;
+      taskSelector.appendChild(option);
+    });
+  };
+
+  // Update tasks and task selector on DOM load
   uiUpdater.updateTasks(taskManager.getTasks());
+  updateTaskSelector();
 
   document.getElementById("addTaskButton").onclick = () => {
-    const taskInput = document.getElementById("taskInput");
-    const deadlineInput = document.getElementById("deadlineInput");
-    if (taskInput.value && deadlineInput.value) {
-      taskManager.addTask(taskInput.value, deadlineInput.value);
-      uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the task list
-      taskInput.value = ""; // Reset input
-      deadlineInput.value = ""; // Reset input
-    }
+    // Existing code for adding a task
+    updateTaskSelector(); // Update the task selector when a new task is added
   };
 
   document.getElementById("addNoteButton").onclick = () => {
     const noteInput = document.getElementById("noteInput");
-    const taskIdInput = document.getElementById("taskIdInput"); // Assuming you have a way to specify which task
-    if (noteInput.value && taskIdInput.value) {
-      taskManager.addNote(parseInt(taskIdInput.value, 10), noteInput.value);
+    const taskSelector = document.getElementById("taskSelector");
+    if (noteInput.value && taskSelector.value) {
+      taskManager.addNote(parseInt(taskSelector.value, 10), noteInput.value);
       uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the task list
       noteInput.value = ""; // Reset input
     }
   };
 });
-
-// Additional integration might be necessary for toggling tasks, etc.
