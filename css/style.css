@@ -144,15 +144,15 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-#charts {
+.chart-container {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  flex-wrap: wrap;
-  margin-top: 20px;
+  flex-wrap: wrap; /* Allows charts to wrap onto the next line on smaller screens */
 }
 
-canvas {
-  max-width: 100%;
-  height: auto;
+.chart {
+  flex: 1; /* Each chart container will grow to fill the space */
+  min-width: 300px; /* Adjust based on your preference for minimum chart width */
+  margin: 10px; /* Optional: Adds some space between the charts */
 }

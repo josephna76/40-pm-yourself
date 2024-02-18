@@ -82,10 +82,16 @@
           Apply Date Range Filter
         </button>
       </div>
-      <div id="charts">
-        <canvas id="completedVsUncompleted"></canvas>
-        <canvas id="tasksByDate"></canvas>
-        <canvas id="notesPerTask"></canvas>
+      <div id="charts" class="chart-container">
+        <div class="chart" id="completedVsUncompletedContainer">
+          <canvas id="completedVsUncompleted"></canvas>
+        </div>
+        <div class="chart" id="tasksByDateContainer">
+          <canvas id="tasksByDate"></canvas>
+        </div>
+        <div class="chart" id="notesPerTaskContainer">
+          <canvas id="notesPerTask"></canvas>
+        </div>
       </div>
 
       <div id="taskList"></div>
