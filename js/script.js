@@ -112,67 +112,62 @@ function toggleTaskCompletion(taskId) {
     console.error("Task not found");
   }
 }
+
 function applyFilters() {
   const priorityFilter = document.getElementById("priorityFilter").value;
   const dateFilter = document.getElementById("dateFilter").value;
+  const dateTypeFilter = document.getElementById("dateTypeFilter").value; // Get the selected date type
 
   let filteredTasks = taskManager.getTasks();
 
+  // Filter by priority
   if (priorityFilter !== "All") {
     filteredTasks = filteredTasks.filter(
       (task) => task.priority === priorityFilter
     );
   }
 
+  // Apply date filters based on the selected date type
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Normalize today to the start of the day, local time
 
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1); // Start of tomorrow
-
-  // Correcting the calculation for the end of this week to ensure it includes Sunday
-  const endOfWeek = new Date(today);
-  endOfWeek.setDate(today.getDate() + (6 - today.getDay())); // 6 ensures it goes to Saturday
-  endOfWeek.setHours(23, 59, 59, 999);
-
-  // The start of next week is always the day after the end of this week
-  const startOfNextWeek = new Date(endOfWeek);
-  startOfNextWeek.setDate(startOfNextWeek.getDate() + 1); // Adjust to start of next week, which is Sunday
-
-  // The end of next week, ensuring it ends on the following Saturday
-  const endOfNextWeek = new Date(startOfNextWeek);
-  endOfNextWeek.setDate(startOfNextWeek.getDate() + 6);
-  endOfNextWeek.setHours(23, 59, 59, 999);
-
-  // Calculations for start and end of next month
-  const startOfNextMonth = new Date(
-    today.getFullYear(),
-    today.getMonth() + 1,
-    1
-  );
-  const endOfNextMonth = new Date(
-    startOfNextMonth.getFullYear(),
-    startOfNextMonth.getMonth() + 1,
-    0
-  );
-  endOfNextMonth.setHours(23, 59, 59, 999);
-
   if (dateFilter !== "All") {
     filteredTasks = filteredTasks.filter((task) => {
-      const taskDeadline = new Date(task.deadline + "T00:00:00"); // Ensure local timezone alignment
+      // Determine the relevant date to filter by based on the selected date type
+      const relevantDate = new Date(task[dateTypeFilter] + "T00:00:00"); // Adjust for local timezone
+      relevantDate.setHours(0, 0, 0, 0); // Normalize to start of the day, local time
 
       switch (dateFilter) {
         case "Today":
-          return taskDeadline.getTime() === today.getTime();
+          return relevantDate.getTime() === today.getTime();
         case "This Week":
-          return taskDeadline >= today && taskDeadline <= endOfWeek;
+          const endOfWeek = new Date(today);
+          endOfWeek.setDate(today.getDate() + (6 - today.getDay()));
+          endOfWeek.setHours(23, 59, 59, 999); // Include the entire day
+          return relevantDate >= today && relevantDate <= endOfWeek;
         case "Next Week":
+          const startOfNextWeek = new Date(endOfWeek);
+          startOfNextWeek.setDate(startOfNextWeek.getDate() + 1);
+          const endOfNextWeek = new Date(startOfNextWeek);
+          endOfNextWeek.setDate(startOfNextWeek.getDate() + 6);
+          endOfNextWeek.setHours(23, 59, 59, 999);
           return (
-            taskDeadline >= startOfNextWeek && taskDeadline <= endOfNextWeek
+            relevantDate >= startOfNextWeek && relevantDate <= endOfNextWeek
           );
         case "Next Month":
+          const startOfNextMonth = new Date(
+            today.getFullYear(),
+            today.getMonth() + 1,
+            1
+          );
+          const endOfNextMonth = new Date(
+            startOfNextMonth.getFullYear(),
+            startOfNextMonth.getMonth() + 1,
+            0
+          );
+          endOfNextMonth.setHours(23, 59, 59, 999);
           return (
-            taskDeadline >= startOfNextMonth && taskDeadline <= endOfNextMonth
+            relevantDate >= startOfNextMonth && relevantDate <= endOfNextMonth
           );
         default:
           return true;
@@ -183,6 +178,7 @@ function applyFilters() {
   uiUpdater.updateTasks(filteredTasks);
 }
 
+// delete all button start
 document
   .getElementById("deleteAllButton")
   .addEventListener("click", function () {
@@ -200,3 +196,4 @@ function deleteAllTasks() {
   taskManager.deleteAll();
   uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the task list UI
 }
+// delete all button end
