@@ -1,42 +1,55 @@
 :root {
-  /* Define your color scheme here */
+  /* Light theme colors */
+  --primary-bg-color: #f0f0f0;
+  --secondary-bg-color: #ffffff;
+  --primary-text-color: #333;
+  --secondary-text-color: #555;
+  --border-color: #ddd;
+  --button-bg-color: #007bff;
+  --button-text-color: #ffffff;
+  --button-hover-bg-color: #0056b3;
+  --task-bg-color: #f9f9f9;
 }
 
-body,
-input,
-select,
-button {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+[data-theme="dark"] {
+  /* Dark theme colors */
+  --primary-bg-color: #202020;
+  --secondary-bg-color: #2a2a2a;
+  --primary-text-color: #cccccc;
+  --secondary-text-color: #aaaaaa;
+  --border-color: #3a3a3a;
+  --button-bg-color: #007bff;
+  --button-text-color: #ffffff;
+  --button-hover-bg-color: #0056b3;
+  --task-bg-color: #333333;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 10px;
+  padding: 5px;
+  background-color: var(--primary-bg-color);
   color: var(--primary-text-color);
 }
 
 #app {
-  max-width: 800px;
   margin: auto;
+  width: 80%;
+  border: 1px solid var(--border-color);
   padding: 20px;
   background-color: var(--secondary-bg-color);
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-input[type="text"],
-select,
-#noteInput {
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  width: calc(100% - 22px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 button {
+  cursor: pointer;
   background-color: var(--button-bg-color);
   color: var(--button-text-color);
-  padding: 10px 15px;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin-left: 10px;
+  transition: background-color 0.3s;
 }
 
 button:hover {
@@ -46,43 +59,87 @@ button:hover {
 .taskItem {
   background-color: var(--task-bg-color);
   border: 1px solid var(--border-color);
-  border-radius: 4px;
+  margin-top: 5px;
   padding: 10px;
-  margin-top: 10px;
+  color: var(--secondary-text-color);
 }
 
 .task-completed label {
-  color: var(--secondary-text-color);
   text-decoration: line-through;
 }
 
-.input-group {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+/* Toggle switch for light/dark mode */
+.toggle-switch {
+  position: fixed;
+  top: 10px;
+  right: 10px;
 }
 
+/* Additional styles for filters and layout */
+#filterOptions,
+.input-group,
 .task-creation,
 .note-creation {
-  flex: 1;
-  min-width: 250px;
+  margin-bottom: 20px;
 }
 
-#filterOptions {
-  margin-top: 20px;
-  padding: 10px 0;
-  border-top: 1px solid var(--border-color);
+/* Light/Dark mode switch styling */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
 }
 
-.toggle-switch {
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
-/* Additional styles for the theme toggle and responsive adjustments */
-@media (max-width: 768px) {
-  .input-group {
-    flex-direction: column;
-  }
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
