@@ -322,8 +322,8 @@ function renderNotesPerTaskChart() {
     datasets: [
       {
         label: "Notes per Task",
-        data: counts,
-        fill: notesPerTask,
+        data: notesPerTask,
+        fill: false,
         borderColor: "rgb(75, 192, 192)",
         tension: 0.1,
       },
