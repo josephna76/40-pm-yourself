@@ -59,25 +59,30 @@ button:hover {
   background-color: var(--button-bg-color);
   color: var(--button-text-color);
   cursor: pointer;
-  padding: 18px;
+  padding: 15px;
   width: 100%;
   border: none;
   text-align: left;
   outline: none;
-  font-size: 15px;
-  transition: 0.4s;
+  font-size: 16px;
+  transition: background-color 0.4s ease;
+  border-radius: 8px;
+  margin-top: 10px; /* Add space above the accordion for clarity */
 }
 
-.active,
-.accordion:hover {
+.accordion:hover,
+.accordion.active {
   background-color: var(--button-hover-bg-color);
 }
 
 .panel {
-  padding: 0 18px;
-  display: none;
-  background-color: white;
+  max-height: 0;
   overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: var(--secondary-bg-color);
+  padding-left: 15px; /* Align content with the accordion text */
+  padding-right: 15px;
+  border-radius: 8px;
 }
 
 .creation-section,
