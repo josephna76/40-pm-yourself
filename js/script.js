@@ -61,30 +61,18 @@ function saveTask(taskId) {
   const newDeadline = document.getElementById(`edit-deadline-${taskId}`).value;
   const newPriority = document.getElementById(`edit-priority-${taskId}`).value;
 
-  const task = taskManager.getTasks().find((task) => task.id === taskId);
-  if (!task) {
-    console.error("Task not found");
-    return;
-  }
-
-  // Extract updated notes with better validation
-  const updatedNotes = [];
-  for (let index = 0; index < task.notes.length; index++) {
+  // Assuming the structure of task.notes is [{text: "Note 1", author: "PM"}, ...]
+  const updatedNotes = task.notes.map((note, index) => {
+    // Retrieve the edited text for each note without changing the author
     const noteInput = document.getElementById(`edit-note-${taskId}-${index}`);
-    if (noteInput && noteInput.value.trim() !== "") {
-      // Assuming a simple split by a delimiter (e.g., " - ") between note and author.
-      // Adjust based on your actual UI/input method.
-      const parts = noteInput.value.split(" - ");
-      if (parts.length === 2) {
-        updatedNotes.push({ text: parts[0].trim(), author: parts[1].trim() });
-      } else {
-        // Handle incorrectly formatted note input gracefully
-        console.warn("Note format incorrect, skipping:", noteInput.value);
-      }
+    if (noteInput) {
+      return { ...note, text: noteInput.value }; // Keep the original author, update the text
+    } else {
+      return note; // In case there's no input for some reason, return the original note
     }
-  }
+  });
 
-  // Update the task with new values and updated notes
+  // Call the editTask function with the updated notes array
   taskManager.editTask(taskId, newName, newDeadline, newPriority, updatedNotes);
 
   window.currentEditingTaskId = null; // Exit edit mode
