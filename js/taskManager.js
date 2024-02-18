@@ -24,6 +24,15 @@ const taskManager = (() => {
     }
   };
 
+  // In taskManager.js
+  const editNote = (taskId, noteIndex, newText) => {
+    const task = tasks.find((task) => task.id === taskId);
+    if (task && task.notes[noteIndex]) {
+      task.notes[noteIndex].text = newText; // Update the note text
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+  };
+
   const toggleTaskCompleted = (taskId) => {
     const task = tasks.find((t) => t.id === taskId);
     if (task) {
@@ -56,6 +65,7 @@ const taskManager = (() => {
   return {
     addTask,
     addNote,
+    editNote,
     toggleTaskCompleted,
     getTasks,
     editTask,

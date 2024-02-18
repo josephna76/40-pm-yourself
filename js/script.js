@@ -67,7 +67,16 @@ function saveTask(taskId) {
   taskManager.editTask(taskId, newName, newDeadline, newPriority, newNotes);
 
   window.currentEditingTaskId = null; // Exit edit mode
-  uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the list
+  // Save changes to notes
+  const task = taskManager.getTasks().find((task) => task.id === taskId);
+  task.notes.forEach((_, index) => {
+    const noteInput = document.getElementById(`edit-note-${taskId}-${index}`);
+    if (noteInput) {
+      taskManager.editNote(taskId, index, noteInput.value);
+    }
+  });
+
+  uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the task list
 }
 
 function toggleEditView(taskId) {

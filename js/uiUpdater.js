@@ -27,26 +27,34 @@ const uiUpdater = (() => {
   }
 
   function generateEditableTask(task) {
-    // Note: Adapt this function if you want to make notes editable in a more granular way
+    // Assuming you're keeping the editable fields for task properties
+    const notesHtml = task.notes
+      .map(
+        (note, index) =>
+          `<input type="text" value="${note.text}" id="edit-note-${task.id}-${index}" />`
+      )
+      .join("");
+
     return `
-          <input type="text" value="${task.name}" id="edit-name-${task.id}" />
-          <input type="date" value="${task.deadline}" id="edit-deadline-${
+      <input type="text" value="${task.name}" id="edit-name-${task.id}" />
+      <input type="date" value="${task.deadline}" id="edit-deadline-${
       task.id
     }" />
-          <select id="edit-priority-${task.id}">
-            <option value="High" ${
-              task.priority === "High" ? "selected" : ""
-            }>High</option>
-            <option value="Medium" ${
-              task.priority === "Medium" ? "selected" : ""
-            }>Medium</option>
-            <option value="Low" ${
-              task.priority === "Low" ? "selected" : ""
-            }>Low</option>
-          </select>
-          <button onclick="saveTask(${task.id})">Save</button>
-          <button onclick="toggleEditView(null)">Cancel</button>
-        `;
+      <select id="edit-priority-${task.id}">
+        <option value="High" ${
+          task.priority === "High" ? "selected" : ""
+        }>High</option>
+        <option value="Medium" ${
+          task.priority === "Medium" ? "selected" : ""
+        }>Medium</option>
+        <option value="Low" ${
+          task.priority === "Low" ? "selected" : ""
+        }>Low</option>
+      </select>
+      ${notesHtml}
+      <button onclick="saveTask(${task.id})">Save</button>
+      <button onclick="toggleEditView(null)">Cancel</button>
+    `;
   }
 
   function generateStaticTask(task) {
