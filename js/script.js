@@ -39,8 +39,13 @@ function addTask() {
 function addNote() {
   const noteInput = document.getElementById("noteInput");
   const taskSelector = document.getElementById("taskSelector");
+  const authorSelector = document.getElementById("noteAuthorInput"); // Get the author
   if (noteInput.value && taskSelector.value) {
-    taskManager.addNote(parseInt(taskSelector.value, 10), noteInput.value);
+    taskManager.addNote(
+      parseInt(taskSelector.value, 10),
+      noteInput.value,
+      authorSelector.value
+    ); // Include the author
     uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the task list
     noteInput.value = ""; // Reset input
   }

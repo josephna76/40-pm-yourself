@@ -16,10 +16,10 @@ const taskManager = (() => {
     return task;
   };
 
-  const addNote = (taskId, note) => {
+  const addNote = (taskId, note, author) => {
     const task = tasks.find((t) => t.id === taskId);
     if (task) {
-      task.notes.push(note);
+      task.notes.push({ text: note, author: author }); // Each note now has text and author
       localStorage.setItem("tasks", JSON.stringify(tasks));
     }
   };
