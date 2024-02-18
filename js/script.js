@@ -61,21 +61,30 @@ function saveTask(taskId) {
   const newDeadline = document.getElementById(`edit-deadline-${taskId}`).value;
   const newPriority = document.getElementById(`edit-priority-${taskId}`).value;
 
-  // Assuming we're now editing notes individually
   const task = taskManager.getTasks().find((task) => task.id === taskId);
-  const updatedNotes = task.notes
-    .map((_, index) => {
-      const noteValue = document.getElementById(
-        `edit-note-${taskId}-${index}`
-      ).value;
-      // Here you would need to parse the noteValue to separate the text from the author
-      // This is tricky if the format is not structured, consider using a JSON format or a delimiter that is unlikely to be typed by users
-      // For simplicity, let's assume the format is "note text (author)"
-      const match = noteValue.match(/^(.*)\s\((PM|Dev)\)$/);
-      return match ? { text: match[1], author: match[2] } : null;
-    })
-    .filter(Boolean);
+  if (!task) {
+    console.error("Task not found");
+    return;
+  }
 
+  // Extract updated notes with better validation
+  const updatedNotes = [];
+  for (let index = 0; index < task.notes.length; index++) {
+    const noteInput = document.getElementById(`edit-note-${taskId}-${index}`);
+    if (noteInput && noteInput.value.trim() !== "") {
+      // Assuming a simple split by a delimiter (e.g., " - ") between note and author.
+      // Adjust based on your actual UI/input method.
+      const parts = noteInput.value.split(" - ");
+      if (parts.length === 2) {
+        updatedNotes.push({ text: parts[0].trim(), author: parts[1].trim() });
+      } else {
+        // Handle incorrectly formatted note input gracefully
+        console.warn("Note format incorrect, skipping:", noteInput.value);
+      }
+    }
+  }
+
+  // Update the task with new values and updated notes
   taskManager.editTask(taskId, newName, newDeadline, newPriority, updatedNotes);
 
   window.currentEditingTaskId = null; // Exit edit mode
