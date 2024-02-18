@@ -105,39 +105,37 @@ button:hover {
   margin: 10px;
 }
 
-.placeholder {
-  padding: 10px;
-  margin: 10px 0;
-  text-align: center;
-  color: var(--secondary-text-color);
-  background-color: var(--secondary-bg-color);
-  border: 1px dashed var(--border-color);
-  border-radius: 8px;
-}
-
 .taskItem {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 15px;
-  background-color: var(--secondary-bg-color);
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 10px;
+  padding: 15px; /* Increased padding for a less squished look */
+  margin-bottom: 10px; /* Ensures consistent spacing between tasks */
+  background-color: var(
+    --secondary-bg-color
+  ); /* Matches placeholder background */
+  border: 1px dashed var(--border-color); /* Optional: if you want the dashed border like the placeholder */
+  border-radius: 8px; /* Consistent with placeholder */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: if you want to retain some depth */
 }
 
-.taskDetails {
-  display: flex;
-  align-items: center;
-}
-
-.taskDetails input[type="checkbox"] {
-  margin-right: 10px;
-}
-
+.taskDetails,
 .taskMeta {
-  display: flex;
-  flex-direction: column;
+  margin-left: 10px; /* Adds some spacing to the left to avoid squished content */
+}
+
+/* If you want the edit and delete buttons to be more inline with the task's flow */
+.taskItem button {
+  margin-top: 10px;
+  margin-right: 10px; /* Adds spacing between buttons */
+}
+
+.taskMeta .placeholder {
+  color: var(
+    --primary-text-color
+  ); /* Adjust the color to match task text, if different */
+  background-color: var(--task-bg-color); /* Ensure background matches tasks */
+  border-radius: 4px; /* Optional: Adjust to match taskItem's style */
+  padding: 8px; /* Adjust padding to match the task content's padding */
+  margin-top: 10px; /* Provide some spacing from the previous task content */
+  text-align: left; /* Align text to match other task content */
 }
 
 .taskItem button {
