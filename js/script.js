@@ -61,45 +61,19 @@ function deleteTask(taskId) {
 }
 
 function editTask(taskId) {
-  console.log("Editing task:", taskId); // Debugging statement
+  uiUpdater.editTask(taskId);
+}
 
-  const task = taskManager.getTasks().find((t) => t.id === taskId);
-  if (!task) {
-    console.error("Task not found:", taskId); // Debugging statement
-    return;
-  }
+function saveTaskChanges(taskId) {
+  const newName = document.getElementById(`taskName-${taskId}`).value;
+  const newDeadline = document.getElementById(`taskDeadline-${taskId}`).value;
+  const newNotes = document
+    .getElementById(`taskNotes-${taskId}`)
+    .value.split("\n");
+  const newPriority = document.getElementById(`taskPriority-${taskId}`).value;
 
-  // Create editable fields for task details
-  const taskItem = document.getElementById(`task-${taskId}`);
+  taskManager.editTask(taskId, newName, newDeadline, newNotes, newPriority);
 
-  // Clear existing content
-  taskItem.innerHTML = "";
-
-  // Create input fields for task name, deadline, and notes
-  const taskNameInput = document.createElement("input");
-  taskNameInput.type = "text";
-  taskNameInput.value = task.name;
-  taskNameInput.id = `taskName-${taskId}`;
-
-  const deadlineInput = document.createElement("input");
-  deadlineInput.type = "date";
-  deadlineInput.value = task.deadline;
-  deadlineInput.id = `taskDeadline-${taskId}`;
-
-  const notesTextarea = document.createElement("textarea");
-  notesTextarea.rows = 4;
-  notesTextarea.cols = 50;
-  notesTextarea.textContent = task.notes.join("\n");
-  notesTextarea.id = `taskNotes-${taskId}`;
-
-  // Append input fields to the task item
-  taskItem.appendChild(taskNameInput);
-  taskItem.appendChild(deadlineInput);
-  taskItem.appendChild(notesTextarea);
-
-  // Create a button to save changes
-  const saveChangesButton = document.createElement("button");
-  saveChangesButton.textContent = "Save Changes";
-  saveChangesButton.onclick = () => saveTaskChanges(taskId);
-  taskItem.appendChild(saveChangesButton);
+  // Update the UI to reflect the changes
+  uiUpdater.updateTasks(taskManager.getTasks());
 }
