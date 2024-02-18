@@ -145,6 +145,17 @@ button:hover {
   margin-top: 10px;
 }
 
+.input-group {
+  display: flex;
+  align-items: center; /* Align items vertically in the center */
+  gap: 10px; /* Creates space between the label and the input box */
+}
+
+/* Optional: Adjust label width for consistency */
+.input-group label {
+  min-width: 150px; /* Adjust based on your specific needs */
+}
+
 @media (max-width: 768px) {
   .creation-section,
   .sort-filter-section,
@@ -155,5 +166,14 @@ button:hover {
   .task-creation,
   .note-creation {
     flex-basis: 100%;
+  }
+
+  .input-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .input-group label {
+    min-width: auto;
   }
 }

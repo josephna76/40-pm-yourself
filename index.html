@@ -18,12 +18,10 @@
       <div class="creation-section">
         <div class="task-creation">
           <input type="text" id="taskInput" placeholder="Enter Task" />
-          <label for="deadlineInput">Deadline:</label>
-          <input
-            type="date"
-            id="deadlineInput"
-            title="This is the deadline for the task. Default is today."
-          />
+          <div class="input-group">
+            <label for="deadlineInput">Deadline:</label>
+            <input type="date" id="deadlineInput" />
+          </div>
           <select id="priorityInput">
             <option value="High">High</option>
             <option value="Medium" selected>Medium</option>
