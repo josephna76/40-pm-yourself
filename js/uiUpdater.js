@@ -1,4 +1,10 @@
 const uiUpdater = (() => {
+  // Date formatting function
+  function formatDateForDisplay(isoDateString) {
+    const date = new Date(isoDateString);
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return date.toLocaleDateString("en-US", options);
+  }
   const updateTasks = (tasks) => {
     const completedTasks = tasks.filter((task) => task.completed);
     const incompleteTasks = tasks.filter((task) => !task.completed);
@@ -43,7 +49,9 @@ const uiUpdater = (() => {
     if (notes.length === 0) return "<div>No notes</div>";
     let notesHtml = "";
     notes.forEach((note) => {
-      notesHtml += `<div><strong>${note.author}:</strong> ${note.text}</div>`;
+      // Use the formatDateForDisplay function for each note's date
+      const formattedDate = formatDateForDisplay(note.date);
+      notesHtml += `<div><strong>${note.author} (${formattedDate}):</strong> ${note.text}</div>`;
     });
     return notesHtml;
   }
