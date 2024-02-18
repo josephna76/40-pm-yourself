@@ -9,11 +9,8 @@
     <div id="app">
       <!-- Light/Dark Mode Switch -->
       <div class="toggle-switch">
-        <label class="switch">
-          Darkmode Switch
-          <input type="checkbox" id="themeToggle" />
-          <span class="slider round"></span>
-        </label>
+        <input type="checkbox" id="themeToggle" class="switch" />
+        <label for="themeToggle" id="themeToggleLabel">Enable Dark Mode</label>
       </div>
 
       <h2>Developer Task List</h2>
@@ -21,32 +18,37 @@
       <!-- Task and Note Creation Section -->
       <div class="creation-section">
         <div class="task-creation">
+          <label for="taskInput">Task:</label>
           <input type="text" id="taskInput" placeholder="Enter Task" />
+          <label for="deadlineInput">Deadline:</label>
           <input type="date" id="deadlineInput" />
+          <label for="priorityInput">Priority:</label>
           <select id="priorityInput">
             <option value="High">High</option>
             <option value="Medium" selected>Medium</option>
             <option value="Low">Low</option>
           </select>
-          <button onclick="addTask()" id="addTaskButton">Add Task</button>
+          <button id="addTaskButton">Add Task</button>
         </div>
         <div class="note-creation">
+          <label for="taskSelector">Task:</label>
           <select id="taskSelector">
             <!-- Options will be dynamically added here from uiUpdater.js -->
           </select>
+          <label for="noteAuthorInput">Author:</label>
           <select id="noteAuthorInput">
             <option value="PM">PM</option>
             <option value="Dev">Developer</option>
           </select>
+          <label for="noteInput">Note:</label>
           <input type="text" id="noteInput" placeholder="Enter Note" />
-          <button onclick="addNote()" id="addNoteButton">
-            Add Note to Task
-          </button>
+          <button id="addNoteButton">Add Note to Task</button>
         </div>
       </div>
 
       <!-- Charts Section -->
       <div id="charts" class="chart-container">
+        <h3>Analytics</h3>
         <div class="chart" id="completedVsUncompletedContainer">
           <canvas id="completedVsUncompleted"></canvas>
         </div>
@@ -97,7 +99,6 @@
           </select>
           <button onclick="applyFilters()">Apply Filters</button>
 
-          <!-- Existing filters -->
           <label for="dateRangeFilter">Or Choose Date Range:</label>
           <input type="date" id="startDate" name="startDate" />
           <input type="date" id="endDate" name="endDate" />
