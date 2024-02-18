@@ -115,10 +115,10 @@ function toggleTaskCompletion(taskId) {
 function applyFilters() {
   const priorityFilter = document.getElementById("priorityFilter").value;
   const dateFilter = document.getElementById("dateFilter").value;
-  const dateTypeFilter = document.getElementById("dateTypeFilter").value;
 
   let filteredTasks = taskManager.getTasks();
 
+  // Filter by priority
   if (priorityFilter !== "All") {
     filteredTasks = filteredTasks.filter(
       (task) => task.priority === priorityFilter
@@ -128,48 +128,19 @@ function applyFilters() {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Normalize today to the start of the day
 
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-
-  // Week starts on Sunday (0), adjust to include the whole Sunday to Saturday week
-  const startOfThisWeek = new Date(today);
-  startOfThisWeek.setDate(today.getDate() - today.getDay());
-
-  const endOfThisWeek = new Date(startOfThisWeek);
-  endOfThisWeek.setDate(endOfThisWeek.getDate() + 6);
-  endOfThisWeek.setHours(23, 59, 59, 999); // Include the entire last day of the week
-
-  // For next week calculations
-  const startOfNextWeek = new Date(endOfThisWeek);
-  startOfNextWeek.setDate(startOfNextWeek.getDate() + 1);
-
-  const endOfNextWeek = new Date(startOfNextWeek);
-  endOfNextWeek.setDate(endOfNextWeek.getDate() + 6);
-  endOfNextWeek.setHours(23, 59, 59, 999); // Include the entire last day of next week
-
-  // Calculation for the start and end of the next month
-  const currentMonth = today.getMonth();
-  const currentYear = today.getFullYear();
-  const nextMonth = currentMonth + 1;
-  const startOfNextMonth = new Date(currentYear, nextMonth, 1, 0, 0, 0, 0); // Start of next month
-  const endOfNextMonth = new Date(new Date(currentYear, nextMonth + 1, 1) - 1); // Last moment of next month
-
   if (dateFilter !== "All") {
     filteredTasks = filteredTasks.filter((task) => {
-      const taskDate = new Date(task[dateTypeFilter]);
+      const taskDate = new Date(task.deadline);
       taskDate.setHours(0, 0, 0, 0); // Normalize task date
 
       switch (dateFilter) {
-        case "Today":
+        case "Past":
+          return taskDate < today;
+        case "Present":
           return taskDate.getTime() === today.getTime();
-        case "This Week":
-          return taskDate >= startOfThisWeek && taskDate <= endOfThisWeek;
-        case "Next Week":
-          return taskDate >= startOfNextWeek && taskDate <= endOfNextWeek;
-        case "Next Month":
-          return taskDate >= startOfNextMonth && taskDate <= endOfNextMonth;
+        case "Future":
+          return taskDate > today;
         default:
-          // No additional action needed for "All" and "Next Month" is handled separately
           return true;
       }
     });
@@ -178,6 +149,17 @@ function applyFilters() {
   uiUpdater.updateTasks(filteredTasks);
 }
 
+// begin delete all section
+document
+  .getElementById("deleteAllButton")
+  .addEventListener("click", function () {
+    const userConfirmed = confirm(
+      "Are you sure you want to delete all tasks? This action cannot be undone."
+    );
+    if (userConfirmed) {
+      deleteAllTasks();
+    }
+  });
 function deleteAllTasks() {
   // Assuming taskManager is your object that manages tasks
   // Update or replace this logic depending on how you're storing and managing tasks
