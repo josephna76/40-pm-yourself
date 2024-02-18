@@ -62,9 +62,14 @@ const taskManager = (() => {
     }
   };
 
+  const saveTasks = () => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  };
+
   return {
     addTask,
     addNote,
+    saveTasks,
     editNote,
     toggleTaskCompleted,
     getTasks,

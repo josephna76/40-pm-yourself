@@ -99,3 +99,14 @@ function toggleEditView(taskId) {
   // Refresh or update the task list to reflect the current edit mode status
   uiUpdater.updateTasks(taskManager.getTasks());
 }
+
+function toggleTaskCompletion(taskId) {
+  const task = taskManager.getTasks().find((task) => task.id === taskId);
+  if (task) {
+    task.completed = !task.completed; // Toggle the completion status
+    taskManager.saveTasks(); // Assuming you have a function to save the updated tasks list to storage
+    uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the task list display
+  } else {
+    console.error("Task not found");
+  }
+}

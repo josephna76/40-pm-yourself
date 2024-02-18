@@ -1,21 +1,43 @@
 const uiUpdater = (() => {
   const updateTasks = (tasks) => {
+    const completedTasks = tasks.filter((task) => task.completed);
+    const incompleteTasks = tasks.filter((task) => !task.completed);
+
     const taskList = document.getElementById("taskList");
     taskList.innerHTML = ""; // Clear existing tasks
-    tasks.forEach((task) => {
-      const taskItem = document.createElement("div");
-      taskItem.className = "taskItem" + (task.completed ? " completed" : "");
 
-      // Determine if the task is being edited
-      const isEditing = window.currentEditingTaskId === task.id;
-      const taskContent = isEditing
-        ? generateEditableTask(task)
-        : generateStaticTask(task);
+    // First, display incomplete tasks
+    incompleteTasks.forEach((task) => {
+      const taskItem = createTaskItem(task);
+      taskList.appendChild(taskItem);
+    });
 
-      taskItem.innerHTML = taskContent;
+    // Optionally, create a separator or a new section for completed tasks
+    // This could be a new div or simply a heading / separator
+    const completedTasksHeader = document.createElement("h3");
+    completedTasksHeader.textContent = "Completed Tasks";
+    taskList.appendChild(completedTasksHeader);
+
+    // Then, display completed tasks
+    completedTasks.forEach((task) => {
+      const taskItem = createTaskItem(task);
       taskList.appendChild(taskItem);
     });
   };
+
+  function createTaskItem(task) {
+    const taskItem = document.createElement("div");
+    taskItem.className = "taskItem" + (task.completed ? " completed" : "");
+
+    // Determine if the task is being edited
+    const isEditing = window.currentEditingTaskId === task.id;
+    const taskContent = isEditing
+      ? generateEditableTask(task)
+      : generateStaticTask(task);
+
+    taskItem.innerHTML = taskContent;
+    return taskItem;
+  }
 
   function generateNotesList(notes) {
     if (notes.length === 0) return "<div>No notes</div>";
@@ -58,14 +80,22 @@ const uiUpdater = (() => {
   }
 
   function generateStaticTask(task) {
-    const notesHtml = generateNotesList(task.notes); // Correctly placed within this function
+    const notesHtml = generateNotesList(task.notes); // Assuming this function generates the HTML for notes
+    const checkedAttribute = task.completed ? "checked" : "";
     return `
-          <div><span>${task.name}</span> - <span>${task.deadline}</span></div>
-          <div>Priority: ${task.priority}</div>
-          <div>${notesHtml}</div> <!-- Displaying notes with authorship -->
-          <button onclick="toggleEditView(${task.id})">Edit</button>
-          <button onclick="deleteTask(${task.id})">Delete</button> <!-- Re-added the Delete button -->
-        `;
+        <div class="${task.completed ? "task-completed" : ""}">
+            <input type="checkbox" id="complete-${
+              task.id
+            }" ${checkedAttribute} onclick="toggleTaskCompletion(${task.id})">
+            <label for="complete-${task.id}">${task.name}</label> - <span>${
+      task.deadline
+    }</span>
+            <div>Priority: ${task.priority}</div>
+            <div>${notesHtml}</div>
+            <button onclick="toggleEditView(${task.id})">Edit</button>
+            <button onclick="deleteTask(${task.id})">Delete</button>
+        </div>
+    `;
   }
 
   return { updateTasks };

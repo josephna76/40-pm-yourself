@@ -24,6 +24,6 @@ button {
   padding: 10px;
 }
 
-.completed {
+.task-completed label {
   text-decoration: line-through;
 }
