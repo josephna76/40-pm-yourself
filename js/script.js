@@ -52,14 +52,15 @@ function deleteTask(taskId) {
 }
 
 function saveTask(taskId) {
-  const name = document.getElementById(`name-${taskId}`).value;
-  const deadline = document.getElementById(`deadline-${taskId}`).value;
-  const priority = document.getElementById(`priority-${taskId}`).value;
-  const notes = document.getElementById(`notes-${taskId}`).value.split(", ");
+  const newName = document.getElementById(`edit-name-${taskId}`).value;
+  const newDeadline = document.getElementById(`edit-deadline-${taskId}`).value;
+  const newPriority = document.getElementById(`edit-priority-${taskId}`).value;
+  const newNotes = document
+    .getElementById(`edit-notes-${taskId}`)
+    .value.split(", ");
 
-  // Call the updated editTask method from taskManager with notes included
-  taskManager.editTask(taskId, name, deadline, priority, notes);
+  taskManager.editTask(taskId, newName, newDeadline, newPriority, newNotes);
 
-  // Refresh the UI to reflect the changes
-  uiUpdater.updateTasks(taskManager.getTasks());
+  window.currentEditingTaskId = null; // Exit edit mode
+  uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the list
 }
