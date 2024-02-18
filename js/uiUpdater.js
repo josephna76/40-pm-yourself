@@ -22,7 +22,7 @@ const uiUpdater = (() => {
         task.id
       }); uiUpdater.updateTasks(taskManager.getTasks());">${
         task.name
-      } - Deadline: ${task.deadline}</label>
+      } - Deadline: ${task.deadline}</label> - Priority: ${task.priority}
                 <div>${notes}</div>
                 <button onclick="deleteTask(${task.id})">Delete</button>
                 <button onclick="prepareEditTask(${
