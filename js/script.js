@@ -135,31 +135,30 @@ function deleteAllTasks() {
 function applyFilters() {
   const priorityFilter = document.getElementById("priorityFilter").value;
   const dateFilter = document.getElementById("dateFilter").value;
+  const dateTypeFilter = document.getElementById("dateTypeFilter").value;
 
   let filteredTasks = taskManager.getTasks();
 
-  // Filter by priority
   if (priorityFilter !== "All") {
     filteredTasks = filteredTasks.filter(
       (task) => task.priority === priorityFilter
     );
   }
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // Normalize today to the start of the day
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const todayEnd = new Date(todayStart.getTime() + 86399999); // End of today
 
   if (dateFilter !== "All") {
     filteredTasks = filteredTasks.filter((task) => {
-      const taskDate = new Date(task.deadline);
-      taskDate.setHours(0, 0, 0, 0); // Normalize task date
-
+      const taskDate = new Date(task[dateTypeFilter]);
       switch (dateFilter) {
         case "Past":
-          return taskDate < today;
+          return taskDate < todayStart;
         case "Present":
-          return taskDate.getTime() === today.getTime();
+          return taskDate >= todayStart && taskDate <= todayEnd;
         case "Future":
-          return taskDate > today;
+          return taskDate > todayEnd;
         default:
           return true;
       }
@@ -169,31 +168,40 @@ function applyFilters() {
   uiUpdater.updateTasks(filteredTasks);
 }
 
+// Add this function to handle custom date range filtering
 function applyDateRangeFilter() {
   const startDateInput = document.getElementById("startDate").value;
   const endDateInput = document.getElementById("endDate").value;
-  const priorityFilter = document.getElementById("priorityFilter").value;
+  if (!startDateInput || !endDateInput) {
+    alert("Please select both start and end dates.");
+    return;
+  }
 
+  const priorityFilter = document.getElementById("priorityFilter").value;
   let filteredTasks = taskManager.getTasks();
 
-  // Filter by priority if not 'All'
   if (priorityFilter !== "All") {
     filteredTasks = filteredTasks.filter(
       (task) => task.priority === priorityFilter
     );
   }
 
-  // Apply custom date range filter
-  if (startDateInput && endDateInput) {
-    const startDate = new Date(startDateInput);
-    const endDate = new Date(endDateInput);
-    endDate.setHours(23, 59, 59, 999); // Include the entire end day
+  const startDate = new Date(startDateInput);
+  const endDate = new Date(endDateInput + "T23:59:59");
 
-    filteredTasks = filteredTasks.filter((task) => {
-      const taskDate = new Date(task.deadline);
-      return taskDate >= startDate && taskDate <= endDate;
-    });
-  }
+  filteredTasks = filteredTasks.filter((task) => {
+    const taskDate = new Date(task.deadline);
+    return taskDate >= startDate && taskDate <= endDate;
+  });
 
   uiUpdater.updateTasks(filteredTasks);
 }
+
+document.getElementById("addTaskButton").addEventListener("click", addTask);
+document.getElementById("addNoteButton").addEventListener("click", addNote);
+document
+  .getElementById("applyFiltersButton")
+  .addEventListener("click", applyFilters); // Ensure this ID matches your button for applying filters
+document
+  .getElementById("applyDateRangeFilterButton")
+  .addEventListener("click", applyDateRangeFilter); // Add ID to your date range filter button
