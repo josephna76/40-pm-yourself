@@ -322,17 +322,24 @@ function renderNotesPerTaskChart() {
     datasets: [
       {
         label: "Notes per Task",
-        data: notesPerTask,
-        backgroundColor: "rgba(255, 206, 86, 0.2)",
-        borderColor: "rgba(255, 206, 86, 1)",
-        borderWidth: 1,
+        data: counts,
+        fill: notesPerTask,
+        borderColor: "rgb(75, 192, 192)",
+        tension: 0.1,
       },
     ],
   };
 
   new Chart(ctx, {
-    type: "pie",
+    type: "line",
     data: chartData,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
   });
 }
 
