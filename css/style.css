@@ -144,6 +144,32 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
+/* cosmetic ui styles */
+.creation-section,
+.sort-filter-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.task-creation,
+.note-creation {
+  flex: 1;
+  padding: 10px;
+}
+
+.delete-all-btn {
+  margin-top: 20px; /* Adjust as needed */
+  display: inline-block; /* To align with sort/filter options */
+  background-color: #dc3545; /* Bootstrap danger color for deletion actions */
+  color: white;
+}
+
+.delete-all-btn:hover {
+  background-color: #c82333;
+}
+
+/* chart styles */
 .chart-container {
   display: flex;
   justify-content: space-around;

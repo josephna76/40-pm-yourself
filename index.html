@@ -16,7 +16,9 @@
       </div>
 
       <h2>Developer Task List</h2>
-      <div class="input-group">
+
+      <!-- Task and Note Creation Section -->
+      <div class="creation-section">
         <div class="task-creation">
           <input type="text" id="taskInput" placeholder="Enter Task" />
           <input type="date" id="deadlineInput" />
@@ -29,7 +31,7 @@
         </div>
         <div class="note-creation">
           <select id="taskSelector">
-            <!-- Options will be dynamically added here -->
+            <!-- Options will be dynamically added here from uiUpdater.js -->
           </select>
           <select id="noteAuthorInput">
             <option value="PM">PM</option>
@@ -41,72 +43,69 @@
           </button>
         </div>
       </div>
-      <button id="deleteAllButton">Delete All Tasks</button>
-      <label for="sortTasks">Sort Tasks By:</label>
-      <select id="sortTasks">
-        <option value="priority">Priority</option>
-        <option value="dueDate">Due Date</option>
-        <option value="creationDate">Creation Date</option>
-      </select>
-      <button onclick="sortTasks()">Sort</button>
 
-      <div id="filterOptions">
-        <label for="priorityFilter">Filter by Priority:</label>
-        <select id="priorityFilter">
-          <option value="All">All</option>
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
-        </select>
-
-        <label for="dateTypeFilter">Filter Date Type:</label>
-        <select id="dateTypeFilter">
-          <option value="creationDate">Creation Date</option>
-          <option value="deadline">Deadline</option>
-        </select>
-
-        <label for="dateFilter">Filter by Time:</label>
-        <select id="dateFilter">
-          <option value="All">All</option>
-          <option value="Past">Past</option>
-          <option value="Present">Present</option>
-          <option value="Future">Future</option>
-        </select>
-        <button onclick="applyFilters()">Apply Filters</button>
-
-        <!-- Existing filters -->
-        <label for="dateRangeFilter">Or Choose Date Range:</label>
-        <input type="date" id="startDate" name="startDate" />
-        <input type="date" id="endDate" name="endDate" />
-        <button onclick="applyDateRangeFilter()">
-          Apply Date Range Filter
-        </button>
-      </div>
+      <!-- Charts Section -->
       <div id="charts" class="chart-container">
-        <div class="chart" id="completedVsUncompletedContainer">
-          <canvas id="completedVsUncompleted"></canvas>
-        </div>
-        <div class="chart" id="notesPerTaskContainer">
-          <canvas id="notesPerTask"></canvas>
-        </div>
-        <div class="chart" id="tasksByDateContainer">
-          <canvas id="tasksByDate"></canvas>
-        </div>
-        <div class="chart" id="tasksByDeadlineContainer">
-          <canvas id="tasksByDeadline"></canvas>
-        </div>
+        <canvas id="completedVsUncompleted"></canvas>
+        <canvas id="tasksByDate"></canvas>
+        <canvas id="notesPerTask"></canvas>
+        <canvas id="tasksByDeadline"></canvas>
       </div>
 
+      <!-- Sorting and Filtering Section -->
+      <div class="sort-filter-section">
+        <div class="sorting">
+          <label for="sortTasks">Sort Tasks By:</label>
+          <select id="sortTasks">
+            <option value="priority">Priority</option>
+            <option value="dueDate">Due Date</option>
+            <option value="creationDate">Creation Date</option>
+          </select>
+          <button onclick="sortTasks()">Sort</button>
+        </div>
+
+        <div id="filterOptions" class="filtering">
+          <label for="priorityFilter">Filter by Priority:</label>
+          <select id="priorityFilter">
+            <option value="All">All</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+
+          <label for="dateTypeFilter">Filter Date Type:</label>
+          <select id="dateTypeFilter">
+            <option value="creationDate">Creation Date</option>
+            <option value="deadline">Deadline</option>
+          </select>
+
+          <label for="dateFilter">Filter by Time:</label>
+          <select id="dateFilter">
+            <option value="All">All</option>
+            <option value="Past">Past</option>
+            <option value="Present">Present</option>
+            <option value="Future">Future</option>
+          </select>
+          <button onclick="applyFilters()">Apply Filters</button>
+
+          <!-- Existing filters -->
+          <label for="dateRangeFilter">Or Choose Date Range:</label>
+          <input type="date" id="startDate" name="startDate" />
+          <input type="date" id="endDate" name="endDate" />
+          <button onclick="applyDateRangeFilter()">
+            Apply Date Range Filter
+          </button>
+        </div>
+
+        <button id="deleteAllButton">Delete All Tasks</button>
+      </div>
+
+      <!-- Task List Section -->
       <div id="taskList"></div>
     </div>
     <script src="js/script.js"></script>
     <script src="js/taskManager.js"></script>
     <script src="js/uiUpdater.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", () =>
-        uiUpdater.updateTasks(taskManager.getTasks())
-      );
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </body>
 </html>
