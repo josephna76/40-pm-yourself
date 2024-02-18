@@ -147,6 +147,13 @@ function applyFilters() {
   endOfNextWeek.setDate(endOfNextWeek.getDate() + 6);
   endOfNextWeek.setHours(23, 59, 59, 999); // Include the entire last day of next week
 
+  // Calculation for the start and end of the next month
+  const currentMonth = today.getMonth();
+  const currentYear = today.getFullYear();
+  const nextMonth = currentMonth + 1;
+  const startOfNextMonth = new Date(currentYear, nextMonth, 1, 0, 0, 0, 0); // Start of next month
+  const endOfNextMonth = new Date(new Date(currentYear, nextMonth + 1, 1) - 1); // Last moment of next month
+
   if (dateFilter !== "All") {
     filteredTasks = filteredTasks.filter((task) => {
       const taskDate = new Date(task[dateTypeFilter]);
@@ -159,6 +166,8 @@ function applyFilters() {
           return taskDate >= startOfThisWeek && taskDate <= endOfThisWeek;
         case "Next Week":
           return taskDate >= startOfNextWeek && taskDate <= endOfNextWeek;
+        case "Next Month":
+          return taskDate >= startOfNextMonth && taskDate <= endOfNextMonth;
         default:
           // No additional action needed for "All" and "Next Month" is handled separately
           return true;
