@@ -126,10 +126,25 @@ function applyFilters() {
   today.setHours(0, 0, 0, 0); // Set to start of today, local time
 
   const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1); // Set to start of tomorrow, local time
+  tomorrow.setDate(tomorrow.getDate() + 1); // Start of tomorrow, local time
 
-  const endOfWeek = new Date(today);
-  endOfWeek.setDate(today.getDate() + (7 - today.getDay())); // Set to the end of this week, local time
+  const startOfNextWeek = new Date(today);
+  startOfNextWeek.setDate(today.getDate() + (7 - today.getDay()) + 1); // Start of next week
+
+  const endOfNextWeek = new Date(startOfNextWeek);
+  endOfNextWeek.setDate(startOfNextWeek.getDate() + 6); // End of next week
+
+  const startOfNextMonth = new Date(
+    today.getFullYear(),
+    today.getMonth() + 1,
+    1
+  ); // Start of next month
+
+  const endOfNextMonth = new Date(
+    startOfNextMonth.getFullYear(),
+    startOfNextMonth.getMonth() + 1,
+    0
+  ); // End of next month
 
   if (dateFilter !== "All") {
     filteredTasks = filteredTasks.filter((task) => {
@@ -139,12 +154,22 @@ function applyFilters() {
         case "Today":
           return taskDeadline >= today && taskDeadline < tomorrow;
         case "This Week":
-          // Ensure the comparison includes the whole current week, up to and including the end of Sunday
+          const endOfWeek = new Date(today);
+          endOfWeek.setDate(today.getDate() + (7 - today.getDay())); // End of this week
           return taskDeadline >= today && taskDeadline < endOfWeek;
         case "This Month":
           return (
             taskDeadline.getMonth() === today.getMonth() &&
             taskDeadline.getFullYear() === today.getFullYear()
+          );
+        case "Next Week":
+          return (
+            taskDeadline >= startOfNextWeek && taskDeadline <= endOfNextWeek
+          );
+        case "Next Month":
+          return (
+            taskDeadline.getMonth() === startOfNextMonth.getMonth() &&
+            taskDeadline.getFullYear() === startOfNextMonth.getFullYear()
           );
         default:
           return true;
