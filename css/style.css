@@ -34,7 +34,7 @@ body {
 
 #app {
   margin: auto;
-  width: 80%;
+  max-width: 1200px; /* Adjust based on your screen size */
   border: 1px solid var(--border-color);
   padding: 20px;
   background-color: var(--secondary-bg-color);
@@ -68,117 +68,64 @@ button:hover {
   text-decoration: line-through;
 }
 
-/* Toggle switch for light/dark mode */
-.toggle-switch {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-}
-
-/* Additional styles for filters and layout */
-#filterOptions,
-.input-group,
-.task-creation,
-.note-creation {
-  margin-bottom: 20px;
-}
-
-/* Light/Dark mode switch styling */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-}
-
-input:checked + .slider {
-  background-color: #2196f3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-
-/* cosmetic ui styles */
+/* Layout Adjustments */
 .creation-section,
-.sort-filter-section {
+.sort-filter-section,
+#charts {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   margin-bottom: 20px;
 }
 
 .task-creation,
 .note-creation {
-  flex: 1;
-  padding: 10px;
+  flex-basis: 48%; /* Adjust the width as necessary */
+  margin-bottom: 20px; /* Space between rows */
 }
 
-.delete-all-btn {
-  margin-top: 20px; /* Adjust as needed */
-  display: inline-block; /* To align with sort/filter options */
+#charts .chart {
+  flex: 1 1 30%; /* Adjust the basis and the flexibility */
+  min-width: 250px; /* Minimum width of the chart */
+  margin-bottom: 20px;
+}
+
+/* Delete All Button - Positioned at the end of filter/sort section */
+#deleteAllButton {
   background-color: #dc3545; /* Bootstrap danger color for deletion actions */
   color: white;
+  margin-top: 20px;
 }
 
-.delete-all-btn:hover {
+#deleteAllButton:hover {
   background-color: #c82333;
 }
 
-/* chart styles */
+/* Styling for the sorting/filtering sections */
+.sort-filter-section {
+  align-items: center;
+}
+
+/* Adjusting chart container */
 .chart-container {
   display: flex;
   justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap; /* Allows charts to wrap onto the next line on smaller screens */
+  flex-wrap: wrap;
 }
 
 .chart {
-  flex: 1; /* Each chart container will grow to fill the space */
-  min-width: 300px; /* Adjust based on your preference for minimum chart width */
-  margin: 10px; /* Optional: Adds some space between the charts */
+  margin: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: calc(33.333% - 20px); /* Three charts per row with spacing */
+  min-width: 250px; /* Minimum width for smaller screens */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .task-creation,
+  .note-creation,
+  .chart {
+    flex-basis: 100%; /* Full width on smaller screens */
+  }
 }
