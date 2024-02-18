@@ -110,49 +110,41 @@ function toggleTaskCompletion(taskId) {
     console.error("Task not found");
   }
 }
-
 function applyFilters() {
   const priorityFilter = document.getElementById("priorityFilter").value;
   const dateFilter = document.getElementById("dateFilter").value;
 
-  // Fetch all tasks
   let filteredTasks = taskManager.getTasks();
 
-  // Filter by priority
   if (priorityFilter !== "All") {
     filteredTasks = filteredTasks.filter(
       (task) => task.priority === priorityFilter
     );
   }
 
-  // Set up date filtering
   const today = new Date();
-  const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-  const startOfDay = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate()
-  );
-  const oneWeek = 7 * oneDay;
-  const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+  today.setHours(0, 0, 0, 0); // Set to start of today, local time
+
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1); // Set to start of tomorrow, local time
+
+  const endOfWeek = new Date(today);
+  endOfWeek.setDate(today.getDate() + (7 - today.getDay())); // Set to the end of this week, local time
 
   if (dateFilter !== "All") {
     filteredTasks = filteredTasks.filter((task) => {
-      const taskDate = new Date(task.deadline);
-      const taskDateTime = taskDate.getTime();
+      const taskDeadline = new Date(task.deadline + "T00:00:00"); // Ensure task deadline is treated as local time
 
       switch (dateFilter) {
         case "Today":
-          return taskDate.toDateString() === startOfDay.toDateString();
+          return taskDeadline >= today && taskDeadline < tomorrow;
         case "This Week":
-          return (
-            taskDateTime < startOfDay.getTime() + oneWeek &&
-            taskDateTime >= startOfDay.getTime()
-          );
+          // Ensure the comparison includes the whole current week, up to and including the end of Sunday
+          return taskDeadline >= today && taskDeadline < endOfWeek;
         case "This Month":
           return (
-            taskDate.getMonth() === today.getMonth() &&
-            taskDate.getFullYear() === today.getFullYear()
+            taskDeadline.getMonth() === today.getMonth() &&
+            taskDeadline.getFullYear() === today.getFullYear()
           );
         default:
           return true;
@@ -160,6 +152,5 @@ function applyFilters() {
     });
   }
 
-  // Update the UI with the filtered tasks
   uiUpdater.updateTasks(filteredTasks);
 }
