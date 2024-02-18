@@ -24,20 +24,6 @@ const uiUpdater = (() => {
         task.name
       } - Deadline: ${task.deadline}</label>
                 <div>${notes}</div>
-                <select id="priority-${task.id}">
-                  <option value="High" ${
-                    task.priority === "High" ? "selected" : ""
-                  }>High</option>
-                  <option value="Medium" ${
-                    task.priority === "Medium" ? "selected" : ""
-                  }>Medium</option>
-                  <option value="Low" ${
-                    task.priority === "Low" ? "selected" : ""
-                  }>Low</option>
-                </select>
-                <button onclick="updateTaskPriority(${
-                  task.id
-                })">Update Priority</button>
                 <button onclick="deleteTask(${task.id})">Delete</button>
                 <button onclick="prepareEditTask(${
                   task.id

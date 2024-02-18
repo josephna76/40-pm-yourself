@@ -19,15 +19,6 @@ function updateTaskSelector() {
   });
 }
 
-function updateTaskPriority(taskId) {
-  const priorityInput = document.getElementById(`priority-${taskId}`);
-  if (priorityInput) {
-    const newPriority = priorityInput.value;
-    taskManager.updatePriority(taskId, newPriority); // Call the updatePriority function with the taskId and newPriority
-    uiUpdater.updateTasks(taskManager.getTasks());
-  }
-}
-
 function addTask() {
   const taskInput = document.getElementById("taskInput");
   const deadlineInput = document.getElementById("deadlineInput");
