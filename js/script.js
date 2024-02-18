@@ -113,73 +113,49 @@ function toggleTaskCompletion(taskId) {
   }
 }
 function applyFilters() {
+  console.log("Applying filters...");
   const priorityFilter = document.getElementById("priorityFilter").value;
   const dateFilter = document.getElementById("dateFilter").value;
 
   let filteredTasks = taskManager.getTasks();
 
-  // Normalize today's date to the start of today in local time
+  console.log("Filters:", { priorityFilter, dateFilter });
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // Tomorrow's date for "Today" filter
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
+  filteredTasks = filteredTasks.filter((task) => {
+    const taskDeadline = new Date(task.deadline + "T00:00:00");
+    console.log("Task Deadline:", taskDeadline);
 
-  // Calculate the start of this week (Sunday as the first day)
-  const startOfThisWeek = new Date(today);
-  startOfThisWeek.setDate(today.getDate() - today.getDay());
-  startOfThisWeek.setHours(0, 0, 0, 0);
+    let isIncluded = true; // Assume the task is included unless a filter excludes it.
 
-  // Calculate the start of the next week
-  const startOfNextWeek = new Date(startOfThisWeek);
-  startOfNextWeek.setDate(startOfThisWeek.getDate() + 7);
+    if (priorityFilter !== "All" && task.priority !== priorityFilter) {
+      isIncluded = false;
+    }
 
-  // Calculate the end of the next week (Saturday as the last day)
-  const endOfNextWeek = new Date(startOfNextWeek);
-  endOfNextWeek.setDate(startOfNextWeek.getDate() + 6);
-  endOfNextWeek.setHours(23, 59, 59, 999);
-
-  if (priorityFilter !== "All") {
-    filteredTasks = filteredTasks.filter(
-      (task) => task.priority === priorityFilter
-    );
-  }
-
-  if (dateFilter !== "All") {
-    filteredTasks = filteredTasks.filter((task) => {
-      // Parse the task deadline in local time
-      const taskDeadline = new Date(task.deadline + "T00:00:00");
-
+    if (dateFilter !== "All") {
       switch (dateFilter) {
         case "Today":
-          return taskDeadline >= today && taskDeadline < tomorrow;
+          isIncluded =
+            taskDeadline >= today &&
+            taskDeadline < new Date(today).setDate(today.getDate() + 1);
+          break;
         case "This Week":
-          // Include the entire current week, from Sunday to Saturday
-          return (
-            taskDeadline >= startOfThisWeek && taskDeadline < startOfNextWeek
+          const startOfNextWeek = new Date(
+            today.setDate(today.getDate() - today.getDay() + 7)
           );
-        case "Next Week":
-          // Include the entire next week, from Sunday to Saturday
-          return (
-            taskDeadline >= startOfNextWeek && taskDeadline <= endOfNextWeek
-          );
-        case "Next Month":
-          // Simple month comparison for "Next Month"
-          const nextMonth = new Date(
-            today.getFullYear(),
-            today.getMonth() + 1,
-            1
-          );
-          return (
-            taskDeadline.getMonth() === nextMonth.getMonth() &&
-            taskDeadline.getFullYear() === nextMonth.getFullYear()
-          );
-        default:
-          return true;
+          isIncluded =
+            taskDeadline >=
+              new Date(today.setDate(today.getDate() - today.getDay())) &&
+            taskDeadline < startOfNextWeek;
+          break;
+        // Add cases for "Next Week" and "Next Month" with correct calculations
       }
-    });
-  }
+    }
+
+    return isIncluded;
+  });
 
   uiUpdater.updateTasks(filteredTasks);
 }
