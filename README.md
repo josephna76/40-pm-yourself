@@ -47,8 +47,8 @@ Productivity Tracker is a simple web application designed to help developers tra
 
 ## Credits
 
-This project was created by [Your Name].
+This project was created by Joseph Na.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
