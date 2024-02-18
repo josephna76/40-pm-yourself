@@ -16,23 +16,30 @@ const uiUpdater = (() => {
     const taskList = document.getElementById("taskList");
     taskList.innerHTML = ""; // Clear existing tasks
 
-    // First, display incomplete tasks
-    incompleteTasks.forEach((task) => {
-      const taskItem = createTaskItem(task);
-      taskList.appendChild(taskItem);
-    });
+    if (tasks.length === 0) {
+      const noTasksPlaceholder = document.createElement("div");
+      noTasksPlaceholder.textContent = "No Tasks Available";
+      noTasksPlaceholder.className = "placeholder"; // Assuming you might want to style this
+      taskList.appendChild(noTasksPlaceholder);
+    } else {
+      // First, display incomplete tasks
+      incompleteTasks.forEach((task) => {
+        const taskItem = createTaskItem(task);
+        taskList.appendChild(taskItem);
+      });
 
-    // Optionally, create a separator or a new section for completed tasks
-    // This could be a new div or simply a heading / separator
-    const completedTasksHeader = document.createElement("h3");
-    completedTasksHeader.textContent = "Completed Tasks";
-    taskList.appendChild(completedTasksHeader);
+      // Optionally, create a separator or a new section for completed tasks
+      // This could be a new div or simply a heading / separator
+      const completedTasksHeader = document.createElement("h3");
+      completedTasksHeader.textContent = "Completed Tasks";
+      taskList.appendChild(completedTasksHeader);
 
-    // Then, display completed tasks
-    completedTasks.forEach((task) => {
-      const taskItem = createTaskItem(task);
-      taskList.appendChild(taskItem);
-    });
+      // Then, display completed tasks
+      completedTasks.forEach((task) => {
+        const taskItem = createTaskItem(task);
+        taskList.appendChild(taskItem);
+      });
+    }
   };
 
   // Updated updateTaskSelector to handle no tasks scenario
@@ -67,7 +74,9 @@ const uiUpdater = (() => {
   }
 
   function generateNotesList(notes) {
-    if (notes.length === 0) return "<div>No notes</div>";
+    if (notes.length === 0) {
+      return "<div class='placeholder'>No Notes Available</div>"; // Placeholder for no notes
+    }
     let notesHtml = "";
     notes.forEach((note) => {
       const formattedDate = formatDateForDisplay(note.date); // Safely format the date
