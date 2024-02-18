@@ -61,23 +61,42 @@ function deleteTask(taskId) {
 }
 
 function editTask(taskId) {
-  // Find the task by its ID
-  const taskInput = document.getElementById("taskInput");
-  const deadlineInput = document.getElementById("deadlineInput");
-  const priorityInput = document.getElementById("priorityInput");
+  const task = taskManager.getTasks().find((t) => t.id === taskId);
+  if (!task) return; // Task not found, exit
 
-  const newName = taskInput.value;
-  const newDeadline = deadlineInput.value;
-  const newPriority = priorityInput.value;
+  // Display editable fields for task details
+  const taskItem = document.getElementById(`task-${taskId}`);
+  taskItem.innerHTML = `
+      <input type="text" id="taskName-${taskId}" value="${task.name}" />
+      <input type="date" id="taskDeadline-${taskId}" value="${task.deadline}" />
+      <textarea id="taskNotes-${taskId}" rows="4" cols="50">${task.notes.join(
+    "\n"
+  )}</textarea>
+      <select id="taskPriority-${taskId}">
+        <option value="High" ${
+          task.priority === "High" ? "selected" : ""
+        }>High</option>
+        <option value="Medium" ${
+          task.priority === "Medium" ? "selected" : ""
+        }>Medium</option>
+        <option value="Low" ${
+          task.priority === "Low" ? "selected" : ""
+        }>Low</option>
+      </select>
+      <button onclick="saveTaskChanges(${taskId})">Save Changes</button>
+    `;
+}
 
-  // Call the editTask function from taskManager
-  taskManager.editTask(taskId, newName, newDeadline, newPriority);
+function saveTaskChanges(taskId) {
+  const newName = document.getElementById(`taskName-${taskId}`).value;
+  const newDeadline = document.getElementById(`taskDeadline-${taskId}`).value;
+  const newNotes = document
+    .getElementById(`taskNotes-${taskId}`)
+    .value.split("\n");
+  const newPriority = document.getElementById(`taskPriority-${taskId}`).value;
+
+  taskManager.editTask(taskId, newName, newDeadline, newNotes, newPriority);
 
   // Update the UI to reflect the changes
   uiUpdater.updateTasks(taskManager.getTasks());
-
-  // Reset input fields
-  taskInput.value = "";
-  deadlineInput.value = "";
-  priorityInput.value = "Medium"; // Reset priority to default value
 }
