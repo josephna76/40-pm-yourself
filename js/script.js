@@ -273,7 +273,7 @@ function renderTasksByDateChart() {
 
   // Data preparation
   const tasksByDate = tasks.reduce((acc, task) => {
-    const date = task.deadline.split("T")[0]; // Assuming ISO format 'YYYY-MM-DD'
+    const date = task.creationDate.split("T")[0]; // Assuming ISO format 'YYYY-MM-DD'
     acc[date] = (acc[date] || 0) + 1;
     return acc;
   }, {});
@@ -282,7 +282,7 @@ function renderTasksByDateChart() {
     labels: Object.keys(tasksByDate),
     datasets: [
       {
-        label: "Tasks by Date",
+        label: "Tasks by Creation Date",
         data: Object.values(tasksByDate),
         backgroundColor: "rgba(54, 162, 235, 0.2)",
         borderColor: "rgba(54, 162, 235, 1)",
