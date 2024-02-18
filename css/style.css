@@ -108,6 +108,6 @@ button:hover {
 
 .chart {
   flex: 1; /* Each chart container will grow to fill the space */
-  min-width: 300px; /* Adjust based on your preference for minimum chart width */
+  min-width: 200px; /* Adjust based on your preference for minimum chart width */
   margin: 10px; /* Optional: Adds some space between the charts */
 }
