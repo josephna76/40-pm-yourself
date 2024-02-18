@@ -7,103 +7,111 @@
   </head>
   <body>
     <div id="app">
-      <header>
-        <div class="toggle-switch">
-          <input type="checkbox" id="themeToggle" class="switch" />
-          <label for="themeToggle" id="themeToggleLabel">Dark Mode</label>
-        </div>
-        <h1>Productivity Tracker</h1>
-      </header>
+      <!-- Light/Dark Mode Switch -->
+      <div class="toggle-switch">
+        <input type="checkbox" id="themeToggle" class="switch" />
+        <label for="themeToggle" id="themeToggleLabel">Enable Dark Mode</label>
+      </div>
 
-      <section class="task-note-creation">
-        <h2>Add New Task</h2>
-        <div class="input-group">
-          <input
-            type="text"
-            id="taskInput"
-            placeholder="Enter Task Name"
-            aria-label="Task Name"
-          />
-          <input type="date" id="deadlineInput" aria-label="Deadline" />
-          <select id="priorityInput" aria-label="Priority">
+      <h2>Developer Task List</h2>
+
+      <!-- Task and Note Creation Section -->
+      <div class="creation-section">
+        <div class="task-creation">
+          <label for="taskInput">Task:</label>
+          <input type="text" id="taskInput" placeholder="Enter Task" />
+          <label for="deadlineInput">Deadline:</label>
+          <input type="date" id="deadlineInput" />
+          <label for="priorityInput">Priority:</label>
+          <select id="priorityInput">
             <option value="High">High</option>
             <option value="Medium" selected>Medium</option>
             <option value="Low">Low</option>
           </select>
           <button id="addTaskButton">Add Task</button>
         </div>
-        <h2>Add Note to Task</h2>
-        <div class="input-group">
-          <select id="taskSelector" aria-label="Select Task"></select>
-          <select id="noteAuthorInput" aria-label="Note Author">
+        <div class="note-creation">
+          <label for="taskSelector">Task:</label>
+          <select id="taskSelector">
+            <!-- Options will be dynamically added here from uiUpdater.js -->
+          </select>
+          <label for="noteAuthorInput">Author:</label>
+          <select id="noteAuthorInput">
             <option value="PM">PM</option>
             <option value="Dev">Developer</option>
           </select>
-          <input
-            type="text"
-            id="noteInput"
-            placeholder="Enter Note"
-            aria-label="Note"
-          />
-          <button id="addNoteButton">Add Note</button>
+          <label for="noteInput">Note:</label>
+          <input type="text" id="noteInput" placeholder="Enter Note" />
+          <button id="addNoteButton">Add Note to Task</button>
         </div>
-      </section>
+      </div>
 
-      <section class="analytics">
-        <h2>Task Analytics</h2>
-        <div class="charts">
-          <div id="completedVsUncompletedContainer" class="chart">
-            <canvas id="completedVsUncompleted"></canvas>
-          </div>
-          <div id="tasksByDateContainer" class="chart">
-            <canvas id="tasksByDate"></canvas>
-          </div>
-          <div id="tasksByDeadlineContainer" class="chart">
-            <canvas id="tasksByDeadline"></canvas>
-          </div>
-          <div id="notesPerTaskContainer" class="chart">
-            <canvas id="notesPerTask"></canvas>
-          </div>
+      <!-- Charts Section -->
+      <div id="charts" class="chart-container">
+        <h3>Analytics</h3>
+        <div class="chart" id="completedVsUncompletedContainer">
+          <canvas id="completedVsUncompleted"></canvas>
         </div>
-      </section>
-
-      <section class="filters">
-        <h2>Filter & Sort Tasks</h2>
-        <div class="filter-sort-controls">
-          <div class="filter-controls">
-            <select id="priorityFilter" aria-label="Filter by Priority">
-              <option value="All">All</option>
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
-            </select>
-            <select id="dateTypeFilter" aria-label="Filter Date Type">
-              <option value="creationDate">Creation Date</option>
-              <option value="deadline">Deadline</option>
-            </select>
-            <select id="dateFilter" aria-label="Filter by Time">
-              <option value="All">All</option>
-              <option value="Past">Past</option>
-              <option value="Present">Present</option>
-              <option value="Future">Future</option>
-            </select>
-            <button onclick="applyFilters()">Apply Filters</button>
-          </div>
-          <div class="sort-controls">
-            <select id="sortTasks" aria-label="Sort Tasks By">
-              <option value="priority">Priority</option>
-              <option value="dueDate">Due Date</option>
-              <option value="creationDate">Creation Date</option>
-            </select>
-            <button onclick="sortTasks()">Sort</button>
-          </div>
+        <div class="chart" id="tasksByDateContainer">
+          <canvas id="tasksByDate"></canvas>
         </div>
-      </section>
+        <div class="chart" id="tasksByDeadlineContainer">
+          <canvas id="tasksByDeadline"></canvas>
+        </div>
+        <div class="chart" id="notesPerTaskContainer">
+          <canvas id="notesPerTask"></canvas>
+        </div>
+      </div>
 
-      <section class="task-list">
-        <h2>Tasks</h2>
-        <div id="taskList"></div>
-      </section>
+      <!-- Sorting and Filtering Section -->
+      <div class="sort-filter-section">
+        <div class="sorting">
+          <label for="sortTasks">Sort Tasks By:</label>
+          <select id="sortTasks">
+            <option value="priority">Priority</option>
+            <option value="dueDate">Due Date</option>
+            <option value="creationDate">Creation Date</option>
+          </select>
+          <button onclick="sortTasks()">Sort</button>
+        </div>
+
+        <div id="filterOptions" class="filtering">
+          <label for="priorityFilter">Filter by Priority:</label>
+          <select id="priorityFilter">
+            <option value="All">All</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+
+          <label for="dateTypeFilter">Filter Date Type:</label>
+          <select id="dateTypeFilter">
+            <option value="creationDate">Creation Date</option>
+            <option value="deadline">Deadline</option>
+          </select>
+
+          <label for="dateFilter">Filter by Time:</label>
+          <select id="dateFilter">
+            <option value="All">All</option>
+            <option value="Past">Past</option>
+            <option value="Present">Present</option>
+            <option value="Future">Future</option>
+          </select>
+          <button onclick="applyFilters()">Apply Filters</button>
+
+          <label for="dateRangeFilter">Or Choose Date Range:</label>
+          <input type="date" id="startDate" name="startDate" />
+          <input type="date" id="endDate" name="endDate" />
+          <button onclick="applyDateRangeFilter()">
+            Apply Date Range Filter
+          </button>
+        </div>
+
+        <button id="deleteAllButton">Delete All Tasks</button>
+      </div>
+
+      <!-- Task List Section -->
+      <div id="taskList"></div>
     </div>
     <script src="js/script.js"></script>
     <script src="js/taskManager.js"></script>
