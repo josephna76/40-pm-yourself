@@ -112,12 +112,33 @@ function toggleTaskCompletion(taskId) {
     console.error("Task not found");
   }
 }
-
 function applyFilters() {
   const priorityFilter = document.getElementById("priorityFilter").value;
   const dateFilter = document.getElementById("dateFilter").value;
 
   let filteredTasks = taskManager.getTasks();
+
+  // Normalize today's date to the start of today in local time
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Tomorrow's date for "Today" filter
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  // Calculate the start of this week (Sunday as the first day)
+  const startOfThisWeek = new Date(today);
+  startOfThisWeek.setDate(today.getDate() - today.getDay());
+  startOfThisWeek.setHours(0, 0, 0, 0);
+
+  // Calculate the start of the next week
+  const startOfNextWeek = new Date(startOfThisWeek);
+  startOfNextWeek.setDate(startOfThisWeek.getDate() + 7);
+
+  // Calculate the end of the next week (Saturday as the last day)
+  const endOfNextWeek = new Date(startOfNextWeek);
+  endOfNextWeek.setDate(startOfNextWeek.getDate() + 6);
+  endOfNextWeek.setHours(23, 59, 59, 999);
 
   if (priorityFilter !== "All") {
     filteredTasks = filteredTasks.filter(
@@ -125,62 +146,34 @@ function applyFilters() {
     );
   }
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // Normalize today to the start of the day, local time
-
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1); // Adjust to the start of tomorrow, ensuring local time
-
-  // Calculate the end of this week (Sunday), ensuring weeks start on Sunday
-  const endOfWeek = new Date(today);
-  endOfWeek.setDate(today.getDate() + (7 - today.getDay()));
-  endOfWeek.setHours(23, 59, 59, 999); // Include the entire day
-
-  // Calculate the start of next week (next Sunday)
-  const startOfNextWeek = new Date(endOfWeek);
-  startOfNextWeek.setDate(startOfNextWeek.getDate() + 1); // Adjust to start of next week, local time
-
-  // Calculate the end of next week
-  const endOfNextWeek = new Date(startOfNextWeek);
-  endOfNextWeek.setDate(startOfNextWeek.getDate() + 6);
-  endOfNextWeek.setHours(23, 59, 59, 999); // Ensure full coverage of the week
-
-  // Start and end of next month, local time
-  const startOfNextMonth = new Date(
-    today.getFullYear(),
-    today.getMonth() + 1,
-    1
-  );
-  const endOfNextMonth = new Date(
-    startOfNextMonth.getFullYear(),
-    startOfNextMonth.getMonth() + 1,
-    0
-  );
-  endOfNextMonth.setHours(23, 59, 59, 999); // Full last day of next month
-
   if (dateFilter !== "All") {
     filteredTasks = filteredTasks.filter((task) => {
-      // Construct the task deadline as a date in local time zone
-      const taskDeadline = new Date(task.deadline);
-      taskDeadline.setHours(0, 0, 0, 0); // Normalize to start of the day, local time
+      // Parse the task deadline in local time
+      const taskDeadline = new Date(task.deadline + "T00:00:00");
 
       switch (dateFilter) {
         case "Today":
-          return taskDeadline.getTime() === today.getTime();
+          return taskDeadline >= today && taskDeadline < tomorrow;
         case "This Week":
+          // Include the entire current week, from Sunday to Saturday
           return (
-            taskDeadline.getTime() >= today.getTime() &&
-            taskDeadline.getTime() <= endOfWeek.getTime()
+            taskDeadline >= startOfThisWeek && taskDeadline < startOfNextWeek
           );
         case "Next Week":
+          // Include the entire next week, from Sunday to Saturday
           return (
-            taskDeadline.getTime() >= startOfNextWeek.getTime() &&
-            taskDeadline.getTime() <= endOfNextWeek.getTime()
+            taskDeadline >= startOfNextWeek && taskDeadline <= endOfNextWeek
           );
         case "Next Month":
+          // Simple month comparison for "Next Month"
+          const nextMonth = new Date(
+            today.getFullYear(),
+            today.getMonth() + 1,
+            1
+          );
           return (
-            taskDeadline.getMonth() === startOfNextMonth.getMonth() &&
-            taskDeadline.getFullYear() === startOfNextMonth.getFullYear()
+            taskDeadline.getMonth() === nextMonth.getMonth() &&
+            taskDeadline.getFullYear() === nextMonth.getFullYear()
           );
         default:
           return true;
