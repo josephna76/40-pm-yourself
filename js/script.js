@@ -366,73 +366,12 @@ function renderCompletedVsUncompletedChart() {
         label: "Task Status",
         data: [completed, uncompleted],
         backgroundColor: ["rgba(75, 192, 192, 0.2)", "rgba(255, 99, 132, 0.2)"],
-        hoverBackgroundColor: [
-          "rgba(75, 192, 192, 0.5)",
-          "rgba(255, 99, 132, 0.5)",
-        ],
         borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 99, 132, 1)"],
         borderWidth: 1,
       },
     ],
   };
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false, // To make the chart smaller
-    plugins: {
-      legend: {
-        labels: {
-          generateLabels: function (chart) {
-            const data = chart.data;
-            if (data.labels.length && data.datasets.length) {
-              return data.labels.map((label, index) => {
-                const meta = chart.getDatasetMeta(0);
-                const ds = data.datasets[0];
-                const arc = meta.data[index];
-                const custom = (arc && arc.custom) || {};
-                const getValueAtIndexOrDefault =
-                  Chart.helpers.getValueAtIndexOrDefault;
-                const arcOpts = chart.options.elements.arc;
-                const fill = custom.backgroundColor
-                  ? custom.backgroundColor
-                  : getValueAtIndexOrDefault(
-                      ds.backgroundColor,
-                      index,
-                      arcOpts.backgroundColor
-                    );
-                const stroke = custom.borderColor
-                  ? custom.borderColor
-                  : getValueAtIndexOrDefault(
-                      ds.borderColor,
-                      index,
-                      arcOpts.borderColor
-                    );
-                const bw = custom.borderWidth
-                  ? custom.borderWidth
-                  : getValueAtIndexOrDefault(
-                      ds.borderWidth,
-                      index,
-                      arcOpts.borderWidth
-                    );
 
-                // Change label color based on completion status
-                const textColor = index === 0 ? "#008000" : "#FFA500"; // Green for Completed, Orange for Uncompleted
-
-                return {
-                  text: label,
-                  fillStyle: textColor,
-                  strokeStyle: stroke,
-                  lineWidth: bw,
-                  hidden: isNaN(ds.data[index]) || meta.data[index].hidden,
-                  index,
-                };
-              });
-            }
-            return [];
-          },
-        },
-      },
-    },
-  };
   new Chart(ctx, {
     type: "doughnut",
     data: chartData,
