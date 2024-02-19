@@ -104,7 +104,6 @@ const uiUpdater = (() => {
   }
 
   function generateEditableTask(task) {
-    // Format the deadline to YYYY-MM-DD for the date input
     const deadlineDate = new Date(task.deadline);
     const formattedDeadline = deadlineDate.toISOString().split("T")[0];
 
@@ -116,24 +115,28 @@ const uiUpdater = (() => {
       .join("");
 
     return `
-      <input type="text" value="${task.name}" id="edit-name-${task.id}" />
-      <input type="date" value="${formattedDeadline}" id="edit-deadline-${
+      <div class="editTaskDetails">
+        <input type="text" value="${task.name}" id="edit-name-${task.id}" />
+        <input type="date" value="${formattedDeadline}" id="edit-deadline-${
       task.id
     }" />
-      <select id="edit-priority-${task.id}">
-        <option value="High" ${
-          task.priority === "High" ? "selected" : ""
-        }>High</option>
-        <option value="Medium" ${
-          task.priority === "Medium" ? "selected" : ""
-        }>Medium</option>
-        <option value="Low" ${
-          task.priority === "Low" ? "selected" : ""
-        }>Low</option>
-      </select>
-      <div>${notesHtml}</div>
-      <button onclick="saveTask(${task.id})">Save</button>   
-      <button onclick="toggleEditView(null)">Cancel</button>
+        <select id="edit-priority-${task.id}">
+          <option value="High" ${
+            task.priority === "High" ? "selected" : ""
+          }>High</option>
+          <option value="Medium" ${
+            task.priority === "Medium" ? "selected" : ""
+          }>Medium</option>
+          <option value="Low" ${
+            task.priority === "Low" ? "selected" : ""
+          }>Low</option>
+        </select>
+        <div>${notesHtml}</div>
+      </div>
+      <div class="taskActions">
+        <button onclick="saveTask(${task.id})">Save</button>
+        <button onclick="toggleEditView(null)">Cancel</button>
+      </div>
     `;
   }
 
@@ -162,10 +165,19 @@ const uiUpdater = (() => {
     // Add action buttons (Edit and Delete) side by side in a container
     taskHtml += `<div class="taskActions">
                     <button onclick="window.currentEditingTaskId = ${task.id}; uiUpdater.updateTasks(taskManager.getTasks());">Edit</button>
-                    <button onclick="deleteTask(${task.id}); window.currentEditingTaskId = null; uiUpdater.updateTasks(taskManager.getTasks());">Delete</button>
+                    <button onclick="confirmDeleteTask(${task.id});">Delete</button>
                  </div>`;
 
     return taskHtml;
+  }
+
+  // Define confirmDeleteTask function
+  function confirmDeleteTask(taskId) {
+    if (confirm("Are you sure you want to delete this task?")) {
+      deleteTask(taskId);
+      window.currentEditingTaskId = null;
+      uiUpdater.updateTasks(taskManager.getTasks());
+    }
   }
 
   const initAccordion = () => {
@@ -190,5 +202,5 @@ const uiUpdater = (() => {
     initAccordion();
   });
 
-  return { updateTasks, updateTaskSelector };
+  return { updateTasks, updateTaskSelector, confirmDeleteTask };
 })();
