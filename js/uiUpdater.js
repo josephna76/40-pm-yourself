@@ -165,10 +165,19 @@ const uiUpdater = (() => {
     // Add action buttons (Edit and Delete) side by side in a container
     taskHtml += `<div class="taskActions">
                     <button onclick="window.currentEditingTaskId = ${task.id}; uiUpdater.updateTasks(taskManager.getTasks());">Edit</button>
-                    <button onclick="deleteTask(${task.id});">Delete</button>
-                 </div>`;
+                    <button onclick="confirmDeleteTask(${task.id});">Delete</button>
+                    </div>`;
 
     return taskHtml;
+  }
+
+  // Define confirmDeleteTask function outside of generateStaticTask
+  function confirmDeleteTask(taskId) {
+    if (confirm("Are you sure you want to delete this task?")) {
+      deleteTask(taskId);
+      window.currentEditingTaskId = null; // Reset editing state if needed
+      uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the task list
+    }
   }
 
   const initAccordion = () => {
