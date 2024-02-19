@@ -177,6 +177,17 @@ button:hover {
   color: var(--secondary-text-color);
 }
 
+.inline-group {
+  display: inline;
+  align-items: center; /* Align items vertically in the center */
+  gap: 10px; /* Creates space between the label and the input box */
+}
+
+/* Optional: Adjust label width for consistency */
+.inline-group label {
+  min-width: 150px; /* Adjust based on your specific needs */
+}
+
 .input-group {
   display: flex;
   align-items: center; /* Align items vertically in the center */
