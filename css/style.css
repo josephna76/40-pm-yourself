@@ -115,8 +115,8 @@ button:hover {
   margin: 10px;
 }
 
-.chart[type="pie"] {
-  min-width: 100px;
+#completedVsUncompletedContainer {
+  min-width: 100px; /* Adjusted minimum width for the pie chart container */
 }
 
 .taskItem {
