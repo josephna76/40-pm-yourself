@@ -56,8 +56,13 @@ function addNote() {
 }
 
 function deleteTask(taskId) {
-  taskManager.deleteTask(taskId);
-  uiUpdater.updateTasks(taskManager.getTasks());
+  const userConfirmed = confirm(
+    "Are you sure you want to delete this task? This action cannot be undone."
+  );
+  if (userConfirmed) {
+    taskManager.deleteTask(taskId);
+    uiUpdater.updateTasks(taskManager.getTasks());
+  }
 }
 
 function saveTask(taskId) {
@@ -135,16 +140,22 @@ function deleteAllTasks() {
 // delete all button end
 
 // delete single task section
-document
-  .getElementById("deleteTaskButton")
-  .addEventListener("click", function () {
+// Add event listener to the task list container
+document.getElementById("taskList").addEventListener("click", function (event) {
+  // Check if the clicked element is a delete button
+  if (event.target && event.target.id === "deleteTaskButton") {
+    // Extract the task ID from the button's dataset
+    const taskId = event.target.dataset.taskId;
+    // Prompt the user for confirmation and delete the task if confirmed
     const userConfirmed = confirm(
       "Are you sure you want to delete this task? This action cannot be undone."
     );
     if (userConfirmed) {
       deleteTask(taskId);
     }
-  });
+  }
+});
+
 // end delete single task section
 
 // light mode dark mode
