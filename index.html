@@ -72,55 +72,57 @@
 
       <button class="accordion">Sorting and Filtering</button>
       <div class="panel">
-        <div class="sort-filter-section">
-          <div class="sorting">
-            <div class="input-group">
-              <label for="sortTasks">Sort By:</label>
-              <select id="sortTasks">
-                <option value="priority">Priority</option>
-                <option value="dueDate">Due Date</option>
-                <option value="creationDate">Creation Date</option>
-              </select>
-              <button onclick="sortTasks()">Sort</button>
+        <div>
+          <div class="sort-filter-section">
+            <div class="sorting">
+              <div class="input-group">
+                <label for="sortTasks">Sort By:</label>
+                <select id="sortTasks">
+                  <option value="priority">Priority</option>
+                  <option value="dueDate">Due Date</option>
+                  <option value="creationDate">Creation Date</option>
+                </select>
+                <button onclick="sortTasks()">Sort</button>
+              </div>
             </div>
-          </div>
-          <div id="filterOptions" class="filtering">
-            <div class="input-group">
-              <label for="priorityFilter">Priority:</label>
-              <select id="priorityFilter">
-                <option value="All">All</option>
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-              </select>
+            <div id="filterOptions" class="filtering">
+              <div class="input-group">
+                <label for="priorityFilter">Priority:</label>
+                <select id="priorityFilter">
+                  <option value="All">All</option>
+                  <option value="High">High</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Low">Low</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label for="dateTypeFilter">Date Type:</label>
+                <select id="dateTypeFilter">
+                  <option value="creationDate">Creation Date</option>
+                  <option value="deadline">Deadline</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label for="dateFilter">Date Filter:</label>
+                <select id="dateFilter">
+                  <option value="All">All</option>
+                  <option value="Past">Past</option>
+                  <option value="Present">Present</option>
+                  <option value="Future">Future</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label for="startDate">Start Date:</label>
+                <input type="date" id="startDate" name="startDate" />
+              </div>
+              <div class="input-group">
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" name="endDate" />
+              </div>
+              <button onclick="applyDateRangeFilter()">
+                Apply Date Range Filter
+              </button>
             </div>
-            <div class="input-group">
-              <label for="dateTypeFilter">Date Type:</label>
-              <select id="dateTypeFilter">
-                <option value="creationDate">Creation Date</option>
-                <option value="deadline">Deadline</option>
-              </select>
-            </div>
-            <div class="input-group">
-              <label for="dateFilter">Date Filter:</label>
-              <select id="dateFilter">
-                <option value="All">All</option>
-                <option value="Past">Past</option>
-                <option value="Present">Present</option>
-                <option value="Future">Future</option>
-              </select>
-            </div>
-            <div class="input-group">
-              <label for="startDate">Start Date:</label>
-              <input type="date" id="startDate" name="startDate" />
-            </div>
-            <div class="input-group">
-              <label for="endDate">End Date:</label>
-              <input type="date" id="endDate" name="endDate" />
-            </div>
-            <button onclick="applyDateRangeFilter()">
-              Apply Date Range Filter
-            </button>
           </div>
         </div>
       </div>
