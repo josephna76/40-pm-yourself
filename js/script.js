@@ -55,16 +55,6 @@ function addNote() {
   }
 }
 
-function deleteTask(taskId) {
-  const userConfirmed = confirm(
-    "Are you sure you want to delete this task? This action cannot be undone."
-  );
-  if (userConfirmed) {
-    taskManager.deleteTask(taskId);
-    uiUpdater.updateTasks(taskManager.getTasks());
-  }
-}
-
 function saveTask(taskId) {
   const newName = document.getElementById(`edit-name-${taskId}`).value;
   const newDeadline = document.getElementById(`edit-deadline-${taskId}`).value;
@@ -155,6 +145,10 @@ document.getElementById("taskList").addEventListener("click", function (event) {
     }
   }
 });
+function deleteTask(taskId) {
+  taskManager.deleteTask(taskId);
+  uiUpdater.updateTasks(taskManager.getTasks());
+}
 
 // end delete single task section
 
