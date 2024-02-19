@@ -200,6 +200,7 @@ const uiUpdater = (() => {
   // Call initAccordion on DOMContentLoaded
   document.addEventListener("DOMContentLoaded", () => {
     initAccordion();
+    confirmDeleteTask(taskId);
   });
 
   return { updateTasks, updateTaskSelector };
