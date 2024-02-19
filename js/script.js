@@ -134,6 +134,19 @@ function deleteAllTasks() {
 }
 // delete all button end
 
+// delete single task section
+document
+  .getElementById("deleteTaskButton")
+  .addEventListener("click", function () {
+    const userConfirmed = confirm(
+      "Are you sure you want to delete this task? This action cannot be undone."
+    );
+    if (userConfirmed) {
+      deleteTask(taskId);
+    }
+  });
+// end delete single task section
+
 // light mode dark mode
 document.addEventListener("DOMContentLoaded", () => {
   // Initial setup and event listeners

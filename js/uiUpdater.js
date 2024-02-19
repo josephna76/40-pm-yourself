@@ -165,7 +165,7 @@ const uiUpdater = (() => {
     // Add action buttons (Edit and Delete) side by side in a container
     taskHtml += `<div class="taskActions">
                       <button onclick="window.currentEditingTaskId = ${task.id}; uiUpdater.updateTasks(taskManager.getTasks());">Edit</button>
-                      <button onclick="deleteTask(${task.id});">Delete</button>
+                      <button id="deleteTaskButton" onclick="deleteTask(${task.id});">Delete</button>
                    </div>`;
 
     return taskHtml;
