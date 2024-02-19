@@ -115,10 +115,6 @@ button:hover {
   margin: 10px;
 }
 
-#completedVsUncompletedContainer {
-  min-width: 100px; /* Adjusted minimum width for the pie chart container */
-}
-
 .taskItem {
   display: flex;
   flex-direction: column;
