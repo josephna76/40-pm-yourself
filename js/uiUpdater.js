@@ -165,19 +165,10 @@ const uiUpdater = (() => {
     // Add action buttons (Edit and Delete) side by side in a container
     taskHtml += `<div class="taskActions">
                     <button onclick="window.currentEditingTaskId = ${task.id}; uiUpdater.updateTasks(taskManager.getTasks());">Edit</button>
-                    <button onclick="confirmDeleteTask(${task.id});">Delete</button>
+                    <button onclick="deleteTask(${task.id});">Delete</button>
                  </div>`;
 
     return taskHtml;
-  }
-
-  // Define confirmDeleteTask function
-  function confirmDeleteTask(taskId) {
-    if (confirm("Are you sure you want to delete this task?")) {
-      deleteTask(taskId);
-      window.currentEditingTaskId = null;
-      uiUpdater.updateTasks(taskManager.getTasks());
-    }
   }
 
   const initAccordion = () => {
@@ -202,5 +193,5 @@ const uiUpdater = (() => {
     initAccordion();
   });
 
-  return { updateTasks, updateTaskSelector, confirmDeleteTask };
+  return { updateTasks, updateTaskSelector };
 })();
