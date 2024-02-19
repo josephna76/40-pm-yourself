@@ -155,9 +155,11 @@ const uiUpdater = (() => {
                     <div>${generateNotesList(task.notes)}</div>
                  </div>`;
 
-    // Edit and Delete buttons
-    taskHtml += `<button onclick="window.currentEditingTaskId = ${task.id}; uiUpdater.updateTasks(taskManager.getTasks());">Edit</button>
-                 <button onclick="deleteTask(${task.id}); window.currentEditingTaskId = null; uiUpdater.updateTasks(taskManager.getTasks());">Delete</button>`;
+    // Edit and Delete buttons within a flex container for alignment
+    taskHtml += `<div class="taskActions">
+                    <button onclick="window.currentEditingTaskId = ${task.id}; uiUpdater.updateTasks(taskManager.getTasks());">Edit</button>
+                    <button onclick="deleteTask(${task.id}); window.currentEditingTaskId = null; uiUpdater.updateTasks(taskManager.getTasks());">Delete</button>
+                 </div>`;
 
     return taskHtml;
   }

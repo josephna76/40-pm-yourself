@@ -104,43 +104,53 @@ button:hover {
   min-width: 200px;
   margin: 10px;
 }
-
 .taskItem {
-  padding: 15px; /* Increased padding for a less squished look */
-  margin-bottom: 10px; /* Ensures consistent spacing between tasks */
-  background-color: var(
-    --secondary-bg-color
-  ); /* Matches placeholder background */
-  border: 1px dashed var(--border-color); /* Optional: if you want the dashed border like the placeholder */
-  border-radius: 8px; /* Consistent with placeholder */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: if you want to retain some depth */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: var(--secondary-bg-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
 }
 
-.taskDetails,
+.taskDetails {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.taskDetails label {
+  margin-left: 10px;
+  flex-grow: 1;
+}
+
 .taskMeta {
-  margin-left: 10px; /* Adds some spacing to the left to avoid squished content */
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
-/* If you want the edit and delete buttons to be more inline with the task's flow */
-.taskItem button {
-  margin-top: 10px;
-  margin-right: 10px; /* Adds spacing between buttons */
-}
-
-.taskMeta .placeholder {
-  color: var(
-    --primary-text-color
-  ); /* Adjust the color to match task text, if different */
-  background-color: var(--task-bg-color); /* Ensure background matches tasks */
-  border-radius: 4px; /* Optional: Adjust to match taskItem's style */
-  padding: 8px; /* Adjust padding to match the task content's padding */
-  margin-top: 10px; /* Provide some spacing from the previous task content */
-  text-align: left; /* Align text to match other task content */
+.taskItem.completed label {
+  text-decoration: line-through;
+  color: var(--secondary-text-color);
 }
 
 .taskItem button {
-  align-self: flex-start;
-  margin-top: 10px;
+  padding: 8px 12px;
+  margin-right: 10px;
+  font-size: 14px;
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.taskItem button:hover {
+  background-color: var(--button-hover-bg-color);
 }
 
 .input-group {
