@@ -121,10 +121,34 @@ button:hover {
   align-items: center;
   font-size: 16px;
 }
-
+/* Increase the task title size for better visibility */
 .taskDetails label {
   margin-left: 10px;
   flex-grow: 1;
+  font-size: 18px; /* Adjusted font size for the task title */
+  font-weight: bold; /* Optionally make the title bolder */
+}
+
+/* Adjust the container for the action buttons */
+.taskActions {
+  display: flex;
+  justify-content: flex-start; /* Align buttons to the start of the flex container */
+  gap: 10px; /* Adds space between the buttons */
+}
+
+.taskItem button {
+  padding: 8px 12px;
+  font-size: 14px; /* Ensure the button text size is appropriate */
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.taskItem button:hover {
+  background-color: var(--button-hover-bg-color);
 }
 
 .taskMeta {
@@ -136,21 +160,6 @@ button:hover {
 .taskItem.completed label {
   text-decoration: line-through;
   color: var(--secondary-text-color);
-}
-
-.taskItem button {
-  padding: 8px 12px;
-  margin-right: 10px;
-  font-size: 14px;
-  background-color: var(--button-bg-color);
-  color: var(--button-text-color);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.taskItem button:hover {
-  background-color: var(--button-hover-bg-color);
 }
 
 .input-group {

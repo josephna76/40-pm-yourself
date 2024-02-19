@@ -138,15 +138,19 @@ const uiUpdater = (() => {
   }
 
   function generateStaticTask(task) {
-    // Task details
+    // Start building the task HTML
     let taskHtml = `<div class="taskDetails">
                         <input type="checkbox" id="complete-${task.id}" ${
       task.completed ? "checked" : ""
     } onclick="toggleTaskCompletion(${task.id})">
-                        <label for="complete-${task.id}">${task.name}</label>
+                        <label for="complete-${
+                          task.id
+                        }" style="font-size: 18px; font-weight: bold;">${
+      task.name
+    }</label>
                     </div>`;
 
-    // Task metadata
+    // Add task metadata
     taskHtml += `<div class="taskMeta">
                     <span>Deadline: ${formatDateForDisplay(
                       task.deadline
@@ -155,7 +159,7 @@ const uiUpdater = (() => {
                     <div>${generateNotesList(task.notes)}</div>
                  </div>`;
 
-    // Edit and Delete buttons within a flex container for alignment
+    // Add action buttons (Edit and Delete) side by side in a container
     taskHtml += `<div class="taskActions">
                     <button onclick="window.currentEditingTaskId = ${task.id}; uiUpdater.updateTasks(taskManager.getTasks());">Edit</button>
                     <button onclick="deleteTask(${task.id}); window.currentEditingTaskId = null; uiUpdater.updateTasks(taskManager.getTasks());">Delete</button>
