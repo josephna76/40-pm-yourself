@@ -109,10 +109,22 @@ button:hover {
   margin-bottom: 20px;
 }
 
+.sort-filter-section {
+  display: flex;
+  flex-direction: column; /* Change to column layout */
+}
+
+.sort-filter-section .sorting {
+  width: 100%; /* Ensure the sorting section fills the entire width */
+}
+
+.sort-filter-section .filtering {
+  width: 100%; /* Ensure the filtering section fills the entire width */
+}
+
 .chart {
   flex: 1;
   min-width: 200px;
-  max-height: 150px;
   margin: 10px;
 }
 
