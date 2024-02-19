@@ -115,69 +115,60 @@ const uiUpdater = (() => {
       .join("");
 
     return `
-      <div class="editTaskDetails">
-        <input type="text" value="${task.name}" id="edit-name-${task.id}" />
-        <input type="date" value="${formattedDeadline}" id="edit-deadline-${
+        <div class="editTaskDetails">
+          <input type="text" value="${task.name}" id="edit-name-${task.id}" />
+          <input type="date" value="${formattedDeadline}" id="edit-deadline-${
       task.id
     }" />
-        <select id="edit-priority-${task.id}">
-          <option value="High" ${
-            task.priority === "High" ? "selected" : ""
-          }>High</option>
-          <option value="Medium" ${
-            task.priority === "Medium" ? "selected" : ""
-          }>Medium</option>
-          <option value="Low" ${
-            task.priority === "Low" ? "selected" : ""
-          }>Low</option>
-        </select>
-        <div>${notesHtml}</div>
-      </div>
-      <div class="taskActions">
-        <button onclick="saveTask(${task.id})">Save</button>
-        <button onclick="toggleEditView(null)">Cancel</button>
-      </div>
-    `;
+          <select id="edit-priority-${task.id}">
+            <option value="High" ${
+              task.priority === "High" ? "selected" : ""
+            }>High</option>
+            <option value="Medium" ${
+              task.priority === "Medium" ? "selected" : ""
+            }>Medium</option>
+            <option value="Low" ${
+              task.priority === "Low" ? "selected" : ""
+            }>Low</option>
+          </select>
+          <div>${notesHtml}</div>
+        </div>
+        <div class="taskActions">
+          <button onclick="saveTask(${task.id})">Save</button>
+          <button onclick="toggleEditView(null)">Cancel</button>
+        </div>
+      `;
   }
 
   function generateStaticTask(task) {
     // Start building the task HTML
     let taskHtml = `<div class="taskDetails">
-                        <input type="checkbox" id="complete-${task.id}" ${
+                          <input type="checkbox" id="complete-${task.id}" ${
       task.completed ? "checked" : ""
     } onclick="toggleTaskCompletion(${task.id})">
-                        <label for="complete-${
-                          task.id
-                        }" style="font-size: 18px; font-weight: bold;">${
+                          <label for="complete-${
+                            task.id
+                          }" style="font-size: 18px; font-weight: bold;">${
       task.name
     }</label>
-                    </div>`;
+                      </div>`;
 
     // Add task metadata
     taskHtml += `<div class="taskMeta">
-                    <span>Deadline: ${formatDateForDisplay(
-                      task.deadline
-                    )}</span>
-                    <div>Priority: ${task.priority}</div>
-                    <div>${generateNotesList(task.notes)}</div>
-                 </div>`;
+                      <span>Deadline: ${formatDateForDisplay(
+                        task.deadline
+                      )}</span>
+                      <div>Priority: ${task.priority}</div>
+                      <div>${generateNotesList(task.notes)}</div>
+                   </div>`;
 
     // Add action buttons (Edit and Delete) side by side in a container
     taskHtml += `<div class="taskActions">
-                    <button onclick="window.currentEditingTaskId = ${task.id}; uiUpdater.updateTasks(taskManager.getTasks());">Edit</button>
-                    <button onclick="confirmDeleteTask(${task.id});">Delete</button>
-                    </div>`;
+                      <button onclick="window.currentEditingTaskId = ${task.id}; uiUpdater.updateTasks(taskManager.getTasks());">Edit</button>
+                      <button onclick="deleteTask(${task.id});">Delete</button>
+                   </div>`;
 
     return taskHtml;
-  }
-
-  // Define confirmDeleteTask function outside of generateStaticTask
-  function confirmDeleteTask(taskId) {
-    if (confirm("Are you sure you want to delete this task?")) {
-      deleteTask(taskId);
-      window.currentEditingTaskId = null; // Reset editing state if needed
-      uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the task list
-    }
   }
 
   const initAccordion = () => {
@@ -202,6 +193,5 @@ const uiUpdater = (() => {
     initAccordion();
   });
 
-  // Return relevant functions
-  return { generateStaticTask, confirmDeleteTask };
+  return { updateTasks, updateTaskSelector };
 })();
