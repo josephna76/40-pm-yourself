@@ -8,6 +8,10 @@
   </head>
   <body>
     <div id="app">
+      <!-- Add a button for users to sign in with Google -->
+      <button id="authorize_button" style="display: none">Authorize</button>
+      <button id="signout_button" style="display: none">Sign Out</button>
+
       <div class="toggle-switch">
         <input type="checkbox" id="themeToggle" class="switch" />
         <label for="themeToggle" id="themeToggleLabel">Enable Dark Mode</label>
@@ -132,5 +136,7 @@
     <script src="js/taskManager.js"></script>
     <script src="js/uiUpdater.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Add your Google Calendar integration script -->
+    <script src="js/googleCalendarIntegration.js"></script>
   </body>
 </html>
