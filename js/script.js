@@ -86,6 +86,7 @@ function saveTask(taskId) {
 
   window.currentEditingTaskId = null; // Exit edit mode
   uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the task list
+  renderCharts(); // Refresh charts to reflect the date change
 }
 
 function toggleEditView(taskId) {
