@@ -1,51 +1,68 @@
-# Productivity Tracker
+# PM Yourself - Productivity Tracker
 
-Productivity Tracker is a simple web application designed to help developers track their tasks and notes effectively. It allows developers to add tasks with deadlines and priorities, add notes to tasks, mark tasks as completed, and view task details. Additionally, project managers can adjust task priorities as needed.
+## Overview
 
-## Features
+PM Yourself is a productivity web application designed to simulate the experience of a Tech Project Manager (PM) and Developer, focusing on task and note management. Developed to showcase the dynamic capabilities possible within a static site context using GitHub Pages, this app stands out by providing a highly responsive and user-friendly interface for managing daily tasks and notes associated with them. The application emphasizes local storage utilization, ensuring data persistence across browser sessions without the need for server-side storage solutions.
 
-- **Task Management:** Add tasks with deadlines and set priorities (High, Medium, Low).
-- **Task Completion:** Mark tasks as completed.
-- **Notes:** Add notes to tasks to provide additional context or details.
-- **Priority Adjustment:** Project managers can adjust task priorities as needed.
-- **User Interface:** Clean and intuitive user interface for easy task management.
+### Features
 
-## Usage
+- **Task Management:** Create, view, edit, and delete tasks with deadlines and priorities.
+- **Note Attachment:** Add notes to tasks, simulating communication between a PM and Developer.
+- **Dynamic Filtering and Sorting:** View tasks by priority, deadline, or creation date, with custom filtering options for date ranges.
+- **Responsive Charts:** Visualize tasks and notes with interactive charts, offering insights into your productivity trends.
+- **Dark Mode:** Customize your viewing experience with a toggleable dark mode.
 
-1. **Adding Tasks:**
+### Key Technical Highlights
 
-   - Enter the task name, deadline, and priority.
-   - Click the "Add Task" button.
+- **Local Storage:** Utilizes browser local storage to persist data across sessions, offering a seamless experience without the complexity of backend data management.
+- **Static Site Dynamics:** Despite GitHub Pages' limitations to static content, PM Yourself leverages JavaScript to deliver a dynamic, interactive user experience.
+- **Responsive Design:** Ensures a smooth, responsive interface across devices, showcasing advanced CSS techniques and JavaScript interactivity.
 
-2. **Adding Notes:**
+## Getting Started
 
-   - Select the task from the dropdown menu.
-   - Enter the note in the input field.
-   - Click the "Add Note to Task" button.
+### Prerequisites
 
-3. **Updating Task Priority:**
+- A modern web browser with JavaScript and local storage support (e.g., Chrome, Firefox, Safari, Edge).
 
-   - Select the task from the dropdown menu.
-   - Adjust the priority using the dropdown menu.
-   - Click the "Update Task Priority" button.
+### Usage Instructions
 
-4. **Marking Tasks as Completed:**
-   - Check the checkbox next to the task to mark it as completed.
+1. **Accessing the App**
 
-## Installation
+   - Navigate to the PM Yourself app hosted on GitHub Pages.
 
-This application is hosted online and can be accessed at [PM Yourself](https://josephna76.github.io/40-pm-yourself/). Simply navigate to the provided link to start using the application.
+2. **Creating Tasks**
 
-## Technologies Used
+   - Enter the task name, select a deadline, and choose a priority level (High, Medium, Low).
+   - Click "Add Task" to save the task.
 
-- HTML5
-- CSS3
-- JavaScript
+3. **Adding Notes to Tasks**
 
-## Credits
+   - Select a task from the "Add Note To" dropdown.
+   - Choose the note author (PM or Developer).
+   - Enter your note and click "Add Note to Task".
 
-This project was created by Joseph Na.
+4. **Viewing and Managing Tasks**
 
-## License
+   - Tasks are listed with options to edit or delete.
+   - Use the "Sorting and Filtering" section to organize tasks by priority, date, or custom date ranges.
 
-This project is licensed under the MIT License.
+5. **Understanding Data Persistence**
+
+   - All data is stored in your browser's local storage, ensuring it persists through browser reloads but is not accessible across different browsers or devices.
+
+6. **Engaging with Charts**
+   - Explore various charts for a graphical representation of tasks and notes distribution.
+
+### Customizing the Experience
+
+- Toggle dark mode using the "Enable Dark Mode" switch for a personalized UI experience.
+
+## Technical Improvements and Suggestions
+
+- Consider implementing a cloud-based storage option (e.g., Firebase) to enable cross-device synchronization.
+- Explore the possibility of user authentication to personalize and secure user data.
+- Enhance the UI/UX design with modern frameworks like React or Vue.js for improved interactivity and component management.
+
+## Conclusion
+
+PM Yourself is a productivity tool and demonstration of innovative web development techniques, showcasing how static sites can be transformed into dynamic, user-centric applications. It exemplifies the power of local storage and advanced JavaScript to create a meaningful, responsive user experience.
