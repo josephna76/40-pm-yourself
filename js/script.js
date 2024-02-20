@@ -272,10 +272,31 @@ function sortTasks() {
 }
 
 function renderCharts() {
-  // Render each chart with checks for empty data
+  // Check and destroy the tasksByDateChart instance if it exists
+  if (tasksByDateChartInstance) {
+    tasksByDateChartInstance.destroy();
+    tasksByDateChartInstance = null; // Clear the reference
+  }
+  // Now call the function to render the chart afresh
   renderTasksByDateChart();
+
+  // Repeat for each chart instance
+  if (notesPerTaskChartInstance) {
+    notesPerTaskChartInstance.destroy();
+    notesPerTaskChartInstance = null; // Clear the reference
+  }
   renderNotesPerTaskChart();
+
+  if (completedVsUncompletedChartInstance) {
+    completedVsUncompletedChartInstance.destroy();
+    completedVsUncompletedChartInstance = null; // Clear the reference
+  }
   renderCompletedVsUncompletedChart();
+
+  if (tasksByDeadlineChartInstance) {
+    tasksByDeadlineChartInstance.destroy();
+    tasksByDeadlineChartInstance = null; // Clear the reference
+  }
   renderTasksByDeadlineChart();
 }
 
@@ -294,10 +315,6 @@ function displayNoDataMessage(chartId, message) {
 
 function renderTasksByDateChart() {
   const ctx = document.getElementById("tasksByDate").getContext("2d");
-  // Check if an instance of the chart already exists
-  if (tasksByDateChartInstance) {
-    tasksByDateChartInstance.destroy(); // Destroy the existing chart instance
-  }
   const tasks = taskManager.getTasks();
 
   // Check for empty tasks
@@ -341,9 +358,6 @@ function renderTasksByDateChart() {
 
 function renderNotesPerTaskChart() {
   const ctx = document.getElementById("notesPerTask").getContext("2d");
-  if (notesPerTaskChartInstance) {
-    notesPerTaskChartInstance.destroy();
-  }
   const tasks = taskManager.getTasks();
 
   // Check for empty tasks
@@ -385,9 +399,6 @@ function renderCompletedVsUncompletedChart() {
   const ctx = document
     .getElementById("completedVsUncompleted")
     .getContext("2d");
-  if (completedVsUncompletedChartInstance) {
-    completedVsUncompletedChartInstance.destroy();
-  }
   const tasks = taskManager.getTasks();
 
   // Check for empty tasks
@@ -421,9 +432,6 @@ function renderCompletedVsUncompletedChart() {
 
 function renderTasksByDeadlineChart() {
   const ctx = document.getElementById("tasksByDeadline").getContext("2d");
-  if (tasksByDeadlineChartInstance) {
-    tasksByDeadlineChartInstance.destroy();
-  }
   const tasks = taskManager.getTasks();
 
   // Check for empty tasks
