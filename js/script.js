@@ -343,7 +343,7 @@ function renderTasksByDateChart() {
     ],
   };
 
-  new Chart(ctx, {
+  tasksByDateChartInstance = new Chart(ctx, {
     type: "bar",
     data: chartData,
     options: {
@@ -382,7 +382,7 @@ function renderNotesPerTaskChart() {
     ],
   };
 
-  new Chart(ctx, {
+  notesPerTaskChartInstance = new Chart(ctx, {
     type: "line",
     data: chartData,
     options: {
@@ -424,7 +424,7 @@ function renderCompletedVsUncompletedChart() {
     ],
   };
 
-  new Chart(ctx, {
+  completedVsUncompletedChartInstance = new Chart(ctx, {
     type: "doughnut",
     data: chartData,
   });
@@ -469,7 +469,7 @@ function renderTasksByDeadlineChart() {
     ],
   };
 
-  new Chart(ctx, {
+  tasksByDeadlineChartInstance = new Chart(ctx, {
     type: "line",
     data: chartData,
     options: {
