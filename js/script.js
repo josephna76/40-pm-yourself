@@ -135,6 +135,7 @@ function deleteAllTasks() {
   // Update or replace this logic depending on how you're storing and managing tasks
   taskManager.deleteAll();
   uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the task list UI
+  renderCharts(); // Refresh charts to reflect the deletion
 }
 // delete all button end
 
@@ -151,6 +152,8 @@ document.getElementById("taskList").addEventListener("click", function (event) {
     );
     if (userConfirmed) {
       deleteTask(taskId);
+      uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the task list UI
+      renderCharts(); // Refresh charts to reflect the deletion
     }
   }
 });
