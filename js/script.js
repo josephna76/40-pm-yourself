@@ -1,3 +1,9 @@
+// At the top of script.js or wherever your chart functions are defined
+let tasksByDateChartInstance = null;
+let notesPerTaskChartInstance = null;
+let completedVsUncompletedChartInstance = null;
+let tasksByDeadlineChartInstance = null;
+
 document.addEventListener("DOMContentLoaded", () => {
   // Load and display tasks from local storage
   uiUpdater.updateTasks(taskManager.getTasks());
@@ -284,6 +290,10 @@ function displayNoDataMessage(chartId, message) {
 
 function renderTasksByDateChart() {
   const ctx = document.getElementById("tasksByDate").getContext("2d");
+  // Check if an instance of the chart already exists
+  if (tasksByDateChartInstance) {
+    tasksByDateChartInstance.destroy(); // Destroy the existing chart instance
+  }
   const tasks = taskManager.getTasks();
 
   // Check for empty tasks
@@ -327,6 +337,9 @@ function renderTasksByDateChart() {
 
 function renderNotesPerTaskChart() {
   const ctx = document.getElementById("notesPerTask").getContext("2d");
+  if (notesPerTaskChartInstance) {
+    notesPerTaskChartInstance.destroy();
+  }
   const tasks = taskManager.getTasks();
 
   // Check for empty tasks
@@ -368,6 +381,9 @@ function renderCompletedVsUncompletedChart() {
   const ctx = document
     .getElementById("completedVsUncompleted")
     .getContext("2d");
+  if (completedVsUncompletedChartInstance) {
+    completedVsUncompletedChartInstance.destroy();
+  }
   const tasks = taskManager.getTasks();
 
   // Check for empty tasks
@@ -401,6 +417,9 @@ function renderCompletedVsUncompletedChart() {
 
 function renderTasksByDeadlineChart() {
   const ctx = document.getElementById("tasksByDeadline").getContext("2d");
+  if (tasksByDeadlineChartInstance) {
+    tasksByDeadlineChartInstance.destroy();
+  }
   const tasks = taskManager.getTasks();
 
   // Check for empty tasks
