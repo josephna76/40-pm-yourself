@@ -9,7 +9,7 @@ const taskManager = (() => {
       priority,
       notes: [],
       completed: false,
-      creationDate: new Date(), // Automatically log the current date and time
+      creationDate: new Date().toISOString(), // Store as ISO string
     };
     tasks.push(task);
     localStorage.setItem("tasks", JSON.stringify(tasks));
