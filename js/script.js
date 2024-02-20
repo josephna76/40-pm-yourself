@@ -33,6 +33,8 @@ function addTask() {
     taskManager.addTask(taskInput, deadlineDate.toISOString(), priorityInput);
     uiUpdater.updateTasks(taskManager.getTasks());
     updateTaskSelector();
+    renderCharts(); // Call to update the charts
+
     // Reset input fields
     document.getElementById("taskInput").value = "";
     document.getElementById("deadlineInput").value = "";
@@ -51,6 +53,7 @@ function addNote() {
       authorSelector.value
     ); // Include the author
     uiUpdater.updateTasks(taskManager.getTasks()); // Refresh the task list
+    renderCharts(); // Call to update the charts
     noteInput.value = ""; // Reset input
   }
 }
